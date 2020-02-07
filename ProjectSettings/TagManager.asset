@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Water
+  - Platform
+  - Mountain
+  - PlayerManager
+  - Snowball
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - GoatPlatform1
+  - GoatPlatform2
+  - GoatPlatform3
+  - GoatPlatform4
+  - GoatPlatform5
+  - GoatPlatform6
+  - Player1
+  - Player2
+  - Player3
+  - Player4
+  - Player5
+  - Player6
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

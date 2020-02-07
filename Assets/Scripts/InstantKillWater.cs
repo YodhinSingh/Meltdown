@@ -10,11 +10,15 @@ public class InstantKillWater : MonoBehaviour
     [SerializeField] private float TimeSecondsToTake = 0;
     private float fraction;
 
-    public GameObject[] goats;
+    private bool allowRise;
+    private PlayerInstanceGenerator instance;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        instance = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerInstanceGenerator>();
+        allowRise = true;
         startPos = transform.position;
         endPos = new Vector3(transform.position.x, endPosValue, transform.position.z);
     }
@@ -22,17 +26,26 @@ public class InstantKillWater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (fraction < 1)
+        if (instance.GetPlayerCount() == 0 && !instance.PlayerWin)
+        {
+            SetGameOver();
+            allowRise = false;
+        }
+        if (fraction < 1 && allowRise)
         {
             fraction += Time.deltaTime/TimeSecondsToTake;
         }
         transform.position = Vector3.Lerp(startPos, endPos, fraction);
     }
 
-    public void SetGameOver()
+    private void SetGameOver()
     {
         //Debug.Log("You lose");
-        LoseMenu loseMenuUI = GetComponent<LoseMenu>();
-        loseMenuUI.DisplayMenu();
+        GetComponent<LoseMenu>().DisplayMenu();
+    }
+
+    public void StopWaterRise()
+    {
+        allowRise = false;
     }
 }

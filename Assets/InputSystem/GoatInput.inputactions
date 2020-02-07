@@ -37,73 +37,29 @@
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamepadPS4",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "WASD",
-                    "id": "764ffad6-131f-4a22-ac76-b1d83d3cafa8",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "eaf853b0-e566-4dbb-ac6f-071e4eeaffd4",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "5961323e-f8c2-48ec-b8f0-42a448bb8f81",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "43974e0d-c9de-45ee-b66a-26e3c3124f72",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "8f4589fd-88b0-4c91-b2d5-8931667d1921",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Aim",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 },
                 {
                     "name": "",
-                    "id": "0a820cda-7973-4d8e-ba39-177dd7672530",
-                    "path": "<Joystick>/stick",
+                    "id": "c9057487-511f-417f-a3f2-e46b9dcfe52a",
+                    "path": "<XInputController>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamepadXbox",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1150f007-33fe-4d86-864d-8eb6c1a3499d",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Logitech",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -114,18 +70,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Press",
                     "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7233433f-405d-46d0-a166-a185bc940061",
-                    "path": "<Keyboard>/f",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "",
+                    "groups": "GamepadPS4",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -133,10 +78,21 @@
                 {
                     "name": "",
                     "id": "9cb8e364-0220-4b4b-a9b3-128878e0c356",
-                    "path": "<HID::Logitech Logitech Dual Action>/button2",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "Press",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamepadXbox",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2adc0f96-5b73-40ac-9cb5-f59f0509f749",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Logitech",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -147,18 +103,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Press(behavior=1)",
                     "processors": "",
-                    "groups": "",
-                    "action": "ReleaseJump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "835b32df-4fdf-47d8-965d-5ea191263004",
-                    "path": "<Keyboard>/f",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "",
+                    "groups": "GamepadPS4",
                     "action": "ReleaseJump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -166,10 +111,21 @@
                 {
                     "name": "",
                     "id": "970c001e-b049-4bb8-810d-134bf8116462",
-                    "path": "<HID::Logitech Logitech Dual Action>/button2",
+                    "path": "<XInputController>/buttonSouth",
                     "interactions": "Press(behavior=1)",
                     "processors": "",
-                    "groups": "",
+                    "groups": "GamepadXbox",
+                    "action": "ReleaseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "df5af3f0-d3a4-4f93-8f7b-c07eb9c0320a",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Logitech",
                     "action": "ReleaseJump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -177,5 +133,39 @@
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "GamepadPS4",
+            "bindingGroup": "GamepadPS4",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "GamepadXbox",
+            "bindingGroup": "GamepadXbox",
+            "devices": [
+                {
+                    "devicePath": "<XInputController>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Logitech",
+            "bindingGroup": "Logitech",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

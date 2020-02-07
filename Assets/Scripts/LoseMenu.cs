@@ -13,6 +13,17 @@ public class LoseMenu : MonoBehaviour
         LoseMenuUI.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (LoseMenuUI.activeInHierarchy)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                SceneManager.LoadScene(0);
+            }
+        }
+    }
+
     public void DisplayMenu()
     {
         LoseMenuUI.SetActive(true);

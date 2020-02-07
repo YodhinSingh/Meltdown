@@ -37,7 +37,7 @@ public class CameraFollow : MonoBehaviour
 
     private void Zoom(Bounds bounds)
     {
-        float maxDistance = bounds.size.x;
+        float maxDistance = Mathf.Max(bounds.size.x, bounds.size.y);
 
         float newZoom = Mathf.Lerp(maxZoom, minZoom, maxDistance / zoomLimit);
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
@@ -65,7 +65,8 @@ public class CameraFollow : MonoBehaviour
 
     private Bounds GetBoundsGoats()
     {
-        var bounds = new Bounds(goats[0].position, Vector3.zero);
+
+        var bounds = (goats[0] == null) ? new Bounds() : new Bounds(goats[0].position, Vector3.zero);
         for (int i = 0; i < goats.Count; i++)
         {
             bounds.Encapsulate(goats[i].position);
@@ -78,6 +79,10 @@ public class CameraFollow : MonoBehaviour
     public void addGoat(GameObject goat)
     {
         goats.Add(goat.transform);
+    }
+    public void RemoveGoat(GameObject goat)
+    {
+        goats.Remove(goat.transform);
     }
 
    

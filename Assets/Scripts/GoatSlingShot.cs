@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+//using System.IO.Ports;
 
 public class GoatSlingShot : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class GoatSlingShot : MonoBehaviour
     private float maxJumpPressure;
     private float maxfallSpeed;
     private bool PlayerControlActive;
+    private bool AddGoatCam;
+
+    private PlayerInstanceGenerator instance;
 
     private Rigidbody rb;
     private Vector3 offset;
@@ -23,7 +28,6 @@ public class GoatSlingShot : MonoBehaviour
 
     private LineRenderer VisibleAimLine;
 
-    public GameObject arrow;
     private float arrowColourR;
     private float arrowColourG;
 
@@ -35,11 +39,23 @@ public class GoatSlingShot : MonoBehaviour
 
     public int playerIndex;
 
+    [SerializeField] private AudioClip[] DeathSounds;    // an array of death sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] JumpSounds;           // an array of jump sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] LandSounds;           // an array of landing sounds that will be randomly selected from.
+    private AudioSource m_AudioSource;
+
+    private bool justlanded;
+    bool collDone;
+
+    //SerialPort sp = new SerialPort("COM3", 9600);
 
 
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(gameObject.transform.root.gameObject);
+
+        instance = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerInstanceGenerator>();
         onGround = false;
         jumpPressure = 0f;
         minJumpValue = 5f;
@@ -48,36 +64,72 @@ public class GoatSlingShot : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);
         isCreated = true;
-        PlayerControlActive = true;
+        PlayerControlActive = false;
         isOnMountain = true;
         arrowColourR = 1f;
         arrowColourG = 0f;
         VisibleAimLine = GetComponent<LineRenderer>();
+        AddGoatCam = true;
+        m_AudioSource = GetComponent<AudioSource>();
+        justlanded = false;
+        collDone = false;
 
-        Camera.main.GetComponent<CameraFollow>().addGoat(this.gameObject);
 
-        
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0 && !AddGoatCam)   //resets attributes of goat controls (in main menu)
+        {
+            AddGoatCam = true;
+            PlayerControlActive = false;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 1 && AddGoatCam)    // adds goat to camera script (in main game)
+        {
+            AddGoatToCam();
+            AddGoatCam = false;
+            PlayerControlActive = true;
+        }
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
-        CheckOnMountain();
+        CheckOnMountain();                                              // check if goat is on mountain
+
 
         if (onGround && PlayerControlActive)
         {
-            //Vector3 target = new Vector3(Input.mousePosition.x - Screen.width / 2, Input.mousePosition.y - Screen.height / 2, Input.mousePosition.z);
-            Vector3 target = new Vector3(AimInput.x, AimInput.y, 0) * 50 * Time.deltaTime;
+            if (justlanded)
+                PlayAudio(2);
+
+            justlanded = false;
+            Vector3 target = new Vector3(AimInput.x, AimInput.y, 0) * -50 * Time.deltaTime;         // where the player is aiming at
+
             aimPoint = target;
+
             Ray aim = new Ray(transform.position, target);
-            VisibleAimLine.SetPosition(1, aim.direction * -0.5f * (jumpPressure + 3f));
+            Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
+            /*                                                                                  // ignore this giant comment
+            if (-target.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180f, 0);
+            }
+            if (-target.x < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }*/
+            if (transform.rotation.y == 1)
+            {
+                LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z);      // rotate aim line if goat body rotated so it works right
+            }
+            VisibleAimLine.SetPosition(1, LineRay * -0.5f * (jumpPressure + 3f));
+
             Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
 
             // Holding the jump charge
             if (HoldingJump)
             {
-                if (jumpPressure < maxJumpPressure)
+                
+                if (jumpPressure < maxJumpPressure)                 // increase jump amount
                 {
                     jumpPressure += Time.deltaTime * 20f;
 
@@ -86,7 +138,7 @@ public class GoatSlingShot : MonoBehaviour
                 {
                     jumpPressure = maxJumpPressure;
                 }
-                arrowColourR -= Time.deltaTime * 3f;
+                arrowColourR -= Time.deltaTime * 3f;                    //change colour of slingshot aim line
                 arrowColourG += Time.deltaTime * 3f;
             }
 
@@ -98,11 +150,13 @@ public class GoatSlingShot : MonoBehaviour
                     jumpPressure += minJumpValue;
                     arrowColourR -= 0.01f;
                     arrowColourG += 0.01f;
+                    PlayAudio(1);
                 }
 
                 // Apply jump force to rigidbody and reset jump value
                 Vector3 jumpDir = new Vector3(aim.direction.x/1.5f, aim.direction.y, aim.direction.z);
                 rb.AddForce(jumpDir * jumpPressure * jumpPower);
+                
                 arrowColourR = 1f;
                 arrowColourG = 0f;
                 jumpPressure = 0f;
@@ -110,19 +164,31 @@ public class GoatSlingShot : MonoBehaviour
                 
 
             }
+
         }
-        //Debug.Log(isCreated + " ||" + isOnMountain);
+        if (!onGround && PlayerControlActive)
+        {
+            justlanded = true;
+            if (rb.velocity.x < 0)                                         // rotates goat body if in the air based on velocity
+            {
+                transform.rotation = Quaternion.Euler(0, 180f, 0);
+            }
+            if (rb.velocity.x > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+
         if (!isCreated && isOnMountain) // if the goat is still on the mountain, then create a platform for it to stand on (if no platform already)
             CreateGround();
         if (!isOnMountain)
             DestroyGround();
-        arrow.GetComponent<Image>().color = new Color(arrowColourR, arrowColourG, 0); // change colour of arrow based on how long jump is pressed
-        VisibleAimLine.endColor = new Color(arrowColourR, arrowColourG, 0);
+        VisibleAimLine.endColor = new Color(arrowColourR, arrowColourG, 0);             // changes colour of aim line to show power
     }
 
 
-
-    private void OnJump()
+    
+    private void OnJump()               // onJump and releaseJump are for get jump power based on holding the 'A' or 'X' button
     {
         HoldingJump = true;
     }
@@ -132,10 +198,18 @@ public class GoatSlingShot : MonoBehaviour
         HoldingJump = false;
     }
 
-    private void OnAim(InputValue value)
+    private void OnAim(InputValue value)                    // get aim input from Unity's new input system
     {
+        
+
         if (value.Get<Vector2>() != new Vector2())
-            AimInput = value.Get<Vector2>();
+        {
+            Vector2 temp = value.Get<Vector2>();
+            temp = new Vector2(temp.x ,Mathf.Clamp(temp.y,-1.1f,0f));   // make sure imput stays in range
+
+            AimInput = temp;
+        }
+        //HoldingJump = (value.Get<Vector2>() == new Vector2()) ? false : true;         // this gets jump power if analog stick is let go of
     }
 
     public Vector3 GetAimPoint()
@@ -162,12 +236,12 @@ public class GoatSlingShot : MonoBehaviour
         if (rb.velocity.y < maxfallSpeed)
         {
             AddGround();
+            collDone = false;
         }
     }
 
     private void DestroyGround()
     {
-        //Debug.Log("destroy");
         ground.transform.position = new Vector3();
         isCreated = false;
         //onGround = false;
@@ -179,44 +253,138 @@ public class GoatSlingShot : MonoBehaviour
         isCreated = true;
     }
 
-
-    private void OnCollisionEnter(Collision collision)
+    public void AddGoatToCam()
     {
-        onGround = true;
-        isCreated = true;
-        
-        if (collision.gameObject.tag == "Platform")
+        Camera.main.GetComponent<CameraFollow>().addGoat(this.gameObject);
+    }
+
+
+    private void PlayAudio(int index) // Play sound from array depending on number. ie 1 = jump array, 2 = land array, 3 = death array. 
+    {
+        AudioClip[] SoundArray;
+        float volumeAmount;
+        if (index == 1)
         {
-            Vector3 dir = collision.GetContact(0).point - transform.position;
-            dir = -dir.normalized;
-            // This will push back the player
-            GetComponent<Rigidbody>().AddForce(dir * 100f);
+            SoundArray = JumpSounds;
+            volumeAmount = 0.5f;
+        }
+        else if (index == 2)
+        {
+            SoundArray = LandSounds;
+            volumeAmount = 0.1f;
         }
         else
         {
-            rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            SoundArray = DeathSounds;
+            volumeAmount = 1;
+        }
+
+        // pick & play a random footstep sound from the array,
+        // excluding sound at index 0
+        int n = UnityEngine.Random.Range(1, SoundArray.Length);
+        m_AudioSource.clip = SoundArray[n];
+        m_AudioSource.PlayOneShot(m_AudioSource.clip, volumeAmount);
+        // move picked sound to index 0 so it's not picked next time
+        SoundArray[n] = SoundArray[0];
+        SoundArray[0] = m_AudioSource.clip;
+    }
+
+
+
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Snowball"))     // collisions for everything other than player/snowball
+        {
+            onGround = true;
+            isCreated = true;
+            if (collision.gameObject.tag == "Platform")
+            {
+                Vector3 dir = collision.GetContact(0).point - transform.position;
+                dir = -dir.normalized;
+                // This will push back the player
+                GetComponent<Rigidbody>().AddForce(dir * 500f);
+            }
+            else
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
+            }
+        }
+        else if (collision.gameObject.CompareTag("Snowball"))   // collisions for snowball
+        {
+            Destroy(collision.gameObject);
+            DestroyGround();
+            Vector3 dir = new Vector3(0,-1,0);
+            //Push down the player from snowball
+            GetComponent<Rigidbody>().AddForce(dir * 2500f);
+        }
+        else
+        {
+            if (!collDone)
+            {
+                Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
+                dir = dir.normalized;
+                // This will push back the player
+                GetComponent<Rigidbody>().AddForce(-dir * 500f);
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(dir * 500f);
+                collDone = true;
+            }
         }
     }
 
     private void OnCollisionExit(Collision collision)
     {
-        onGround = false;
-        isCreated = false;
+        if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Snowball"))
+        {
+            onGround = false;
+            isCreated = false;
+        }
+        //collDone = false;
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")){             // make sure players cant get stuck on each other
+            Vector3 dir = new Vector3(UnityEngine.Random.Range(-1,1) ,1,0).normalized;
+            // This will push back the player
+            GetComponent<Rigidbody>().AddForce(dir * 50f);
+        }
+        else if (!collision.gameObject.CompareTag("Snowball"))
+            onGround = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Water"))
+        if (other.CompareTag("Water"))              // if player enters water, kill player
         {
-            other.GetComponent<InstantKillWater>().SetGameOver();
+            //other.GetComponent<InstantKillWater>().SetGameOver();
             DisablePlayerControl(true);
+            instance.players.Remove(gameObject);
+            StartCoroutine("DeathAnim");
+            
         }
     }
 
+    public void DestroyGoat()       // used for other script
+    {
+        Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        Destroy(gameObject.transform.root.gameObject, 1f);
+    }
 
-    private void OnBecameInvisible()
+    private IEnumerator DeathAnim()     // does the killing, with sound effects. Can later put animation calls here
+    {
+        PlayAudio(3);
+        yield return new WaitForSeconds(1); // Initial delay before removing goat from view
+        Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        yield return new WaitForSeconds(2); //Use the length of the animation/sound clip as the wait time for yield
+        Destroy(gameObject.transform.root.gameObject);
+    }
+
+
+    private void OnBecameInvisible()        // ignore this
     {
         //DisablePlayerControl(true);
-        Debug.Log("this player lost");
+        //Debug.Log("this player lost");
     }
 }
