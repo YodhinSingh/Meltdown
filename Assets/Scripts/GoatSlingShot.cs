@@ -266,7 +266,7 @@ public class GoatSlingShot : MonoBehaviour
         if (index == 1)
         {
             SoundArray = JumpSounds;
-            volumeAmount = 0.5f;
+            volumeAmount = 1f;
         }
         else if (index == 2)
         {

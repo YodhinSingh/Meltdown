@@ -89,6 +89,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
     private void OnPlayerJoined(PlayerInput player)     // this is called whenever a player joins the game via the start button
     {
         players.Add(player.gameObject);         // add all joined players to a list so can reference later
+        TitleScreen.text = "PRESS B TO START GAME";
 
         Transform pos = player.gameObject.GetComponentInChildren<Transform>();
 
