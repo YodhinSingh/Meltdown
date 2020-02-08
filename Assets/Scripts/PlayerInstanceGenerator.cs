@@ -14,6 +14,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
     public static PlayerInstanceGenerator instanceOBJ;
     private float timer;
     [SerializeField] private int timeLimit = 10;
+    private bool startGame;
 
     public bool PlayerWin;
     public List<GameObject> players = new List<GameObject>();
@@ -48,18 +49,19 @@ public class PlayerInstanceGenerator : MonoBehaviour
     {
         timer = 0;
         PlayerWin = false;
+        startGame = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!changed && Instance.playerCount >= 1)      // Active timer if at least 1 player has joined
+        if (!changed && Instance.playerCount >= 1)      // Active timer if at least 1 player has joined // currently disabled for better way
         {
-            timer += Time.deltaTime;
-            TitleScreen.text = "GAME STARTS IN: " + (timeLimit - ((int)timer));
+            //timer += Time.deltaTime;
+            //TitleScreen.text = "GAME STARTS IN: " + (timeLimit - ((int)timer));
         }
 
-        if (Instance.playerCount >= 1 && !changed && timer > timeLimit) // load game scene
+        if (Instance.playerCount >= 1 && !changed && startGame) // load game scene
         {
             SceneManager.LoadScene(1);
             changed = true;
@@ -74,6 +76,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
             timer = 0f;
             Instance.EnableJoining();
             PlayerWin = false;
+            startGame = false;
 
             for (int i = 0; i < planes.Length; i++)
             {
@@ -142,5 +145,10 @@ public class PlayerInstanceGenerator : MonoBehaviour
     public int GetPlayerCount()
     {
         return Instance.playerCount;
+    }
+
+    public void WantToStartGame()
+    {
+        startGame = true;
     }
 }

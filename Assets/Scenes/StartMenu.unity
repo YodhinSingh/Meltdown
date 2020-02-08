@@ -203,7 +203,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22884
+  m_Name: pb_Mesh17384
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -836,7 +836,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23188
+  m_Name: pb_Mesh17696
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14368,7 +14368,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22940
+  m_Name: pb_Mesh17440
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14624,7 +14624,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23152
+  m_Name: pb_Mesh17660
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -14926,7 +14926,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: PRESS START TO JOIN
+  m_Text: PRESS Y TO JOIN
 --- !u!222 &1001443345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15095,7 +15095,7 @@ PrefabInstance:
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
       propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
@@ -15165,7 +15165,7 @@ PrefabInstance:
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
       propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[1].m_Id
-      value: d30747a4-5fa5-4fc7-9da0-ffc582f2e363
+      value: f1037a6f-2f02-4844-b0e5-8a06f347c589
       objectReference: {fileID: 0}
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
@@ -15175,12 +15175,27 @@ PrefabInstance:
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
       propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[1].m_Path
-      value: <Keyboard>/enter
+      value: <Gamepad>/buttonNorth
       objectReference: {fileID: 0}
     - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
         type: 3}
       propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[1].m_Interactions
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Id
+      value: 3834fe75-ce7a-40c1-b479-eb35d1cbce09
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Action
+      value: Action
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Path
+      value: <XInputController>/buttonNorth
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c05dc48f1eba16419ba5dc747cc3364, type: 3}
@@ -15655,7 +15670,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-63646
+  m_Name: pb_Mesh-3082
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15979,7 +15994,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: PRESS B TO START GAME
 --- !u!222 &1482904432
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16383,7 +16398,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh22964
+  m_Name: pb_Mesh17464
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -20930,7 +20945,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh23106
+  m_Name: pb_Mesh17614
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

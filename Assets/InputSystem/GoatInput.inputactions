@@ -28,6 +28,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "StartGame",
+                    "type": "Button",
+                    "id": "d46e47c1-f428-442a-99b9-d2d3046c54f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -127,6 +135,39 @@
                     "processors": "",
                     "groups": "Logitech",
                     "action": "ReleaseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a47d88d7-7511-4068-8358-2da8892dd32c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "GamepadPS4",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de583fbb-7807-47a3-badb-72cc4b9c8849",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "GamepadXbox",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "259040d4-e1b3-40cb-ab0e-f5f75e708e77",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Logitech",
+                    "action": "StartGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

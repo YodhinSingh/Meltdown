@@ -289,6 +289,11 @@ public class GoatSlingShot : MonoBehaviour
         SoundArray[0] = m_AudioSource.clip;
     }
 
+    private void OnStartGame()
+    {
+        instance.WantToStartGame();
+    }
+
 
 
 
