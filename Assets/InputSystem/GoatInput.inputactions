@@ -74,6 +74,17 @@
                 },
                 {
                     "name": "",
+                    "id": "6fe105bd-4e6a-4d5c-a375-5d1d6f833fc2",
+                    "path": "<Sensor>/distance",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b2aeee3b-cfc5-441e-9572-09040de40b8d",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Press",
@@ -101,6 +112,17 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Logitech",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2895255e-f86d-4a08-984c-9afd236bac9a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false

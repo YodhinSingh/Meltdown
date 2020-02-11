@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-//using System.IO.Ports;
 
 public class GoatSlingShot : MonoBehaviour
 {
@@ -44,10 +43,11 @@ public class GoatSlingShot : MonoBehaviour
     [SerializeField] private AudioClip[] LandSounds;           // an array of landing sounds that will be randomly selected from.
     private AudioSource m_AudioSource;
 
+    public GameObject DeathSoundPlayer;
+
     private bool justlanded;
     bool collDone;
 
-    //SerialPort sp = new SerialPort("COM3", 9600);
 
 
     // Start is called before the first frame update
@@ -95,6 +95,8 @@ public class GoatSlingShot : MonoBehaviour
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
         CheckOnMountain();                                              // check if goat is on mountain
 
+        // This checks if the arduino is returning any value, if it is then this is set to true (not taking any number input, just if its pressed or not) 
+        HoldingJump = GetComponent<AriunoListener>().isHoldingJump;    
 
         if (onGround && PlayerControlActive)
         {
@@ -117,9 +119,10 @@ public class GoatSlingShot : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }*/
-            if (transform.rotation.y == 1)
+            //print(transform.rotation.y);
+            if (transform.rotation.y == (1/Mathf.Sqrt(2)))
             {
-                LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z);      // rotate aim line if goat body rotated so it works right
+                LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z).normalized;      // rotate aim line if goat body rotated so it works right
             }
             VisibleAimLine.SetPosition(1, LineRay * -0.5f * (jumpPressure + 3f));
 
@@ -171,11 +174,11 @@ public class GoatSlingShot : MonoBehaviour
             justlanded = true;
             if (rb.velocity.x < 0)                                         // rotates goat body if in the air based on velocity
             {
-                transform.rotation = Quaternion.Euler(0, 180f, 0);
+                transform.rotation = Quaternion.Euler(0, 270f, 0);
             }
             if (rb.velocity.x > 0)
             {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
+                transform.rotation = Quaternion.Euler(0, 90f, 0);
             }
         }
 
@@ -354,6 +357,7 @@ public class GoatSlingShot : MonoBehaviour
             Vector3 dir = new Vector3(UnityEngine.Random.Range(-1,1) ,1,0).normalized;
             // This will push back the player
             GetComponent<Rigidbody>().AddForce(dir * 50f);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(-dir * 50f);
         }
         else if (!collision.gameObject.CompareTag("Snowball"))
             onGround = true;
@@ -366,8 +370,11 @@ public class GoatSlingShot : MonoBehaviour
             //other.GetComponent<InstantKillWater>().SetGameOver();
             DisablePlayerControl(true);
             instance.players.Remove(gameObject);
-            StartCoroutine("DeathAnim");
-            
+            //StartCoroutine("DeathAnim");
+            DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
+            Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+            Destroy(gameObject.transform.root.gameObject);
+
         }
     }
 
@@ -377,12 +384,13 @@ public class GoatSlingShot : MonoBehaviour
         Destroy(gameObject.transform.root.gameObject, 1f);
     }
 
-    private IEnumerator DeathAnim()     // does the killing, with sound effects. Can later put animation calls here
+    private IEnumerator DeathAnim()     // does the killing, with sound effects. Can later put animation calls here. NOTE FOR NOW THIS IS IGNORED
     {
         PlayAudio(3);
+        //DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
         yield return new WaitForSeconds(1); // Initial delay before removing goat from view
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
-        yield return new WaitForSeconds(2); //Use the length of the animation/sound clip as the wait time for yield
+        //yield return new WaitForSeconds(2); //Use the length of the animation/sound clip as the wait time for yield
         Destroy(gameObject.transform.root.gameObject);
     }
 

@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: -1
+  m_MaxPlayerCount: 6
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 1
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -57,13 +57,29 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 
+      m_Name: Action
+      m_Type: 1
+      m_ExpectedControlType: Button
+      m_Id: 86d45850-aa62-4558-b049-031001702b75
       m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
+      m_Interactions: Press
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: f1037a6f-2f02-4844-b0e5-8a06f347c589
+        m_Path: <Gamepad>/buttonNorth
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 3834fe75-ce7a-40c1-b479-eb35d1cbce09
+        m_Path: <XInputController>/buttonNorth
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Action
+        m_Flags: 0
     m_Reference: {fileID: 0}
   m_PlayerPrefab: {fileID: 4997178208509625662, guid: 630bbd870712e174d85abc348a66cc9b,
     type: 3}
@@ -88,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69bc44f8487a464ea47ee65355cc595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeLimit: 10
+  timeLimit: 3
   PlayerWin: 0
   players: []
   goatMaterials:
@@ -99,12 +115,12 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c058f98fd7f12e048b87dd427675dbf6, type: 2}
   - {fileID: 2100000, guid: 66e16c2213cecce4a96ef0d41cbc3d3a, type: 2}
   planes:
-  - {fileID: 6605481301967472781, guid: efab577372a934949a8d1aa7d1a7b2a5, type: 3}
-  - {fileID: 1210881184986328008, guid: 925a385f4150ac94a8aaf179506af101, type: 3}
-  - {fileID: 1289008419272580832, guid: f1f4dace4a1730e41a857f38a3bb702d, type: 3}
-  - {fileID: 4405665997241196902, guid: b695fa7b9c4eed840896a39e4d5e76f0, type: 3}
-  - {fileID: 8440564771219511328, guid: 54df82b41e3bb9c4d91ebaa20cfbea7b, type: 3}
-  - {fileID: 4685905943070622807, guid: 7cd2644bf263be840927fa2702b69894, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   planeMaterials:
   - {fileID: 2100000, guid: 7034bac9045cc614ca8dae39e34f5f9b, type: 2}
   - {fileID: 2100000, guid: 8f24e110231a77d409b055cdc273a9d3, type: 2}
