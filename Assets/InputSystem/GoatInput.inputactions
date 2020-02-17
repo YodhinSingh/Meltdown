@@ -28,6 +28,14 @@
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "StartGame",
+                    "type": "Button",
+                    "id": "d46e47c1-f428-442a-99b9-d2d3046c54f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -60,6 +68,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Logitech",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fe105bd-4e6a-4d5c-a375-5d1d6f833fc2",
+                    "path": "<Sensor>/distance",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -99,6 +118,17 @@
                 },
                 {
                     "name": "",
+                    "id": "2895255e-f86d-4a08-984c-9afd236bac9a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c8c443bc-fe32-484a-8462-d85c50a79b7e",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Press(behavior=1)",
@@ -127,6 +157,50 @@
                     "processors": "",
                     "groups": "Logitech",
                     "action": "ReleaseJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a47d88d7-7511-4068-8358-2da8892dd32c",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "GamepadPS4",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "de583fbb-7807-47a3-badb-72cc4b9c8849",
+                    "path": "<XInputController>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "GamepadXbox",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "259040d4-e1b3-40cb-ab0e-f5f75e708e77",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Logitech",
+                    "action": "StartGame",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a09d12fb-28f6-4fbd-b868-9ca72e87dff0",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

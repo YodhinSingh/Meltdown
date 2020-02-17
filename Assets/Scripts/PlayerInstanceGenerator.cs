@@ -12,8 +12,11 @@ public class PlayerInstanceGenerator : MonoBehaviour
     private readonly int PlatformIndexStart = 7;
     private bool changed;
     public static PlayerInstanceGenerator instanceOBJ;
-    private float timer;
-    [SerializeField] private int timeLimit = 10;
+
+    //private float timer;          //any comments related to timer or timeLimit variable is for having game start in 10 seconds mode. Not Needed right now
+    //[SerializeField] private int timeLimit = 10;
+
+    private bool startGame;
 
     public bool PlayerWin;
     public List<GameObject> players = new List<GameObject>();
@@ -23,7 +26,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     public Text TitleScreen;
 
-    private float[] xPosOfGoats = {-15, -9, -3, 3, 9 ,15};
+    private readonly float[] xPosOfGoats = {-15, -9, -3, 3, 9 ,15};
 
     private void Awake()
     {
@@ -46,23 +49,25 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     private void Start()
     {
-        timer = 0;
+        //timer = 0;
         PlayerWin = false;
+        startGame = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!changed && Instance.playerCount >= 1)      // Active timer if at least 1 player has joined
+        if (!changed && Instance.playerCount >= 1)      // Active timer if at least 1 player has joined // currently disabled for better way
         {
-            timer += Time.deltaTime;
-            TitleScreen.text = "GAME STARTS IN: " + (timeLimit - ((int)timer));
+            //timer += Time.deltaTime;
+            //TitleScreen.text = "GAME STARTS IN: " + (timeLimit - ((int)timer));
         }
 
-        if (Instance.playerCount >= 1 && !changed && timer > timeLimit) // load game scene
+        if (Instance.playerCount >= 1 && !changed && startGame) // load game scene
         {
             SceneManager.LoadScene(1);
             changed = true;
+            GetComponent<RankingSystem>().StartRanking();
             Instance.DisableJoining();  // no more players can join
         }
 
@@ -71,9 +76,10 @@ public class PlayerInstanceGenerator : MonoBehaviour
         if (Instance.playerCount == 0 && changed && SceneManager.GetActiveScene().buildIndex == 0)
         {
             changed = false;
-            timer = 0f;
+            //timer = 0f;
             Instance.EnableJoining();
             PlayerWin = false;
+            startGame = false;
 
             for (int i = 0; i < planes.Length; i++)
             {
@@ -86,14 +92,16 @@ public class PlayerInstanceGenerator : MonoBehaviour
     private void OnPlayerJoined(PlayerInput player)     // this is called whenever a player joins the game via the start button
     {
         players.Add(player.gameObject);         // add all joined players to a list so can reference later
+        TitleScreen.text = "PRESS B or SPACE TO START GAME";
+        GetComponent<RankingSystem>().addGoat(player.gameObject);
 
         Transform pos = player.gameObject.GetComponentInChildren<Transform>();
 
-        float RandXPos = xPosOfGoats[Random.Range(0,5)];
+        float RandXPos = xPosOfGoats[Random.Range(0,6)];
 
         while (checkAvailablePos(RandXPos) == false)        // give each goat random unique starting point
         {
-            RandXPos = xPosOfGoats[Random.Range(0, 5)];
+            RandXPos = xPosOfGoats[Random.Range(0, 6)];
         }
 
         // Initialize goat position and the invisible ground pos to be below goat
@@ -119,7 +127,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
     {
         foreach (GameObject p in players)
         {
-            if (p.GetComponent<Transform>().position.x == xValue)
+            if (Mathf.FloorToInt(p.GetComponent<Transform>().position.x) == Mathf.FloorToInt(xValue))
                 return false;
         }
         return true;
@@ -132,15 +140,19 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
         foreach (GameObject p in players)
         {
-            p.GetComponent<GoatSlingShot>().DestroyGoat();
+            p.GetComponent<GoatSlingShot>().DestroyGoat(false);
         }
         players.Clear();
-        
         
     }
 
     public int GetPlayerCount()
     {
         return Instance.playerCount;
+    }
+
+    public void WantToStartGame()
+    {
+        startGame = true;
     }
 }
