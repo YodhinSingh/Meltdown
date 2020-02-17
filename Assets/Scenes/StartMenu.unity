@@ -19679,7 +19679,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: PRESS Y TO JOIN
+  m_Text: PRESS Y OR ENTER TO JOIN
 --- !u!222 &1001443345
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19790,6 +19790,26 @@ PrefabInstance:
       propertyPath: TitleScreen
       value: 
       objectReference: {fileID: 1482904431}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Id
+      value: ccd6d6fc-ac75-483e-b8f4-77fb68515aad
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Action
+      value: Action
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184205824994952600, guid: 8c05dc48f1eba16419ba5dc747cc3364,
+        type: 3}
+      propertyPath: m_JoinAction.m_Action.m_SingletonActionBindings.Array.data[2].m_Path
+      value: <Keyboard>/enter
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c05dc48f1eba16419ba5dc747cc3364, type: 3}
 --- !u!1 &1085617148
@@ -19875,50 +19895,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1131454591
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1131454592}
-  - component: {fileID: 1131454593}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1131454592
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131454591}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.012027264, y: 1.9172261, z: 2.9969292}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 18
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1131454593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1131454591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 394c04872b538c84986969efff80e18f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isHoldingJump: 0
 --- !u!1 &1146960616
 GameObject:
   m_ObjectHideFlags: 0
@@ -20381,7 +20357,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1244
+  m_Name: pb_Mesh-9386
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

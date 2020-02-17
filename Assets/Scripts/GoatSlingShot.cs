@@ -25,6 +25,7 @@ public class GoatSlingShot : MonoBehaviour
     private Vector3 offset;
     private bool isCreated;
 
+    public GameObject lineRendererAim;
     private LineRenderer VisibleAimLine;
 
     private float arrowColourR;
@@ -68,7 +69,7 @@ public class GoatSlingShot : MonoBehaviour
         isOnMountain = true;
         arrowColourR = 1f;
         arrowColourG = 0f;
-        VisibleAimLine = GetComponent<LineRenderer>();
+        VisibleAimLine = lineRendererAim.GetComponent<LineRenderer>();
         AddGoatCam = true;
         m_AudioSource = GetComponent<AudioSource>();
         justlanded = false;
@@ -95,8 +96,13 @@ public class GoatSlingShot : MonoBehaviour
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
         CheckOnMountain();                                              // check if goat is on mountain
 
-        // This checks if the arduino is returning any value, if it is then this is set to true (not taking any number input, just if its pressed or not) 
-        HoldingJump = GetComponent<AriunoListener>().isHoldingJump;    
+        
+        
+        // This checks if the arduino is returning the distance value (and later aim). For now it is getting random values to test it.
+        HoldingJump = GetComponent<AriunoListener>().isHoldingJump;
+        AimInput = GetComponent<AriunoListener>().aim;
+
+
 
         if (onGround && PlayerControlActive)
         {
@@ -110,21 +116,13 @@ public class GoatSlingShot : MonoBehaviour
 
             Ray aim = new Ray(transform.position, target);
             Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
-            /*                                                                                  // ignore this giant comment
-            if (-target.x > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 180f, 0);
-            }
-            if (-target.x < 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 0, 0);
-            }*/
+
             //print(transform.rotation.y);
-            if (transform.rotation.y == (1/Mathf.Sqrt(2)))
+            if (transform.rotation == Quaternion.Euler(0, 270f, 0))
             {
                 LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z).normalized;      // rotate aim line if goat body rotated so it works right
             }
-            VisibleAimLine.SetPosition(1, LineRay * -0.5f * (jumpPressure + 3f));
+            VisibleAimLine.SetPosition(1, LineRay * -0.02f * (jumpPressure + 3f));
 
             Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
 
@@ -190,7 +188,7 @@ public class GoatSlingShot : MonoBehaviour
     }
 
 
-    
+    /*  // This is for using the controllers input
     private void OnJump()               // onJump and releaseJump are for get jump power based on holding the 'A' or 'X' button
     {
         HoldingJump = true;
@@ -214,6 +212,7 @@ public class GoatSlingShot : MonoBehaviour
         }
         //HoldingJump = (value.Get<Vector2>() == new Vector2()) ? false : true;         // this gets jump power if analog stick is let go of
     }
+    */
 
     public Vector3 GetAimPoint()
     {
@@ -247,7 +246,6 @@ public class GoatSlingShot : MonoBehaviour
     {
         ground.transform.position = new Vector3();
         isCreated = false;
-        //onGround = false;
     }
 
     public void AddGround() // Add final platform for goat once the player reaches top of mountain
@@ -258,7 +256,7 @@ public class GoatSlingShot : MonoBehaviour
 
     public void AddGoatToCam()
     {
-        Camera.main.GetComponent<CameraFollow>().addGoat(this.gameObject);
+        Camera.main.GetComponent<CameraFollow>().addGoat(gameObject);
     }
 
 
@@ -370,6 +368,7 @@ public class GoatSlingShot : MonoBehaviour
             //other.GetComponent<InstantKillWater>().SetGameOver();
             DisablePlayerControl(true);
             instance.players.Remove(gameObject);
+            instance.GetComponent<RankingSystem>().RemoveGoat(gameObject, true);
             //StartCoroutine("DeathAnim");
             DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
             Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
@@ -378,9 +377,11 @@ public class GoatSlingShot : MonoBehaviour
         }
     }
 
-    public void DestroyGoat()       // used for other script
+    public void DestroyGoat(bool isDead)       // used for playerInstanceGenerator script when 1 player wins. Destroy all current goats so next round can pick goats
     {
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        instance.players.Remove(gameObject);
+        instance.GetComponent<RankingSystem>().RemoveGoat(gameObject, isDead);
         Destroy(gameObject.transform.root.gameObject, 1f);
     }
 
