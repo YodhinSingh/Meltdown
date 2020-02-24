@@ -321,9 +321,10 @@ public class GoatSlingShot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             DestroyGround();
-            Vector3 dir = new Vector3(0,-1,0);
+            Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
+            dir = -dir.normalized;
             //Push down the player from snowball
-            GetComponent<Rigidbody>().AddForce(dir * 2500f);
+            GetComponent<Rigidbody>().AddForce(dir * 500f);
         }
         else
         {
