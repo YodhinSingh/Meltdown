@@ -6,12 +6,18 @@ using System.IO.Ports;
 
 public class AriunoListener : MonoBehaviour
 {
-    SerialPort sp; //= new SerialPort("COM3", 9600);
+    SerialPort sp = new SerialPort("COM3", 9600);
     public bool isHoldingJump;
     public Vector3 aim;
 
     float jumpChargeTime;
     float CurrentJumpCharge;
+    //public int playerindex;
+    //float oldDistance = 0;
+
+    public float address;
+    public float distance;
+
 
     // Start is called before the first frame update
     void Start()
@@ -32,31 +38,27 @@ public class AriunoListener : MonoBehaviour
         jumpChargeTime -= Time.deltaTime;
         if (sp != null)
         {
-            print(sp.ReadByte());
+            //print(sp.ReadByte());
+            //print("line of arduino: " + sp.ReadLine());
 
             if (sp.IsOpen)
             {
                 try
                 {
-                    //note that as of yet we dont know how to get the input numbers, i think its readbyte(), but not sure and cant test
-                    int value = sp.ReadByte();
-                    if (value > 0)
-                    {
-                        isHoldingJump = true;   //Set the value to true or false. The goatslingshot script is already accessing this value there.
-                    }
-                    else
-                    {
-                        isHoldingJump = false;
-                    }
+                    //store entire line from ardunio script and spilt it to get address and distance. Goat script will access these values and deal with calculations
+                    string line = sp.ReadLine();
+                    string[] values = line.Split(',');
+                    address = float.Parse(values[0]);
+                    distance = float.Parse(values[1]);
+
+                    print("Goat address: " + address + " || Goat distance: " + distance);
+                    
+                    
                 }
                 catch (System.Exception)
                 {
 
                 }
-            }
-            else
-            {
-                isHoldingJump = false;
             }
         }
 

@@ -49,6 +49,9 @@ public class GoatSlingShot : MonoBehaviour
     private bool justlanded;
     bool collDone;
 
+    public float oldDistance = 0;
+    public GameObject arduino;
+    AriunoListener arduinoScript;
 
 
     // Start is called before the first frame update
@@ -74,7 +77,7 @@ public class GoatSlingShot : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         justlanded = false;
         collDone = false;
-
+        arduinoScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<AriunoListener>();
 
     }
 
@@ -96,11 +99,13 @@ public class GoatSlingShot : MonoBehaviour
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
         CheckOnMountain();                                              // check if goat is on mountain
 
-        
-        
+
+
         // This checks if the arduino is returning the distance value (and later aim). For now it is getting random values to test it.
-        HoldingJump = GetComponent<AriunoListener>().isHoldingJump;
-        AimInput = GetComponent<AriunoListener>().aim;
+        //HoldingJump = GetComponent<AriunoListener>().isHoldingJump;
+        //AimInput = GetComponent<AriunoListener>().aim;
+        CheckJump();
+        AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
 
 
 
@@ -213,6 +218,29 @@ public class GoatSlingShot : MonoBehaviour
         //HoldingJump = (value.Get<Vector2>() == new Vector2()) ? false : true;         // this gets jump power if analog stick is let go of
     }
     */
+
+    void CheckJump()
+    {
+        float address = arduinoScript.address;
+        float distance = arduinoScript.distance;
+        float minDistanceChange = 15f;
+        if (address % 10 == playerIndex)
+        {
+            //print(playerIndex);
+            if (distance > oldDistance && distance - oldDistance >= minDistanceChange)
+            {
+                HoldingJump = true;   //Set the value to true or false. The goatslingshot script is already accessing this value there.
+                //print("isholding");
+            }
+            else if (distance <= oldDistance && oldDistance - distance >= minDistanceChange)
+            {
+                HoldingJump = false;
+
+                //print("not holding");
+            }
+            oldDistance = distance;
+        }
+    }
 
     public Vector3 GetAimPoint()
     {
