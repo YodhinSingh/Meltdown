@@ -12,6 +12,10 @@ The range readings are in units of mm. */
 
 #define Sensor2_newAddress 42
 
+const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
+
+int pot1Value = 0;        // value read from the pot
+
 
 VL53L0X sensor1;
 VL53L0X sensor2;
@@ -67,6 +71,22 @@ void loop()
   //delay(20);  
   //Serial.write(sensor2.getAddress());
   checkDistanceDiff(sensor2);
+
+//POTENTIOMETER CODE 
+  // read the analog in value:
+  pot1Value = analogRead(analogInPin);
+  // map it to the range of the analog out:
+  int outputValue = map(pot1Value, 0, 1023, 0, 180);
+  // change the analog out value:
+
+  // print the results to the Serial Monitor:
+  Serial.print("Pot1Value , ");
+  Serial.println(outputValue);
+
+  // wait 2 milliseconds before the next loop for the analog-to-digital
+  // converter to settle after the last reading:
+  delay(2);
+  
 
 }
 
