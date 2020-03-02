@@ -18,7 +18,7 @@ public class InstantKillWater : MonoBehaviour
     void Start()
     {
         instance = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerInstanceGenerator>();
-        allowRise = true;
+        allowRise = false;
         startPos = transform.position;
         endPos = new Vector3(transform.position.x, endPosValue, transform.position.z);
     }
@@ -47,5 +47,10 @@ public class InstantKillWater : MonoBehaviour
     public void StopWaterRise()
     {
         allowRise = false;
+    }
+
+    public void StartWaterRise()
+    {
+        allowRise = true;
     }
 }

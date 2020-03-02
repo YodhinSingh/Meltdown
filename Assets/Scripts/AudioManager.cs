@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 public class AudioManager : MonoBehaviour
 {
     public static AudioSource audioTheme;
-    public string theme;
+    public AudioClip theme;
+    public AudioClip themeLoop;
     public static AudioManager instance;
     public GameObject WinMenuUI, LoseMenuUI;
 
@@ -25,9 +26,8 @@ public class AudioManager : MonoBehaviour
         
         DontDestroyOnLoad(gameObject);
         */
-        theme = "MeltdownTheme1";
         audioTheme = GetComponent<AudioSource>();
-        audioTheme.clip = Resources.Load<AudioClip>(theme);
+        audioTheme.clip = theme;
         audioTheme.volume = 0.2f;
         audioTheme.Play();
         audioTheme.loop = false;
@@ -41,13 +41,13 @@ public class AudioManager : MonoBehaviour
     }
     private void Update()
     {
+        /*
         if ((WinMenuUI != null && WinMenuUI.activeInHierarchy) || (LoseMenuUI != null && LoseMenuUI.activeInHierarchy))
             checkScene();
-
+        */
         if (!audioTheme.isPlaying)
         {
-            theme = "MeltdownTheme1Loop";
-            audioTheme.clip = Resources.Load<AudioClip>(theme);
+            audioTheme.clip = themeLoop;
             audioTheme.Play();
             audioTheme.loop = true;
         }
@@ -55,6 +55,11 @@ public class AudioManager : MonoBehaviour
 
     public void checkScene()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0)      //Menu
+        {
+            audioTheme.loop = true;
+            audioTheme.volume = 0.25f;
+        }
         if (SceneManager.GetActiveScene().buildIndex == 1)      //Game
         {
             audioTheme.loop = true;

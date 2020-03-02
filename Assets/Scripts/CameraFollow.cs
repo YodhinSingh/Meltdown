@@ -39,7 +39,8 @@ public class CameraFollow : MonoBehaviour
     {
         float maxDistance = Mathf.Max(bounds.size.x, bounds.size.y);
 
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, maxDistance / zoomLimit);
+        //float newZoom = Mathf.Lerp(maxZoom, minZoom, maxDistance / zoomLimit);
+        float newZoom = 100f;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
 
     }
@@ -48,7 +49,7 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 centerPoint = GetCenterPoint(bounds);
 
-        Vector3 newPos = centerPoint + offset;
+        Vector3 newPos = new Vector3(0, centerPoint.y + 5f, 0) + offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
     }
@@ -65,7 +66,6 @@ public class CameraFollow : MonoBehaviour
 
     private Bounds GetBoundsGoats()
     {
-
         var bounds = (goats[0] == null) ? new Bounds() : new Bounds(goats[0].position, Vector3.zero);
         for (int i = 0; i < goats.Count; i++)
         {

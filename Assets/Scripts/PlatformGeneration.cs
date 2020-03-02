@@ -11,12 +11,12 @@ public class PlatformGeneration : MonoBehaviour
     public float PlatformWidthMax;    // max width of platform
     private float platformPositionX;
     private float platformPositionY;
-    [SerializeField] private float numPlatforms = 30;
+    [SerializeField] private float numPlatforms = 14;
     
 
     void Start()
     {
-        platformPositionY = -2;
+        platformPositionY = 2f;
         HeightDifferencePlatforms = 6f;
         PlatformWidthMin = 3f;
         PlatformWidthMax = 6f;
