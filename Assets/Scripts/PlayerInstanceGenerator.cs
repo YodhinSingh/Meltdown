@@ -97,6 +97,8 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
         Transform pos = player.gameObject.GetComponentInChildren<Transform>();
 
+        player.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
         float RandXPos = xPosOfGoats[Random.Range(0,6)];
 
         while (checkAvailablePos(RandXPos) == false)        // give each goat random unique starting point

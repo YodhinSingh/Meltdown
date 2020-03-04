@@ -45,6 +45,7 @@ public class AudioManager : MonoBehaviour
         if ((WinMenuUI != null && WinMenuUI.activeInHierarchy) || (LoseMenuUI != null && LoseMenuUI.activeInHierarchy))
             checkScene();
         */
+        checkScene();
         if (!audioTheme.isPlaying)
         {
             audioTheme.clip = themeLoop;
@@ -63,7 +64,7 @@ public class AudioManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)      //Game
         {
             audioTheme.loop = true;
-            audioTheme.volume = 0.25f;
+            audioTheme.volume = 1f;
         }
     }
 }

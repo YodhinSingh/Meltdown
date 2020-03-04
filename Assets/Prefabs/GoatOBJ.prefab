@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1542645685017391771}
   - component: {fileID: 8223091163764861331}
   - component: {fileID: 2703670800488494460}
+  - component: {fileID: 413940357622399943}
   m_Layer: 14
   m_Name: Goat1
   m_TagString: Player
@@ -271,8 +272,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 256a4e7e0a3c88b4890975e0ffdf0eff, type: 3}
   DeathSoundPlayer: {fileID: 7171968036282182693, guid: fc9251bd92aa9704290995fa759b3c43,
     type: 3}
-  oldDistance: 0
-  arduino: {fileID: 2310925366970472270, guid: 329bb998d9861724da537f29b01aef6b, type: 3}
+  arduino: {fileID: 0}
 --- !u!114 &8223091163764861331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +409,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &413940357622399943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5434715011268588324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394c04872b538c84986969efff80e18f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isHoldingJump: 0
+  aim: {x: 0, y: 0, z: 0}
+  address: 0
+  distance: 0
+  angle: 0
+  isConnected: 0
 --- !u!1 &7413907348482829022
 GameObject:
   m_ObjectHideFlags: 0

@@ -111,9 +111,9 @@ MonoBehaviour:
     width: 1366
     height: 635
   m_MinSize: {x: 681, y: 494}
-  m_MaxSize: {x: 14004, y: 14044}
+  m_MaxSize: {x: 14002, y: 14044}
   vertical: 1
-  controlID: 443
+  controlID: 10904
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -136,9 +136,9 @@ MonoBehaviour:
     width: 1366
     height: 635
   m_MinSize: {x: 681, y: 494}
-  m_MaxSize: {x: 14004, y: 14044}
+  m_MaxSize: {x: 14002, y: 14044}
   vertical: 0
-  controlID: 444
+  controlID: 10905
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -160,10 +160,10 @@ MonoBehaviour:
     y: 0
     width: 992
     height: 635
-  m_MinSize: {x: 404, y: 494}
+  m_MinSize: {x: 406, y: 494}
   m_MaxSize: {x: 10002, y: 14044}
   vertical: 1
-  controlID: 445
+  controlID: 10906
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -184,11 +184,11 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 992
-    height: 363
-  m_MinSize: {x: 404, y: 222}
-  m_MaxSize: {x: 8004, y: 4022}
+    height: 362
+  m_MinSize: {x: 406, y: 222}
+  m_MaxSize: {x: 8006, y: 4022}
   vertical: 0
-  controlID: 446
+  controlID: 10907
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -207,7 +207,7 @@ MonoBehaviour:
     x: 0
     y: 0
     width: 202
-    height: 363
+    height: 362
   m_MinSize: {x: 202, y: 222}
   m_MaxSize: {x: 4002, y: 4022}
   m_ActualView: {fileID: 14}
@@ -233,18 +233,18 @@ MonoBehaviour:
     x: 202
     y: 0
     width: 790
-    height: 363
+    height: 362
   m_MinSize: {x: 204, y: 222}
   m_MaxSize: {x: 4004, y: 4022}
-  m_ActualView: {fileID: 15}
+  m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 15}
   - {fileID: 13}
   - {fileID: 16}
   - {fileID: 17}
   - {fileID: 18}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -261,9 +261,9 @@ MonoBehaviour:
   m_Position:
     serializedVersion: 2
     x: 0
-    y: 363
+    y: 362
     width: 992
-    height: 272
+    height: 273
   m_MinSize: {x: 232, y: 272}
   m_MaxSize: {x: 10002, y: 10022}
   m_ActualView: {fileID: 19}
@@ -322,26 +322,26 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 204
-    y: 20
-    width: 786
-    height: 341
+    x: 202
+    y: 73
+    width: 788
+    height: 343
   m_ViewDataDictionary: {fileID: 0}
   m_VSyncEnabled: 0
   m_MaximizeOnPlay: 1
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 05000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 07000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_TargetDisplay: 0
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -532.5
-    m_HBaseRangeMax: 532.5
-    m_VBaseRangeMin: -299.5
-    m_VBaseRangeMax: 299.5
+    m_HBaseRangeMin: -960
+    m_HBaseRangeMax: 960
+    m_VBaseRangeMin: -540
+    m_VBaseRangeMax: 540
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -350,7 +350,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 0
+    m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -359,25 +359,25 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 17
-      width: 1370
-      height: 599
-    m_Scale: {x: 1, y: 1}
-    m_Translation: {x: 685, y: 299.5}
+      width: 788
+      height: 326
+    m_Scale: {x: 0.30185184, y: 0.30185184}
+    m_Translation: {x: 394, y: 163}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -685
-      y: -299.5
-      width: 1370
-      height: 599
+      x: -1305.2761
+      y: -540
+      width: 2610.5522
+      height: 1080
     m_MinimalGUI: 1
-  m_defaultScale: 1
+  m_defaultScale: 0.30185184
   m_TargetTexture: {fileID: 0}
   m_CurrentColorSpace: 0
-  m_LastWindowPixelSize: {x: 1370, y: 616}
+  m_LastWindowPixelSize: {x: 788, y: 343}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -406,14 +406,14 @@ MonoBehaviour:
     x: 0
     y: 73
     width: 202
-    height: 344
+    height: 343
   m_ViewDataDictionary: {fileID: 0}
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 323a0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 32f3ffff6cf3ffffb6f4ffffbef4ffff68fbffff
+      m_ExpandedIDs: a678ffffc879ffffec7dffff4e7fffff3a81ffff6a81ffff9a81ffffca81fffffa81ffff2a82ffff5882ffff348affff9e8effff94a8ffff40b0ffffbeb2ffffdcb9ffff56cdffff70ceffffa0d2ffff08d5ffff24d9ffff98daffff68e9ffffccebffff3cf8fffff4ffffff6c670000d8720000a08000000e850000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -461,7 +461,7 @@ MonoBehaviour:
     x: 202
     y: 73
     width: 788
-    height: 344
+    height: 343
   m_ViewDataDictionary: {fileID: 0}
   m_ShowContextualTools: 0
   m_WindowGUID: 22a922b8050096b4680663c1bba278ed
@@ -473,9 +473,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 5.7796645, y: 12.852915, z: -10.092682}
+    m_Target: {x: -0.66762036, y: -4.974404, z: -6.1936836}
     speed: 2
-    m_Value: {x: 5.7796645, y: 12.852915, z: -10.092682}
+    m_Value: {x: -0.66762036, y: -4.974404, z: -6.1936836}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -504,20 +504,20 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: -0.021308634, y: 0.006609871, z: -0.00014883123, w: -0.9998066}
+    m_Target: {x: -0.1004506, y: -0.29191995, z: 0.03100775, w: -0.9507745}
     speed: 2
-    m_Value: {x: -0.021308634, y: 0.006609871, z: -0.00014883121, w: -0.9998066}
+    m_Value: {x: -0.100450605, y: -0.29191998, z: 0.031007752, w: -0.95077455}
   m_Size:
-    m_Target: 65.597885
+    m_Target: 74.37607
     speed: 2
-    m_Value: 65.597885
+    m_Value: 74.37607
   m_Ortho:
     m_Target: 0
     speed: 2
     m_Value: 0
   m_CameraSettings:
-    m_Speed: 1
-    m_SpeedNormalized: 0.49748743
+    m_Speed: 2
+    m_SpeedNormalized: 1
     m_SpeedMin: 0.01
     m_SpeedMax: 2
     m_EasingEnabled: 1
@@ -676,7 +676,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 880bf6ee
     m_LastClickedID: -285865080
-    m_ExpandedIDs: 39e40d9c67b695d9660735df394d8de4e79c01f9335aa70380db3104fec4f9180fa0ec450017a25625c9e062a953f176
+    m_ExpandedIDs: 39e40d9c67b695d9660735df394d8de41d0346f2e79c01f9335aa70380db3104fec4f9180fa0ec450017a25625c9e062a953f176
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -810,6 +810,10 @@ MonoBehaviour:
       \                   \"name\": \"ReleaseJump\",\n                    \"type\":
       \"Button\",\n                    \"id\": \"1366e038-f28a-404e-b8e2-a481b539e479\",\n
       \                   \"expectedControlType\": \"\",\n                    \"processors\":
+      \"\",\n                    \"interactions\": \"\"\n                },\n                {\n
+      \                   \"name\": \"StartGame\",\n                    \"type\":
+      \"Button\",\n                    \"id\": \"d46e47c1-f428-442a-99b9-d2d3046c54f6\",\n
+      \                   \"expectedControlType\": \"\",\n                    \"processors\":
       \"\",\n                    \"interactions\": \"\"\n                }\n            ],\n
       \           \"bindings\": [\n                {\n                    \"name\":
       \"\",\n                    \"id\": \"86e78e1b-e5be-4db7-bbfc-60982c8a8a8d\",\n
@@ -823,6 +827,17 @@ MonoBehaviour:
       \"\",\n                    \"groups\": \"GamepadXbox\",\n                    \"action\":
       \"Aim\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
       false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"1150f007-33fe-4d86-864d-8eb6c1a3499d\",\n
+      \                   \"path\": \"<Gamepad>/leftStick\",\n                    \"interactions\":
+      \"\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"Logitech\",\n                    \"action\": \"Aim\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                },\n
+      \               {\n                    \"name\": \"\",\n                    \"id\":
+      \"6fe105bd-4e6a-4d5c-a375-5d1d6f833fc2\",\n                    \"path\": \"<Sensor>/distance\",\n
+      \                   \"interactions\": \"\",\n                    \"processors\":
+      \"\",\n                    \"groups\": \"\",\n                    \"action\":
+      \"Aim\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
+      false\n                },\n                {\n                    \"name\":
       \"\",\n                    \"id\": \"b2aeee3b-cfc5-441e-9572-09040de40b8d\",\n
       \                   \"path\": \"<Gamepad>/buttonSouth\",\n                    \"interactions\":
       \"Press\",\n                    \"processors\": \"\",\n                    \"groups\":
@@ -832,6 +847,17 @@ MonoBehaviour:
       \"9cb8e364-0220-4b4b-a9b3-128878e0c356\",\n                    \"path\": \"<XInputController>/buttonSouth\",\n
       \                   \"interactions\": \"Press\",\n                    \"processors\":
       \"\",\n                    \"groups\": \"GamepadXbox\",\n                    \"action\":
+      \"Jump\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
+      false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"2adc0f96-5b73-40ac-9cb5-f59f0509f749\",\n
+      \                   \"path\": \"<Gamepad>/buttonSouth\",\n                    \"interactions\":
+      \"Press\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"Logitech\",\n                    \"action\": \"Jump\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                },\n
+      \               {\n                    \"name\": \"\",\n                    \"id\":
+      \"2895255e-f86d-4a08-984c-9afd236bac9a\",\n                    \"path\": \"\",\n
+      \                   \"interactions\": \"\",\n                    \"processors\":
+      \"\",\n                    \"groups\": \"\",\n                    \"action\":
       \"Jump\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
       false\n                },\n                {\n                    \"name\":
       \"\",\n                    \"id\": \"c8c443bc-fe32-484a-8462-d85c50a79b7e\",\n
@@ -844,15 +870,46 @@ MonoBehaviour:
       \                   \"interactions\": \"Press(behavior=1)\",\n                    \"processors\":
       \"\",\n                    \"groups\": \"GamepadXbox\",\n                    \"action\":
       \"ReleaseJump\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
-      false\n                }\n            ]\n        }\n    ],\n    \"controlSchemes\":
-      [\n        {\n            \"name\": \"GamepadPS4\",\n            \"bindingGroup\":
-      \"GamepadPS4\",\n            \"devices\": [\n                {\n                    \"devicePath\":
-      \"<Gamepad>\",\n                    \"isOptional\": false,\n                    \"isOR\":
+      false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"df5af3f0-d3a4-4f93-8f7b-c07eb9c0320a\",\n
+      \                   \"path\": \"<Gamepad>/buttonSouth\",\n                    \"interactions\":
+      \"Press(behavior=1)\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"Logitech\",\n                    \"action\": \"ReleaseJump\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                },\n
+      \               {\n                    \"name\": \"\",\n                    \"id\":
+      \"a47d88d7-7511-4068-8358-2da8892dd32c\",\n                    \"path\": \"<Gamepad>/buttonEast\",\n
+      \                   \"interactions\": \"Press\",\n                    \"processors\":
+      \"\",\n                    \"groups\": \"GamepadPS4\",\n                    \"action\":
+      \"StartGame\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
+      false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"de583fbb-7807-47a3-badb-72cc4b9c8849\",\n
+      \                   \"path\": \"<XInputController>/buttonEast\",\n                    \"interactions\":
+      \"Press\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"GamepadXbox\",\n                    \"action\": \"StartGame\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                },\n
+      \               {\n                    \"name\": \"\",\n                    \"id\":
+      \"259040d4-e1b3-40cb-ab0e-f5f75e708e77\",\n                    \"path\": \"<Gamepad>/buttonEast\",\n
+      \                   \"interactions\": \"Press\",\n                    \"processors\":
+      \"\",\n                    \"groups\": \"Logitech\",\n                    \"action\":
+      \"StartGame\",\n                    \"isComposite\": false,\n                    \"isPartOfComposite\":
+      false\n                },\n                {\n                    \"name\":
+      \"\",\n                    \"id\": \"a09d12fb-28f6-4fbd-b868-9ca72e87dff0\",\n
+      \                   \"path\": \"<Keyboard>/space\",\n                    \"interactions\":
+      \"\",\n                    \"processors\": \"\",\n                    \"groups\":
+      \"\",\n                    \"action\": \"StartGame\",\n                    \"isComposite\":
+      false,\n                    \"isPartOfComposite\": false\n                }\n
+      \           ]\n        }\n    ],\n    \"controlSchemes\": [\n        {\n            \"name\":
+      \"GamepadPS4\",\n            \"bindingGroup\": \"GamepadPS4\",\n            \"devices\":
+      [\n                {\n                    \"devicePath\": \"<Gamepad>\",\n                    \"isOptional\":
+      false,\n                    \"isOR\": false\n                }\n            ]\n
+      \       },\n        {\n            \"name\": \"GamepadXbox\",\n            \"bindingGroup\":
+      \"GamepadXbox\",\n            \"devices\": [\n                {\n                    \"devicePath\":
+      \"<XInputController>\",\n                    \"isOptional\": false,\n                    \"isOR\":
       false\n                }\n            ]\n        },\n        {\n            \"name\":
-      \"GamepadXbox\",\n            \"bindingGroup\": \"GamepadXbox\",\n            \"devices\":
-      [\n                {\n                    \"devicePath\": \"<XInputController>\",\n
-      \                   \"isOptional\": false,\n                    \"isOR\": false\n
-      \               }\n            ]\n        }\n    ]\n}"
+      \"Logitech\",\n            \"bindingGroup\": \"Logitech\",\n            \"devices\":
+      [\n                {\n                    \"devicePath\": \"<Gamepad>\",\n                    \"isOptional\":
+      false,\n                    \"isOR\": false\n                }\n            ]\n
+      \       }\n    ]\n}"
     m_IsDirty: 0
   m_Toolbar:
     m_IsDirty: 0
@@ -900,9 +957,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 436
+    y: 435
     width: 992
-    height: 253
+    height: 254
   m_ViewDataDictionary: {fileID: 0}
   m_SearchFilter:
     m_NameFilter: 
@@ -917,11 +974,11 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\$1  YS\3rd Year\Winter\DATT 3701- Collaborative Project Development
     in Games\Project Meltdown\Meltdown
@@ -929,9 +986,9 @@ MonoBehaviour:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: fc340000
-    m_LastClickedID: 13564
-    m_ExpandedIDs: 00000000dc31000000ca9a3b
+    m_SelectedIDs: d6360000
+    m_LastClickedID: 14038
+    m_ExpandedIDs: 00000000e233000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -959,7 +1016,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000dc31000000ca9a3b
+    m_ExpandedIDs: 00000000e233000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1003,7 +1060,7 @@ MonoBehaviour:
       m_IsRenaming: 0
       m_OriginalEventType: 11
       m_IsRenamingFilename: 1
-      m_ClientGUIView: {fileID: 11}
+      m_ClientGUIView: {fileID: 12}
     m_CreateAssetUtility:
       m_EndAction: {fileID: 0}
       m_InstanceID: 0
@@ -1037,9 +1094,9 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 0
-    y: 436
+    y: 435
     width: 992
-    height: 253
+    height: 254
   m_ViewDataDictionary: {fileID: 0}
 --- !u!114 &21
 MonoBehaviour:
@@ -1053,7 +1110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c262c1329a02fa49b5cb4c297106f3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MinSize: {x: 147, y: 29}
+  m_MinSize: {x: 143, y: 29}
   m_MaxSize: {x: 4000, y: 4000}
   m_TitleContent:
     m_Text: ProBuilder

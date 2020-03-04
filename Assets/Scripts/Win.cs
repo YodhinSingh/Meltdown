@@ -10,6 +10,7 @@ public class Win : MonoBehaviour
     public GameObject WinMenuUI;
     private PlayerInstanceGenerator instance;
     public GameObject water;
+    public GameObject[] players = new GameObject[6];
 
     private void Start()
     {
@@ -33,7 +34,8 @@ public class Win : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             WinMenuUI.SetActive(true);
-            WinMenuUI.GetComponentInChildren<Text>().text = "P" + other.gameObject.GetComponent<GoatSlingShot>().playerIndex + " Wins";
+            players[other.gameObject.GetComponent<GoatSlingShot>().playerIndex].SetActive(true);
+
             //other.gameObject.GetComponent<GoatSlingShot>().DisablePlayerControl(true);
             //other.gameObject.GetComponent<GoatSlingShot>().AddGround();
             instance.DisableAllPlayers();

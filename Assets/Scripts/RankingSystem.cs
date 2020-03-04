@@ -47,7 +47,7 @@ public class RankingSystem : MonoBehaviour
 
     public void StartRanking()          // called by PlayerInstanceGenerator Script to let this one know that rankings can start
     {
-        rankingToString = "Ranking \n";
+        rankingToString = "\n";
         InvokeRepeating("rankGoats", 0.5f, 0.5f);           // call this method every half second. Not needed to call every frame
         aliveGoats = Goats.ToArray();                       // get goat objs and put them in alive goats array for ordering
     }
@@ -79,7 +79,7 @@ public class RankingSystem : MonoBehaviour
             }
 
             rankings.text = rankingToString;
-            rankingToString = "Ranking \n";         // reset string for next iteration
+            rankingToString = "\n";         // reset string for next iteration
         }
     }
 

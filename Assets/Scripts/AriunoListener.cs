@@ -6,7 +6,7 @@ using System.IO.Ports;
 
 public class AriunoListener : MonoBehaviour
 {
-    SerialPort sp = new SerialPort("COM3", 9600);
+    SerialPort sp; //= new SerialPort("COM3", 9600);
     public bool isHoldingJump;
     public Vector3 aim;
 
@@ -17,6 +17,8 @@ public class AriunoListener : MonoBehaviour
 
     public float address;
     public float distance;
+    public float angle;
+    public bool isConnected;
 
 
     // Start is called before the first frame update
@@ -25,7 +27,7 @@ public class AriunoListener : MonoBehaviour
         if (sp != null)
         {
             sp.Open();
-            sp.ReadTimeout = 1;
+            sp.ReadTimeout = 25;
         }
         jumpChargeTime = Random.Range(0.1f, 1f);    // these 3 variables are random and are used instead of arduino since no access to it right now
         isHoldingJump = false;
@@ -45,13 +47,16 @@ public class AriunoListener : MonoBehaviour
             {
                 try
                 {
+                    isConnected = true;
                     //store entire line from ardunio script and spilt it to get address and distance. Goat script will access these values and deal with calculations
+                    //print("line of arduino: " + sp.ReadLine());
                     string line = sp.ReadLine();
                     string[] values = line.Split(',');
                     address = float.Parse(values[0]);
                     distance = float.Parse(values[1]);
+                    angle = float.Parse(values[2]);
 
-                    print("Goat address: " + address + " || Goat distance: " + distance);
+                    //print("Goat address: " + address + " || Goat distance: " + distance + " || Angle" + angle);
                     
                     
                 }
@@ -64,6 +69,7 @@ public class AriunoListener : MonoBehaviour
 
         else
         {
+            isConnected = false;
             if (jumpChargeTime > 0)         //Since no acess to arduino stuff, creating fake random numbers to test
             {
                 isHoldingJump = true;   
