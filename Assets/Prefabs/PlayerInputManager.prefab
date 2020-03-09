@@ -49,6 +49,7 @@ MonoBehaviour:
   distance: 0
   angle: 0
   isConnected: 0
+  goats: []
 --- !u!1 &4184205824994952606
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: 6
+  m_MaxPlayerCount: 8
   m_AllowJoining: 1
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
@@ -164,7 +165,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3cbef6e63b14dcf4399a4a38fc0fdc46, type: 2}
   - {fileID: 2100000, guid: c058f98fd7f12e048b87dd427675dbf6, type: 2}
   - {fileID: 2100000, guid: 66e16c2213cecce4a96ef0d41cbc3d3a, type: 2}
+  - {fileID: 2100000, guid: 57e96f5f9e9c6f444a060d7a3ce39841, type: 2}
+  - {fileID: 2100000, guid: db7871c20e44a16449e1c1d456b613af, type: 2}
   planes:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -174,6 +179,24 @@ MonoBehaviour:
   planeMaterials:
   - {fileID: 2100000, guid: 7034bac9045cc614ca8dae39e34f5f9b, type: 2}
   - {fileID: 2100000, guid: 8f24e110231a77d409b055cdc273a9d3, type: 2}
+  goatNameGraphics:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  gotRankings: 0
   TitleScreen: {fileID: 0}
 --- !u!114 &6507847338001142247
 MonoBehaviour:
@@ -189,3 +212,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rankings: {fileID: 0}
   winLocation: {fileID: 0}
+  positionsOfNames:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  rankNames:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}

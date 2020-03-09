@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class PlayerInstanceGenerator : MonoBehaviour
 {
     PlayerInputManager Instance;
-    private readonly int GoatIndexStart = 13;
+    private readonly int GoatIndexStart = 15;
     private readonly int PlatformIndexStart = 7;
     private bool changed;
     public static PlayerInstanceGenerator instanceOBJ;
@@ -20,13 +20,16 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     public bool PlayerWin;
     public List<GameObject> players = new List<GameObject>();
-    public Material[] goatMaterials = new Material[6];
-    public GameObject[] planes = new GameObject[6];
+    public Material[] goatMaterials = new Material[8];
+    public GameObject[] planes = new GameObject[8];
     public Material[] planeMaterials = new Material[2];
+    public GameObject[] goatNameGraphics = new GameObject[16];
+
+    public bool gotRankings;
 
     public Text TitleScreen;
 
-    private readonly float[] xPosOfGoats = {-15, -9, -3, 3, 9 ,15};
+    private readonly float[] xPosOfGoats = {-21, -15, -9, -3, 3, 9 ,15, 21};
 
     private void Awake()
     {
@@ -45,6 +48,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
         
         Instance = GetComponent<PlayerInputManager>();
         changed = false;
+        gotRankings = false;
     }
 
     private void Start()
@@ -80,6 +84,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
             Instance.EnableJoining();
             PlayerWin = false;
             startGame = false;
+            gotRankings = false;
 
             for (int i = 0; i < planes.Length; i++)
             {
@@ -87,6 +92,46 @@ public class PlayerInstanceGenerator : MonoBehaviour
             }
             TitleScreen = GameObject.Find("Timer").GetComponent<Text>();    // find reference to text obj that is the countdown timer
         }
+
+        if (!gotRankings && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            goatNameGraphics[0] = GameObject.Find("RedGoatRanking");
+            goatNameGraphics[1] = GameObject.Find("RedGoatDeadRanking");
+            goatNameGraphics[2] = GameObject.Find("BlueGoatRanking");
+            goatNameGraphics[3] = GameObject.Find("BlueGoatDeadRanking");
+            goatNameGraphics[4] = GameObject.Find("YellowGoatRanking");
+            goatNameGraphics[5] = GameObject.Find("YellowGoatDeadRanking");
+            goatNameGraphics[6] = GameObject.Find("GreenGoatRanking");
+            goatNameGraphics[7] = GameObject.Find("GreenGoatDeadRanking");
+            goatNameGraphics[8] = GameObject.Find("PurpleGoatRanking");
+            goatNameGraphics[9] = GameObject.Find("PurpleGoatDeadRanking");
+            goatNameGraphics[10] = GameObject.Find("OrangeGoatRanking");
+            goatNameGraphics[11] = GameObject.Find("OrangeGoatDeadRanking");
+            goatNameGraphics[12] = GameObject.Find("PinkGoatRanking");
+            goatNameGraphics[13] = GameObject.Find("PinkGoatDeadRanking");
+            goatNameGraphics[14] = GameObject.Find("AquaGoatRanking");
+            goatNameGraphics[15] = GameObject.Find("AquaGoatDeadRanking");
+
+            bool isAnyNull = false;
+            for (int i = 0; i < goatNameGraphics.Length; i++)
+            {
+                if (goatNameGraphics[i] == null)
+                {
+                    isAnyNull = true;
+                }
+                if (i+1 > Instance.playerCount * 2)
+                {
+                    goatNameGraphics[i].GetComponent<RawImage>().enabled = false;
+                }
+                
+            }
+
+            if (!isAnyNull)
+            {
+                gotRankings = true;
+            }
+        }
+        
     }
 
     private void OnPlayerJoined(PlayerInput player)     // this is called whenever a player joins the game via the start button
@@ -99,11 +144,11 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
         player.gameObject.GetComponent<MeshRenderer>().enabled = false;
 
-        float RandXPos = xPosOfGoats[Random.Range(0,6)];
+        float RandXPos = xPosOfGoats[Random.Range(0,8)];
 
         while (checkAvailablePos(RandXPos) == false)        // give each goat random unique starting point
         {
-            RandXPos = xPosOfGoats[Random.Range(0, 6)];
+            RandXPos = xPosOfGoats[Random.Range(0, 8)];
         }
 
         // Initialize goat position and the invisible ground pos to be below goat
@@ -118,7 +163,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
         planes[Instance.playerCount - 1].GetComponent<MeshRenderer>().material = planeMaterials[1];
         planes[Instance.playerCount - 1].GetComponentInChildren<Text>().text = "P" + Instance.playerCount;
 
-        //Set both the goat and it's invisible platform to the right layer (P1 = Layer 14, P2 = Layer 15, etc)
+        //Set both the goat and it's invisible platform to the right layer (P1 = Layer 16, P2 = Layer 17, etc)
         player.gameObject.layer = GoatIndexStart + Instance.playerCount;
         player.gameObject.GetComponentsInChildren<Transform>()[1].gameObject.layer = GoatIndexStart + Instance.playerCount;
         player.gameObject.GetComponentInChildren<GoatSlingShot>().ground.gameObject.layer = PlatformIndexStart + Instance.playerCount;

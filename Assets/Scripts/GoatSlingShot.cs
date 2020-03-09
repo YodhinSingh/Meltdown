@@ -56,11 +56,17 @@ public class GoatSlingShot : MonoBehaviour
     AriunoListener arduinoScript;
     float jumpChargeTime;
 
-    Vector2 MountainEndPoint;
-    Vector2 MountainStartPoint;
+    Vector3 MountainEndPoint;
+    Vector3 MountainStartPoint;
     Vector2 MountainMidPoint;
     Vector3[] MountainPoints = new Vector3[4];
     float fraction;
+
+    public GameObject[] goatNames = new GameObject[2];
+    bool rankingAquired;
+
+    bool thisIsAI = false;
+    bool GiveAIControl = true;
 
 
     // Start is called before the first frame update
@@ -91,10 +97,11 @@ public class GoatSlingShot : MonoBehaviour
         justlanded = false;
         collDone = false;
         arduinoScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<AriunoListener>();
+        rankingAquired = false;
 
         jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);    // these 3 variables are random and are used instead of arduino since no access to it right now
-        MountainStartPoint = new Vector2(transform.localPosition.z, transform.localPosition.y);
-        MountainEndPoint = new Vector2(158.7f, 351.2f);
+        MountainStartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.position.z);
+        MountainEndPoint = new Vector3(-1.7f,392f, 19.27f);
         MountainMidPoint = new Vector2(80, 139);
         MountainPoints[0] = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
 
@@ -107,7 +114,12 @@ public class GoatSlingShot : MonoBehaviour
     {
         CheckSceneRequirements();
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
-        CheckOnMountain();                                              // check if goat is on mountain
+        float distFromMountain = CheckOnMountain();                                  // check if goat is on mountain and return distance from it
+        if (isOnMountain)
+        {
+            Vector3[] HitInfo = GetMountainHitInfo();
+            SetZTransform(distFromMountain, HitInfo);
+        }
 
 
         // This checks if the arduino is returning the distance value (and later aim). For now it is getting random values to test it.
@@ -127,12 +139,11 @@ public class GoatSlingShot : MonoBehaviour
 
         if (!isCreated && isOnMountain) // if the goat is still on the mountain, then create a platform for it to stand on (if no platform already)
             CreateGround();
-        //if (!isCreated)
-            //CreateGround();
+
         if (!isOnMountain)
             DestroyGround();
 
-        //SetZTransform();
+        
 
     }
 
@@ -185,6 +196,7 @@ public class GoatSlingShot : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0 && !AddGoatCam)   //resets attributes of goat controls (in main menu)
         {
             AddGoatCam = true;
+            arduinoScript.addGoat(gameObject);
             PlayerControlActive = false;
         }
 
@@ -194,6 +206,13 @@ public class GoatSlingShot : MonoBehaviour
             AddGoatCam = false;
             PlayerControlActive = true;
             GetComponent<MeshRenderer>().enabled = true;
+            
+        }
+        if (!rankingAquired && instance.gotRankings && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            //instance.goatNameGraphics[playerIndex - 1] = goatNames[0];
+            //instance.goatNameGraphics[playerIndex] = goatNames[1];
+            rankingAquired = true;
         }
     }
 
@@ -210,12 +229,13 @@ public class GoatSlingShot : MonoBehaviour
 
         Ray aim = new Ray(transform.position, target);
         Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
+        RotateBodyWhileAiming(LineRay);
 
-        //print(transform.rotation.y);
         if (transform.rotation == Quaternion.Euler(0, 270f, 0))
         {
             LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z).normalized;      // rotate aim line if goat body rotated so it works right
         }
+
         VisibleAimLine.SetPosition(1, LineRay * -0.02f * (jumpPressure + 3f));
 
         Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
@@ -262,6 +282,20 @@ public class GoatSlingShot : MonoBehaviour
         VisibleAimLine.endColor = new Color(arrowColourR, arrowColourG, 0);             // changes colour of aim line to show power
     }
 
+    void RotateBodyWhileAiming(Vector3 aim)
+    {
+        if (aim.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 270f, 0);
+            //return new Vector3(-aim.x, aim.y, aim.z);
+        }
+        if (aim.x >= 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 90f, 0);
+        }
+        //return new Vector3(aim.x, aim.y, aim.z);
+    }
+
     void RotateBodyInAir()
     {
         justlanded = true;
@@ -275,17 +309,19 @@ public class GoatSlingShot : MonoBehaviour
         }
     }
 
-    void SetZTransform()
+    void SetZTransform(float distance, Vector3[] raycastInfo)
     {
         if (fraction <= 1)
         {
             fraction = transform.position.y / MountainEndPoint.y;
         }
 
-        float curZ = Mathf.Lerp(MountainStartPoint.x, MountainEndPoint.x, fraction);
+        float curZ = Mathf.Lerp(MountainStartPoint.z, MountainEndPoint.z, fraction);
         //float curZ = cubeBezier3(MountainPoints[0].z, MountainPoints[1].z, MountainPoints[2].z, MountainPoints[3].z, fraction);
         //float curZ = quadBezierPoint(MountainStartPoint.x, MountainMidPoint.x, MountainEndPoint.x, fraction);
-        //transform.position = new Vector3(transform.position.x, transform.position.y, curZ);
+        //float curZ = raycastInfo[0].z - 2;
+        //print(playerIndex + " || " + (raycastInfo[0].z - 1.96f));
+        transform.position = new Vector3(transform.position.x, transform.position.y, curZ);
     }
 
     bool CheckJump()
@@ -299,8 +335,9 @@ public class GoatSlingShot : MonoBehaviour
 
         if (SensorConnected)
         {
-            if (address % 10 == playerIndex)
+            if (address % 10 == playerIndex && !thisIsAI)
             {
+                GiveAIControl = false;
                 //print(playerIndex);
                 if (distance > oldDistance && distance - oldDistance >= minDistanceChange)
                 {
@@ -311,19 +348,32 @@ public class GoatSlingShot : MonoBehaviour
                 else if (distance <= oldDistance && oldDistance - distance >= minDistanceChange)
                 {
                     HoldingJump = true;
-
                     //print("not holding");
                 }
                 oldDistance = distance;
+                AimInput = DegreeToVector2(angle);
             }
-            AimInput = DegreeToVector2(angle);
+            /*
+            else if (GiveAIControl)
+            {
+                thisIsAI = true;
+                if (jumpChargeTime > 0)         //AI Control
+                {
+                    HoldingJump = true;
+                }
+                else
+                {
+                    AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
+                    HoldingJump = false;
+                    jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);
+                }
+            }
+            */
             //print(AimInput.x + ", " + AimInput.y);
             //AimInput = new Vector3(0, -1, 0);
         }
         else
         {
-
-
             if (jumpChargeTime > 0)         //Since no acess to arduino stuff, creating fake random numbers to test
             {
                 HoldingJump = true;
@@ -359,11 +409,17 @@ public class GoatSlingShot : MonoBehaviour
             PlayerControlActive = true;
     }
 
-    private void CheckOnMountain()  // gets result of if the goat is on mountain from other script
+    private float CheckOnMountain()  // gets result of if the goat is on mountain from other script
     {
         isOnMountain = GetComponentInChildren<CheckOnMountain>().GetIsOnMountain();
+
+        return GetComponentInChildren<CheckOnMountain>().GetDistanceFromMountain();
     }
 
+    private Vector3[] GetMountainHitInfo()
+    {
+        return GetComponentInChildren<CheckOnMountain>().GetHitInfo();
+    }
 
     private void CreateGround() // create platform below goat if its velocity reaches maximum fall speed and if its on the mountain
     {
@@ -376,12 +432,14 @@ public class GoatSlingShot : MonoBehaviour
 
     private void DestroyGround()
     {
+        ground.SetActive(false);
         ground.transform.position = new Vector3();
         isCreated = false;
     }
 
     public void AddGround() // Add final platform for goat once the player reaches top of mountain
     {
+        ground.SetActive(true);
         ground.transform.position = offset;
         isCreated = true;
     }
@@ -427,10 +485,6 @@ public class GoatSlingShot : MonoBehaviour
         instance.WantToStartGame();
     }
 
-
-
-
-
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Snowball"))     // collisions for everything other than player/snowball
@@ -453,7 +507,8 @@ public class GoatSlingShot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             DestroyGround();
-            Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
+            Vector3 dir = collision.GetContact(0).point - transform.position;
+            //Vector3 dir = new Vector3(0, -1, 0);
             dir = -dir.normalized;
             //Push down the player from snowball
             GetComponent<Rigidbody>().AddForce(dir * 500f);
@@ -505,6 +560,7 @@ public class GoatSlingShot : MonoBehaviour
             //StartCoroutine("DeathAnim");
             DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
             Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+            arduinoScript.RemoveGoat(this.gameObject);
             Destroy(gameObject.transform.root.gameObject);
 
         }
@@ -513,8 +569,9 @@ public class GoatSlingShot : MonoBehaviour
     public void DestroyGoat(bool isDead)       // used for playerInstanceGenerator script when 1 player wins. Destroy all current goats so next round can pick goats
     {
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        arduinoScript.RemoveGoat(this.gameObject);
         instance.GetComponent<RankingSystem>().RemoveGoat(gameObject, isDead);
-        instance.players.Remove(gameObject);
+        //instance.players.Remove(gameObject);
         Destroy(gameObject.transform.root.gameObject, 1f);
     }
 
@@ -524,6 +581,7 @@ public class GoatSlingShot : MonoBehaviour
         //DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
         yield return new WaitForSeconds(1); // Initial delay before removing goat from view
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        arduinoScript.RemoveGoat(this.gameObject);
         //yield return new WaitForSeconds(2); //Use the length of the animation/sound clip as the wait time for yield
         Destroy(gameObject.transform.root.gameObject);
     }

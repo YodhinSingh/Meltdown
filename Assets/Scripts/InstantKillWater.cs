@@ -14,6 +14,7 @@ public class InstantKillWater : MonoBehaviour
     private PlayerInstanceGenerator instance;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,4 +54,5 @@ public class InstantKillWater : MonoBehaviour
     {
         allowRise = true;
     }
+
 }

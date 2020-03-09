@@ -13,19 +13,7 @@ public class AudioManager : MonoBehaviour
 
 
     void Awake()
-    {   /*
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-        
-        DontDestroyOnLoad(gameObject);
-        */
+    {
         audioTheme = GetComponent<AudioSource>();
         audioTheme.clip = theme;
         audioTheme.volume = 0.2f;
@@ -37,7 +25,8 @@ public class AudioManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        StartCoroutine("WaitForMusicDone");
+        checkScene();
     }
     private void Update()
     {
@@ -45,26 +34,28 @@ public class AudioManager : MonoBehaviour
         if ((WinMenuUI != null && WinMenuUI.activeInHierarchy) || (LoseMenuUI != null && LoseMenuUI.activeInHierarchy))
             checkScene();
         */
-        checkScene();
-        if (!audioTheme.isPlaying)
-        {
-            audioTheme.clip = themeLoop;
-            audioTheme.Play();
-            audioTheme.loop = true;
-        }
+        
     }
 
     public void checkScene()
     {
         if (SceneManager.GetActiveScene().buildIndex == 0)      //Menu
         {
-            audioTheme.loop = true;
+            //audioTheme.loop = true;
             audioTheme.volume = 0.25f;
         }
         if (SceneManager.GetActiveScene().buildIndex == 1)      //Game
         {
-            audioTheme.loop = true;
+            //audioTheme.loop = true;
             audioTheme.volume = 1f;
         }
+    }
+
+    private IEnumerator WaitForMusicDone()
+    {
+        yield return new WaitForSeconds(theme.length);
+        audioTheme.clip = themeLoop;
+        audioTheme.loop = true;
+        audioTheme.Play();
     }
 }

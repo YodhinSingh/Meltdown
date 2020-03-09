@@ -6,7 +6,7 @@ using System.IO.Ports;
 
 public class AriunoListener : MonoBehaviour
 {
-    SerialPort sp; //= new SerialPort("COM3", 9600);
+    SerialPort sp;// = new SerialPort("COM3", 9600);
     public bool isHoldingJump;
     public Vector3 aim;
 
@@ -20,11 +20,13 @@ public class AriunoListener : MonoBehaviour
     public float angle;
     public bool isConnected;
 
+    public List<GameObject> goats = new List<GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
     {
-        if (sp != null)
+        if (sp != null && !sp.IsOpen)
         {
             sp.Open();
             sp.ReadTimeout = 25;
@@ -57,8 +59,8 @@ public class AriunoListener : MonoBehaviour
                     angle = float.Parse(values[2]);
 
                     //print("Goat address: " + address + " || Goat distance: " + distance + " || Angle" + angle);
-                    
-                    
+
+
                 }
                 catch (System.Exception)
                 {
@@ -81,5 +83,14 @@ public class AriunoListener : MonoBehaviour
                 jumpChargeTime = Random.Range(0.1f, 1f);
             }
         }
+    }
+
+    public void addGoat(GameObject goat)
+    {
+        goats.Add(goat);
+    }
+    public void RemoveGoat(GameObject goat)
+    {
+        goats.Remove(goat);
     }
 }

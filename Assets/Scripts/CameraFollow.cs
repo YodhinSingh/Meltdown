@@ -15,10 +15,13 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 velocity;
     private Camera cam;
+    private RankingSystem rank;
+    Vector3 TopGoatPos;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
+        rank = GameObject.Find("PlayerInputManager").GetComponent<RankingSystem>();
     }
 
 
@@ -44,7 +47,7 @@ public class CameraFollow : MonoBehaviour
         //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
         
         //Static Camera (no zoom in or out)
-        float newZoom = 100f;
+        float newZoom = 60;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
 
         // Code to make camera zoom in and out phyiscally
@@ -58,6 +61,7 @@ public class CameraFollow : MonoBehaviour
         Vector3 centerPoint = GetCenterPoint(bounds);
 
         Vector3 newPos = new Vector3(0, centerPoint.y + 5f, 0) + offset;
+        //Vector3 newPos = centerPoint + offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
     }
@@ -91,6 +95,11 @@ public class CameraFollow : MonoBehaviour
     public void RemoveGoat(GameObject goat)
     {
         goats.Remove(goat.transform);
+    }
+
+    void GetTopGoatPos()
+    {
+        TopGoatPos = rank.TopGoatPosition();
     }
 
    
