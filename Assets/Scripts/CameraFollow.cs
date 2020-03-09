@@ -15,10 +15,13 @@ public class CameraFollow : MonoBehaviour
 
     private Vector3 velocity;
     private Camera cam;
+    private RankingSystem rank;
+    Vector3 TopGoatPos;
 
     private void Start()
     {
         cam = GetComponent<Camera>();
+        rank = GameObject.Find("PlayerInputManager").GetComponent<RankingSystem>();
     }
 
 
@@ -39,8 +42,17 @@ public class CameraFollow : MonoBehaviour
     {
         float maxDistance = Mathf.Max(bounds.size.x, bounds.size.y);
 
-        float newZoom = Mathf.Lerp(maxZoom, minZoom, maxDistance / zoomLimit);
+        //Code to make camera zoom in and out with FOV
+        //float newZoom = Mathf.Lerp(maxZoom, minZoom, maxDistance / zoomLimit);
+        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
+        
+        //Static Camera (no zoom in or out)
+        float newZoom = 60;
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
+
+        // Code to make camera zoom in and out phyiscally
+        //float newZoom = Mathf.Lerp(50, -20, maxDistance / (zoomLimit/2));
+        //cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, Mathf.Lerp(cam.transform.position.z, newZoom, Time.deltaTime));
 
     }
 
@@ -48,7 +60,8 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 centerPoint = GetCenterPoint(bounds);
 
-        Vector3 newPos = centerPoint + offset;
+        Vector3 newPos = new Vector3(0, centerPoint.y + 5f, 0) + offset;
+        //Vector3 newPos = centerPoint + offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);
     }
@@ -65,7 +78,6 @@ public class CameraFollow : MonoBehaviour
 
     private Bounds GetBoundsGoats()
     {
-
         var bounds = (goats[0] == null) ? new Bounds() : new Bounds(goats[0].position, Vector3.zero);
         for (int i = 0; i < goats.Count; i++)
         {
@@ -83,6 +95,11 @@ public class CameraFollow : MonoBehaviour
     public void RemoveGoat(GameObject goat)
     {
         goats.Remove(goat.transform);
+    }
+
+    void GetTopGoatPos()
+    {
+        TopGoatPos = rank.TopGoatPosition();
     }
 
    

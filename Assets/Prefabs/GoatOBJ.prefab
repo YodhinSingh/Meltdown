@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 1542645685017391771}
   - component: {fileID: 8223091163764861331}
   - component: {fileID: 2703670800488494460}
-  m_Layer: 14
+  m_Layer: 16
   m_Name: Goat1
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -271,8 +271,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 256a4e7e0a3c88b4890975e0ffdf0eff, type: 3}
   DeathSoundPlayer: {fileID: 7171968036282182693, guid: fc9251bd92aa9704290995fa759b3c43,
     type: 3}
-  oldDistance: 0
-  arduino: {fileID: 2310925366970472270, guid: 329bb998d9861724da537f29b01aef6b, type: 3}
+  arduino: {fileID: 0}
+  goatNames:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &8223091163764861331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,7 +421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5608070191936384846}
   - component: {fileID: 911641246466095986}
-  m_Layer: 14
+  m_Layer: 16
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -555,7 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8169283487287446336}
   - component: {fileID: 8623627028320113995}
-  m_Layer: 14
+  m_Layer: 16
   m_Name: mountainTriggerCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}

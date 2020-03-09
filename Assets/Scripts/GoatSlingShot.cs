@@ -10,6 +10,8 @@ public class GoatSlingShot : MonoBehaviour
 {
     private bool HoldingJump;
     private Vector3 AimInput;
+    private bool HoldingJumpController;
+    private Vector3 AimInputController;
 
     private bool onGround;
     private float jumpPressure;
@@ -39,9 +41,9 @@ public class GoatSlingShot : MonoBehaviour
 
     public int playerIndex;
 
-    [SerializeField] private AudioClip[] DeathSounds;    // an array of death sounds that will be randomly selected from.
-    [SerializeField] private AudioClip[] JumpSounds;           // an array of jump sounds that will be randomly selected from.
-    [SerializeField] private AudioClip[] LandSounds;           // an array of landing sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] DeathSounds = new AudioClip[5];    // an array of death sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] JumpSounds = new AudioClip[4];           // an array of jump sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] LandSounds = new AudioClip[2];           // an array of landing sounds that will be randomly selected from.
     private AudioSource m_AudioSource;
 
     public GameObject DeathSoundPlayer;
@@ -49,9 +51,22 @@ public class GoatSlingShot : MonoBehaviour
     private bool justlanded;
     bool collDone;
 
-    public float oldDistance = 0;
+    float oldDistance = 0;
     public GameObject arduino;
     AriunoListener arduinoScript;
+    float jumpChargeTime;
+
+    Vector3 MountainEndPoint;
+    Vector3 MountainStartPoint;
+    Vector2 MountainMidPoint;
+    Vector3[] MountainPoints = new Vector3[4];
+    float fraction;
+
+    public GameObject[] goatNames = new GameObject[2];
+    bool rankingAquired;
+
+    bool thisIsAI = false;
+    bool GiveAIControl = true;
 
 
     // Start is called before the first frame update
@@ -59,6 +74,10 @@ public class GoatSlingShot : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject.transform.root.gameObject);
 
+        MountainPoints[0] = new Vector3(0, -2.35f, 0);
+        MountainPoints[1] = new Vector3(0, -76.8f, -48f);
+        MountainPoints[2] = new Vector3(0, 214, 115.8f);
+        MountainPoints[3] = new Vector3(0, -351.2f, 158.7f);
         instance = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerInstanceGenerator>();
         onGround = false;
         jumpPressure = 0f;
@@ -78,130 +97,66 @@ public class GoatSlingShot : MonoBehaviour
         justlanded = false;
         collDone = false;
         arduinoScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<AriunoListener>();
+        rankingAquired = false;
+
+        jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);    // these 3 variables are random and are used instead of arduino since no access to it right now
+        MountainStartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.position.z);
+        MountainEndPoint = new Vector3(-1.7f,392f, 19.27f);
+        MountainMidPoint = new Vector2(80, 139);
+        MountainPoints[0] = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+
 
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0 && !AddGoatCam)   //resets attributes of goat controls (in main menu)
-        {
-            AddGoatCam = true;
-            PlayerControlActive = false;
-        }
-
-        if (SceneManager.GetActiveScene().buildIndex == 1 && AddGoatCam)    // adds goat to camera script (in main game)
-        {
-            AddGoatToCam();
-            AddGoatCam = false;
-            PlayerControlActive = true;
-        }
+        CheckSceneRequirements();
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
-        CheckOnMountain();                                              // check if goat is on mountain
-
+        float distFromMountain = CheckOnMountain();                                  // check if goat is on mountain and return distance from it
+        if (isOnMountain)
+        {
+            Vector3[] HitInfo = GetMountainHitInfo();
+            SetZTransform(distFromMountain, HitInfo);
+        }
 
 
         // This checks if the arduino is returning the distance value (and later aim). For now it is getting random values to test it.
-        //HoldingJump = GetComponent<AriunoListener>().isHoldingJump;
-        //AimInput = GetComponent<AriunoListener>().aim;
-        CheckJump();
-        AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
-
-
+        bool use = CheckJump();
 
         if (onGround && PlayerControlActive)
         {
-            if (justlanded)
-                PlayAudio(2);
-
-            justlanded = false;
-            Vector3 target = new Vector3(AimInput.x, AimInput.y, 0) * -50 * Time.deltaTime;         // where the player is aiming at
-
-            aimPoint = target;
-
-            Ray aim = new Ray(transform.position, target);
-            Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
-
-            //print(transform.rotation.y);
-            if (transform.rotation == Quaternion.Euler(0, 270f, 0))
-            {
-                LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z).normalized;      // rotate aim line if goat body rotated so it works right
-            }
-            VisibleAimLine.SetPosition(1, LineRay * -0.02f * (jumpPressure + 3f));
-
-            Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
-
-            // Holding the jump charge
-            if (HoldingJump)
-            {
-                
-                if (jumpPressure < maxJumpPressure)                 // increase jump amount
-                {
-                    jumpPressure += Time.deltaTime * 20f;
-
-                }
-                else
-                {
-                    jumpPressure = maxJumpPressure;
-                }
-                arrowColourR -= Time.deltaTime * 3f;                    //change colour of slingshot aim line
-                arrowColourG += Time.deltaTime * 3f;
-            }
-
-            // Not holding the jump charge anymore
+            if (!use && false)
+                ChargeJump(HoldingJumpController, AimInputController);
             else
-            {
-                if (jumpPressure > 0f)
-                {
-                    jumpPressure += minJumpValue;
-                    arrowColourR -= 0.01f;
-                    arrowColourG += 0.01f;
-                    PlayAudio(1);
-                }
-
-                // Apply jump force to rigidbody and reset jump value
-                Vector3 jumpDir = new Vector3(aim.direction.x/1.5f, aim.direction.y, aim.direction.z);
-                rb.AddForce(jumpDir * jumpPressure * jumpPower);
-                
-                arrowColourR = 1f;
-                arrowColourG = 0f;
-                jumpPressure = 0f;
-                isCreated = false;
-                
-
-            }
-
+                ChargeJump(HoldingJump, AimInput);
         }
         if (!onGround && PlayerControlActive)
         {
-            justlanded = true;
-            if (rb.velocity.x < 0)                                         // rotates goat body if in the air based on velocity
-            {
-                transform.rotation = Quaternion.Euler(0, 270f, 0);
-            }
-            if (rb.velocity.x > 0)
-            {
-                transform.rotation = Quaternion.Euler(0, 90f, 0);
-            }
+            RotateBodyInAir();
         }
 
         if (!isCreated && isOnMountain) // if the goat is still on the mountain, then create a platform for it to stand on (if no platform already)
             CreateGround();
+
         if (!isOnMountain)
             DestroyGround();
-        VisibleAimLine.endColor = new Color(arrowColourR, arrowColourG, 0);             // changes colour of aim line to show power
+
+        
+
     }
 
 
-    /*  // This is for using the controllers input
+      // This is for using the controllers input
     private void OnJump()               // onJump and releaseJump are for get jump power based on holding the 'A' or 'X' button
     {
-        HoldingJump = true;
+        HoldingJumpController = true;
     }
 
     private void OnReleaseJump()
     {
-        HoldingJump = false;
+        HoldingJumpController = false;
     }
 
     private void OnAim(InputValue value)                    // get aim input from Unity's new input system
@@ -213,34 +168,233 @@ public class GoatSlingShot : MonoBehaviour
             Vector2 temp = value.Get<Vector2>();
             temp = new Vector2(temp.x ,Mathf.Clamp(temp.y,-1.1f,0f));   // make sure imput stays in range
 
-            AimInput = temp;
+            AimInputController = temp;
         }
         //HoldingJump = (value.Get<Vector2>() == new Vector2()) ? false : true;         // this gets jump power if analog stick is let go of
     }
-    */
 
-    void CheckJump()
+
+    public float quadBezierPoint(float p0, float p1, float p2, float t)
     {
-        float address = arduinoScript.address;
-        float distance = arduinoScript.distance;
-        float minDistanceChange = 15f;
-        if (address % 10 == playerIndex)
-        {
-            //print(playerIndex);
-            if (distance > oldDistance && distance - oldDistance >= minDistanceChange)
-            {
-                HoldingJump = true;   //Set the value to true or false. The goatslingshot script is already accessing this value there.
-                //print("isholding");
-            }
-            else if (distance <= oldDistance && oldDistance - distance >= minDistanceChange)
-            {
-                HoldingJump = false;
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        return (uu * p0) + (2 * u * t * p1) + (tt * p2);
+    }
+    public float cubeBezier3(float p0, float p1, float p2, float p3, float t)
+    {
+        float r = 1f - t;
+        float f0 = r * r * r;
+        float f1 = r * r * t * 3;
+        float f2 = r * t * t * 3;
+        float f3 = t * t * t;
+        return f0 * p0 + f1 * p1 + f2 * p2 + f3 * p3;
+    }
 
-                //print("not holding");
-            }
-            oldDistance = distance;
+    void CheckSceneRequirements()
+    {
+        if (SceneManager.GetActiveScene().buildIndex == 0 && !AddGoatCam)   //resets attributes of goat controls (in main menu)
+        {
+            AddGoatCam = true;
+            arduinoScript.addGoat(gameObject);
+            PlayerControlActive = false;
+        }
+
+        if (SceneManager.GetActiveScene().buildIndex == 1 && AddGoatCam)    // adds goat to camera script (in main game)
+        {
+            AddGoatToCam();
+            AddGoatCam = false;
+            PlayerControlActive = true;
+            GetComponent<MeshRenderer>().enabled = true;
+            
+        }
+        if (!rankingAquired && instance.gotRankings && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            //instance.goatNameGraphics[playerIndex - 1] = goatNames[0];
+            //instance.goatNameGraphics[playerIndex] = goatNames[1];
+            rankingAquired = true;
         }
     }
+
+
+    void ChargeJump(bool HoldingJumpVer, Vector3 AimInputVer)
+    {
+        if (justlanded)
+            PlayAudio(2);
+
+        justlanded = false;
+        Vector3 target = new Vector3(AimInputVer.x, AimInputVer.y, 0) * -50 * Time.deltaTime;         // where the player is aiming at
+
+        aimPoint = target;
+
+        Ray aim = new Ray(transform.position, target);
+        Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
+        RotateBodyWhileAiming(LineRay);
+
+        if (transform.rotation == Quaternion.Euler(0, 270f, 0))
+        {
+            LineRay = new Vector3(-aim.direction.x, aim.direction.y, aim.direction.z).normalized;      // rotate aim line if goat body rotated so it works right
+        }
+
+        VisibleAimLine.SetPosition(1, LineRay * -0.02f * (jumpPressure + 3f));
+
+        Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
+
+        // Holding the jump charge
+        if (HoldingJumpVer)
+        {
+
+            if (jumpPressure < maxJumpPressure)                 // increase jump amount
+            {
+                jumpPressure += Time.deltaTime * 20f;
+
+            }
+            else
+            {
+                jumpPressure = maxJumpPressure;
+            }
+            arrowColourR -= Time.deltaTime * 3f;                    //change colour of slingshot aim line
+            arrowColourG += Time.deltaTime * 3f;
+        }
+
+        // Not holding the jump charge anymore
+        else
+        {
+            if (jumpPressure > 0f)
+            {
+                jumpPressure += minJumpValue;
+                arrowColourR -= 0.01f;
+                arrowColourG += 0.01f;
+                PlayAudio(1);
+            }
+
+            // Apply jump force to rigidbody and reset jump value
+            Vector3 jumpDir = new Vector3(aim.direction.x / 1.5f, aim.direction.y, aim.direction.z);
+            rb.AddForce(jumpDir * jumpPressure * jumpPower);
+
+            arrowColourR = 1f;
+            arrowColourG = 0f;
+            jumpPressure = 0f;
+            isCreated = false;
+
+
+        }
+        VisibleAimLine.endColor = new Color(arrowColourR, arrowColourG, 0);             // changes colour of aim line to show power
+    }
+
+    void RotateBodyWhileAiming(Vector3 aim)
+    {
+        if (aim.x < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 270f, 0);
+            //return new Vector3(-aim.x, aim.y, aim.z);
+        }
+        if (aim.x >= 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 90f, 0);
+        }
+        //return new Vector3(aim.x, aim.y, aim.z);
+    }
+
+    void RotateBodyInAir()
+    {
+        justlanded = true;
+        if (rb.velocity.x < 0)                                         // rotates goat body if in the air based on velocity
+        {
+            transform.rotation = Quaternion.Euler(0, 270f, 0);
+        }
+        if (rb.velocity.x > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 90f, 0);
+        }
+    }
+
+    void SetZTransform(float distance, Vector3[] raycastInfo)
+    {
+        if (fraction <= 1)
+        {
+            fraction = transform.position.y / MountainEndPoint.y;
+        }
+
+        float curZ = Mathf.Lerp(MountainStartPoint.z, MountainEndPoint.z, fraction);
+        //float curZ = cubeBezier3(MountainPoints[0].z, MountainPoints[1].z, MountainPoints[2].z, MountainPoints[3].z, fraction);
+        //float curZ = quadBezierPoint(MountainStartPoint.x, MountainMidPoint.x, MountainEndPoint.x, fraction);
+        //float curZ = raycastInfo[0].z - 2;
+        //print(playerIndex + " || " + (raycastInfo[0].z - 1.96f));
+        transform.position = new Vector3(transform.position.x, transform.position.y, curZ);
+    }
+
+    bool CheckJump()
+    {
+        jumpChargeTime -= Time.deltaTime;
+        float address = arduinoScript.address;
+        float distance = arduinoScript.distance;
+        float angle = arduinoScript.angle;
+        float minDistanceChange = 15f;
+        bool SensorConnected = arduinoScript.isConnected;
+
+        if (SensorConnected)
+        {
+            if (address % 10 == playerIndex && !thisIsAI)
+            {
+                GiveAIControl = false;
+                //print(playerIndex);
+                if (distance > oldDistance && distance - oldDistance >= minDistanceChange)
+                {
+                    HoldingJump = false;
+                    //print("isholding");
+                    
+                }
+                else if (distance <= oldDistance && oldDistance - distance >= minDistanceChange)
+                {
+                    HoldingJump = true;
+                    //print("not holding");
+                }
+                oldDistance = distance;
+                AimInput = DegreeToVector2(angle);
+            }
+            /*
+            else if (GiveAIControl)
+            {
+                thisIsAI = true;
+                if (jumpChargeTime > 0)         //AI Control
+                {
+                    HoldingJump = true;
+                }
+                else
+                {
+                    AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
+                    HoldingJump = false;
+                    jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);
+                }
+            }
+            */
+            //print(AimInput.x + ", " + AimInput.y);
+            //AimInput = new Vector3(0, -1, 0);
+        }
+        else
+        {
+            if (jumpChargeTime > 0)         //Since no acess to arduino stuff, creating fake random numbers to test
+            {
+                HoldingJump = true;
+            }
+            else
+            {
+                AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
+                //AimInput = new Vector3(0, -1, 0);
+                HoldingJump = false;
+                jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);
+            }
+        }
+        return SensorConnected;
+    }
+
+    public static Vector2 DegreeToVector2(float degree)
+    {
+        float radian = degree * Mathf.Deg2Rad;
+        return new Vector2(Mathf.Cos(radian), -Mathf.Sin(radian)).normalized;
+    }
+
 
     public Vector3 GetAimPoint()
     {
@@ -255,11 +409,17 @@ public class GoatSlingShot : MonoBehaviour
             PlayerControlActive = true;
     }
 
-    private void CheckOnMountain()  // gets result of if the goat is on mountain from other script
+    private float CheckOnMountain()  // gets result of if the goat is on mountain from other script
     {
         isOnMountain = GetComponentInChildren<CheckOnMountain>().GetIsOnMountain();
+
+        return GetComponentInChildren<CheckOnMountain>().GetDistanceFromMountain();
     }
 
+    private Vector3[] GetMountainHitInfo()
+    {
+        return GetComponentInChildren<CheckOnMountain>().GetHitInfo();
+    }
 
     private void CreateGround() // create platform below goat if its velocity reaches maximum fall speed and if its on the mountain
     {
@@ -272,12 +432,14 @@ public class GoatSlingShot : MonoBehaviour
 
     private void DestroyGround()
     {
+        ground.SetActive(false);
         ground.transform.position = new Vector3();
         isCreated = false;
     }
 
     public void AddGround() // Add final platform for goat once the player reaches top of mountain
     {
+        ground.SetActive(true);
         ground.transform.position = offset;
         isCreated = true;
     }
@@ -323,10 +485,6 @@ public class GoatSlingShot : MonoBehaviour
         instance.WantToStartGame();
     }
 
-
-
-
-
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Player") && !collision.gameObject.CompareTag("Snowball"))     // collisions for everything other than player/snowball
@@ -349,7 +507,8 @@ public class GoatSlingShot : MonoBehaviour
         {
             Destroy(collision.gameObject);
             DestroyGround();
-            Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
+            Vector3 dir = collision.GetContact(0).point - transform.position;
+            //Vector3 dir = new Vector3(0, -1, 0);
             dir = -dir.normalized;
             //Push down the player from snowball
             GetComponent<Rigidbody>().AddForce(dir * 500f);
@@ -401,6 +560,7 @@ public class GoatSlingShot : MonoBehaviour
             //StartCoroutine("DeathAnim");
             DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
             Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+            arduinoScript.RemoveGoat(this.gameObject);
             Destroy(gameObject.transform.root.gameObject);
 
         }
@@ -409,8 +569,9 @@ public class GoatSlingShot : MonoBehaviour
     public void DestroyGoat(bool isDead)       // used for playerInstanceGenerator script when 1 player wins. Destroy all current goats so next round can pick goats
     {
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
-        instance.players.Remove(gameObject);
+        arduinoScript.RemoveGoat(this.gameObject);
         instance.GetComponent<RankingSystem>().RemoveGoat(gameObject, isDead);
+        //instance.players.Remove(gameObject);
         Destroy(gameObject.transform.root.gameObject, 1f);
     }
 
@@ -420,6 +581,7 @@ public class GoatSlingShot : MonoBehaviour
         //DeathSoundPlayer.GetComponent<PlayDeathSound>().PlayAudioDeath();
         yield return new WaitForSeconds(1); // Initial delay before removing goat from view
         Camera.main.GetComponent<CameraFollow>().RemoveGoat(this.gameObject);
+        arduinoScript.RemoveGoat(this.gameObject);
         //yield return new WaitForSeconds(2); //Use the length of the animation/sound clip as the wait time for yield
         Destroy(gameObject.transform.root.gameObject);
     }

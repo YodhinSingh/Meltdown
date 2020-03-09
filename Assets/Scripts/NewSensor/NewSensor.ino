@@ -12,9 +12,12 @@ The range readings are in units of mm. */
 
 #define Sensor2_newAddress 42
 
-const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
+const int analogInPin1 = A0;  // Analog input pin that the potentiometer is attached to
+const int analogInPin2 = A1;  // Analog input pin that the potentiometer is attached to
 
 int pot1Value = 0;        // value read from the pot
+int pot2Value = 0;        // value read from the pot
+
 
 
 VL53L0X sensor1;
@@ -30,7 +33,7 @@ void setup()
 
   sensor2.setAddress(Sensor2_newAddress);
   pinMode(XSHUT_pin1,INPUT);
-  delay(10);
+  //delay(10);
 
   sensor1.init();
   sensor2.init();
@@ -67,25 +70,47 @@ void loop()
   //Serial.println();
   //Serial.write(sensor1.getAddress());
   checkDistanceDiff(sensor1);
+  
+  //POTENTIOMETER CODE 
+  // read the analog in value:
+  pot1Value = analogRead(analogInPin1);
+  // map it to the range of the analog out:
+  int outputValue1 = map(pot1Value, 0, 1023, 0, 180);
+  // change the analog out value:
+
+  // print the results to the Serial Monitor:
+  //Serial.print(" , 1");
+  Serial.print(" , ");
+  Serial.print(outputValue1);
+  Serial.println();
+
+  // wait 2 milliseconds before the next loop for the analog-to-digital
+  // converter to settle after the last reading:
+  //delay(2);
   //Serial.flush();
   //delay(20);  
   //Serial.write(sensor2.getAddress());
   checkDistanceDiff(sensor2);
 
-//POTENTIOMETER CODE 
+  //POTENTIOMETER CODE for number 2
   // read the analog in value:
-  pot1Value = analogRead(analogInPin);
+  pot2Value = analogRead(analogInPin2);
   // map it to the range of the analog out:
-  int outputValue = map(pot1Value, 0, 1023, 0, 180);
+  int outputValue2 = map(pot2Value, 0, 1023, 0, 180);
   // change the analog out value:
 
   // print the results to the Serial Monitor:
-  Serial.print("Pot1Value , ");
-  Serial.println(outputValue);
+  //Serial.print(" , 2");
+  Serial.print(" , ");
+  Serial.print(outputValue2);
+  Serial.println();
 
   // wait 2 milliseconds before the next loop for the analog-to-digital
   // converter to settle after the last reading:
-  delay(2);
+  //delay(2);
+  
+  Serial.flush();
+  delay(20);
   
 
 }
@@ -98,13 +123,12 @@ void checkDistanceDiff(VL53L0X sensor)
   int diff= currentDist - previousDist;
   previousDist = currentDist;
   int address = sensor.getAddress();
-  Serial.println();
+  //Serial.println();
   Serial.print(address);
   Serial.print(" , ");
   Serial.print(diff);
 
-  Serial.flush();
-  delay(20);
+
   
 
   //return sensor.getAddress();

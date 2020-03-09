@@ -12,36 +12,51 @@ public class PlatformGeneration : MonoBehaviour
     private float platformPositionX;
     private float platformPositionY;
     [SerializeField] private float numPlatforms = 30;
-    
+    Vector3 MountainTop = new Vector3(-1.7f, 392f, 19.27f); //old top was 237.3f
+
 
     void Start()
     {
-        platformPositionY = -2;
+        platformPositionY = 2;
         HeightDifferencePlatforms = 6f;
-        PlatformWidthMin = 3f;
-        PlatformWidthMax = 6f;
-
-        for (int i = 0; i < numPlatforms; i++)  // Generates platforms 20 times
+        PlatformWidthMin = 3f;  // old was 3 and 6
+        PlatformWidthMax = 6f; // new was 10 and 15
+        for (int i = 0; i < numPlatforms; i++)
         {
-            if (i % 3 == 0)
-            {
-                platformPositionX = Random.Range(-(boundaries.transform.localScale.x - 5f / 2), 0f); // Using boundary cube to get desired X position for even numbered loops
-            }
-
-            else if (i % 2 == 0)
-            {
-                platformPositionX = Random.Range(0f, (boundaries.transform.localScale.x - 5f / 2)); // Using boundary cube to get desired X position for odd numbered loops
-            }
-
-            else if (i % 2 != 0)
-            {
-                platformPositionX = Random.Range(0f, (boundaries.transform.localScale.x)); // Using boundary cube to get desired X position for odd numbered loops
-            }
-
-            platformPositionY = platformPositionY + HeightDifferencePlatforms; // Determines distance between platforms
-            platform.transform.localScale = new Vector3(Random.Range(PlatformWidthMin, PlatformWidthMax), 1f, 1f); // Changes the width of the platform randomly (Default between 5 and 8)
-
-            Instantiate(platform, new Vector3(platformPositionX / 4, platformPositionY, 0), Quaternion.identity); // Instantiates new platform using a gameobject, position and rotation
+            GeneratePlatform(i);
         }
+    }
+
+
+
+    void GeneratePlatform(int i)
+    {
+        if (i % 3 == 0)
+        {
+            platformPositionX = Random.Range(-(boundaries.transform.localScale.x - 5f / 2), 0f); // Using boundary cube to get desired X position for even numbered loops
+        }
+
+        else if (i % 2 == 0)
+        {
+            platformPositionX = Random.Range(0f, (boundaries.transform.localScale.x - 5f / 2)); // Using boundary cube to get desired X position for odd numbered loops
+        }
+
+        else if (i % 2 != 0)
+        {
+            platformPositionX = Random.Range(0f, (boundaries.transform.localScale.x)); // Using boundary cube to get desired X position for odd numbered loops
+        }
+
+        platformPositionY = platformPositionY + HeightDifferencePlatforms; // Determines distance between platforms
+        platform.transform.localScale = new Vector3(Random.Range(PlatformWidthMin, PlatformWidthMax), 1f, 3f); // Changes the width of the platform randomly (Default between 5 and 8)
+
+        float fraction = 0;
+        if (fraction <= 1)
+        {
+            fraction = platformPositionY / MountainTop.y;
+        }
+        float curZ = Mathf.Lerp(0, MountainTop.z, fraction);
+        //float curZ = 0;
+
+        Instantiate(platform, new Vector3(platformPositionX / 4, platformPositionY, curZ), Quaternion.identity); // Instantiates new platform using a gameobject, position and rotation
     }
 }

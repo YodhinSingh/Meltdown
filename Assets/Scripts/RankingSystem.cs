@@ -10,18 +10,39 @@ public class RankingSystem : MonoBehaviour
 {
     List<GameObject> Goats = new List<GameObject>();        // stores list of all active goats (size changes so List better than array)
     GameObject[] aliveGoats;                            // array of alive goats that will be ordered to give ranking
-    string[] deadGoats = new string[6];             // array of the goats' names that are dead (first in the list will be last in ranking, etc)
+    string[] deadGoats = new string[8];             // array of the goats' names that are dead (first in the list will be last in ranking, etc)
     int deadGoatIndex;
 
-    public Text rankings;                           // UI Text that info will be displayed on
     public GameObject winLocation;                  // top of mountain
-    string rankingToString;                         // all the info will be put into this string before transferring onto the UI Text
 
     bool gotItems;                                  // gets all the references to winLocation, etc when new game starts (since old objs were destroyed)
+
+    float[] positionsOfNames = new float[8];
+    Vector2 screenDimensions;
+    GameObject[] rankNames = new GameObject[16];
+    private Vector3 topGoatPos = new Vector3();
 
     // Start is called before the first frame update
     void Start()
     {
+        screenDimensions = new Vector2(Screen.width, Screen.height);
+        /*
+        positionsOfNames[0] = 1040;
+        positionsOfNames[1] = 1000;
+        positionsOfNames[2] = 960;
+        positionsOfNames[3] = 920;
+        positionsOfNames[4] = 880;
+        positionsOfNames[5] = 840;
+        */
+
+        positionsOfNames[0] = screenDimensions.y - 50;
+        positionsOfNames[1] = screenDimensions.y -90;
+        positionsOfNames[2] = screenDimensions.y -130;
+        positionsOfNames[3] = screenDimensions.y -170;
+        positionsOfNames[4] = screenDimensions.y -210;
+        positionsOfNames[5] = screenDimensions.y -250;
+        positionsOfNames[6] = screenDimensions.y - 290;
+        positionsOfNames[7] = screenDimensions.y - 330;
         gotItems = false;
         deadGoatIndex = 0;
     }
@@ -32,22 +53,24 @@ public class RankingSystem : MonoBehaviour
         if (!gotItems && SceneManager.GetActiveScene().buildIndex == 1)     // game scene, it finds all needed references  
         {
             winLocation = GameObject.Find("WinLocation");
-            rankings = GameObject.Find("Rankings").GetComponent<Text>();
             gotItems = true;
             deadGoatIndex = 0;
-            deadGoats = new string[6];
+            deadGoats = new string[8];
+            rankNames = GetComponentInParent<PlayerInstanceGenerator>().goatNameGraphics;
         }
 
         if (gotItems && SceneManager.GetActiveScene().buildIndex == 0)      // menu scene, it resets values so code works in game scene
         {
             gotItems = false;
             deadGoatIndex = 0;
+            rankNames = GetComponentInParent<PlayerInstanceGenerator>().goatNameGraphics;
         }
+
+        
     }
 
     public void StartRanking()          // called by PlayerInstanceGenerator Script to let this one know that rankings can start
     {
-        rankingToString = "Ranking \n";
         InvokeRepeating("rankGoats", 0.5f, 0.5f);           // call this method every half second. Not needed to call every frame
         aliveGoats = Goats.ToArray();                       // get goat objs and put them in alive goats array for ordering
     }
@@ -55,31 +78,41 @@ public class RankingSystem : MonoBehaviour
 
     void rankGoats()
     {
-        if (rankings != null)
+        if (SceneManager.GetActiveScene().buildIndex == 1 && gotItems && rankNames != null)
         {
-
             MergeSort(aliveGoats, 0, aliveGoats.Length - 1);        // sort the array based on distance from the win location
 
             for (int i = 0; i < aliveGoats.Length; i++)
             {
                 if (aliveGoats[i] != null)              // go through array and get the names of the goats and put them in the ranking string
                 {
-                    string name = aliveGoats[i].GetComponentInChildren<MeshRenderer>().material.name;
-                    name = name.Substring(0, name.Length - 1 - "(Instance)".Length) + "\n";
-                    rankingToString += name;
+                    if (i == 0)
+                    {
+                        topGoatPos = aliveGoats[i].transform.position;
+                    }
+                    Transform goatNamePos = rankNames[aliveGoats[i].GetComponent<GoatSlingShot>().playerIndex * 2 - 2].transform;
+
+                    goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[i], goatNamePos.position.z);
+
                 }
             }
-
-            for (int i = deadGoats.Length-1; i >= 0; i--)   // go through array backwards for dead ones, since those who died first will be last in ranking
+            int pos = 0;
+            for (int i = deadGoats.Length -1; i >= 0; i--)   // go through array backwards for dead ones, since those who died first will be last in ranking
             {
+                
                 if (deadGoats[i] != null)
                 {
-                    rankingToString += deadGoats[i];
+                    int index = int.Parse(deadGoats[i].Substring(0, 1));
+                    Transform goatNamePos = rankNames[index * 2 - 1].transform;
+                    if (!deadGoats[i].Contains("D"))
+                    {
+                        goatNamePos = rankNames[index * 2 - 2].transform;
+                    }
+
+                    goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[aliveGoats.Length + pos++], goatNamePos.position.z);
+
                 }
             }
-
-            rankings.text = rankingToString;
-            rankingToString = "Ranking \n";         // reset string for next iteration
         }
     }
 
@@ -177,14 +210,22 @@ public class RankingSystem : MonoBehaviour
     */
     public void RemoveGoat(GameObject goat, bool isDead)     
     {
-        string name = goat.GetComponentInChildren<MeshRenderer>().material.name;
+        int index = goat.GetComponentInChildren<GoatSlingShot>().playerIndex;
+        string name = index.ToString();
         if (isDead)
-            name = name.Substring(0, name.Length - 1 - "(Instance)".Length) + " (DEAD) \n";
-        else
-            name = name.Substring(0, name.Length - 1 - "(Instance)".Length) + "\n";
+        {
+            name += "D";
+            rankNames[index * 2 - 2].GetComponent<RawImage>().enabled = false;
+            rankNames[index * 2 - 1].GetComponent<RawImage>().enabled = true;
+        }
         deadGoats[deadGoatIndex++] = name;
 
         Goats.Remove(goat);
         aliveGoats = Goats.ToArray();
+    }
+
+    public Vector3 TopGoatPosition()
+    {
+        return topGoatPos;
     }
 }
