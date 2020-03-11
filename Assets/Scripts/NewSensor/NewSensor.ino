@@ -1,8 +1,3 @@
-/* This example shows how to use continuous mode to take
-range measurements with the VL53L0X. It is based on
-vl53l0x_ContinuousRanging_Example.c from the VL53L0X API.
-The range readings are in units of mm. */
-
 #include <Wire.h>
 #include <VL53L0X.h>
 
@@ -146,7 +141,7 @@ void setup()
    sensor8.setTimeout(500);
   if (!sensor8.init()){
     Serial.println("Failed to detect and initialize sensor8!");
-//    while (1) {}
+    while (1) {}
   }
   else{Serial.println("sensor8 initialized");}
   
@@ -178,10 +173,6 @@ void loop()
     potentiometers[i] = analogRead(A0);
   }
 
-
-  
-  //Serial.print("current dist: ");
-  //Serial.print(sensor.readRangeContinuousMillimeters());
   if (sensor1.timeoutOccurred()) { Serial.print("Sensor1 TIMEOUT"); }
   if (sensor2.timeoutOccurred()) { Serial.print("Sensor2 TIMEOUT"); }
   if (sensor3.timeoutOccurred()) { Serial.print("Sensor3 TIMEOUT"); }
@@ -192,14 +183,11 @@ void loop()
   if (sensor8.timeoutOccurred()) { Serial.print("Sensor8 TIMEOUT"); }
 
 //CONTROLLER ONE  
-  //Serial.println();
-  //Serial.write(sensor1.getAddress());
   checkDistanceDiff(sensor1);
   //POTENTIOMETER CODE 
   // read the analog in value:
   // map it to the range of the analog out:
   int outputValue1 = map(pot1Value, 0, 1023, 0, 180);
-  // change the analog out value:
   // print the results to the Serial Monitor:
   //Serial.print(" , 1");
   Serial.print(" , ");
@@ -207,13 +195,11 @@ void loop()
   Serial.println();
 
 //CONTROLLER TWO
-  //Serial.write(sensor2.getAddress());
   checkDistanceDiff(sensor2);
   //POTENTIOMETER CODE for number 2
   // read the analog in value:
   // map it to the range of the analog out:
   int outputValue2 = map(pot2Value, 0, 1023, 0, 180);
-  // change the analog out value:
   // print the results to the Serial Monitor:
   //Serial.print(" , 2");
   Serial.print(" , ");
@@ -273,10 +259,6 @@ void loop()
   Serial.print(" , ");
   Serial.print(outputValue8);
   Serial.println();
-
-  // wait 2 milliseconds before the next loop for the analog-to-digital
-  // converter to settle after the last reading:
-  //delay(2);
   
   Serial.flush();
   delay(20);
@@ -297,8 +279,4 @@ void checkDistanceDiff(VL53L0X sensor)
   Serial.print(" , ");
   Serial.print(diff);
 
-
-  
-
-  //return sensor.getAddress();
 }
