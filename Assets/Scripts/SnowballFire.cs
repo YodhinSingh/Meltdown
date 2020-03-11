@@ -13,9 +13,18 @@ public class SnowballFire : MonoBehaviour
     public GameObject MountainTop;
 
     // Use this for initialization
+    private void Awake()
+    {
+        for (int i = 0; i < SnowballEmmitters.Length; i++)
+        {
+            SnowballEmmitters[i].GetComponentInChildren<SnowballAim>().index = i + 1;
+        }
+
+    }
     void Start()
     {
         cam = Camera.main.transform;
+        
     }
 
     // Update is called once per frame
@@ -27,7 +36,7 @@ public class SnowballFire : MonoBehaviour
             fraction = transform.position.y / MountainTop.transform.position.y;
         }
         float curZ = Mathf.Lerp(-4.3f, MountainTop.transform.position.z - 4.3f, fraction);
-        transform.position = new Vector3(cam.position.x, cam.position.y - 10.19f, curZ); // keep pace with camera but do not zoom in and out
+        transform.position = new Vector3(cam.position.x, cam.position.y - 16f, curZ); // keep pace with camera but do not zoom in and out
 
 
         // As long as the win menu or lose menu are not active/null, then keep reloading and throwing snowballs

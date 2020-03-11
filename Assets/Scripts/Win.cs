@@ -46,6 +46,7 @@ public class Win : MonoBehaviour
             //other.gameObject.GetComponent<GoatSlingShot>().DisablePlayerControl(true);
             //other.gameObject.GetComponent<GoatSlingShot>().AddGround();
             instance.DisableAllPlayers();
+            instance.players.Clear();
             water.GetComponent<InstantKillWater>().StopWaterRise();
         }
     }
