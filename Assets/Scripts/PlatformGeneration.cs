@@ -12,7 +12,7 @@ public class PlatformGeneration : MonoBehaviour
     private float platformPositionX;
     private float platformPositionY;
     [SerializeField] private float numPlatforms = 30;
-    Vector3 MountainTop = new Vector3(-1.7f, 392f, 19.27f); //old top was 237.3f
+    public GameObject MountainTop;
 
 
     void Start()
@@ -52,9 +52,9 @@ public class PlatformGeneration : MonoBehaviour
         float fraction = 0;
         if (fraction <= 1)
         {
-            fraction = platformPositionY / MountainTop.y;
+            fraction = platformPositionY / MountainTop.transform.position.y;
         }
-        float curZ = Mathf.Lerp(0, MountainTop.z, fraction);
+        float curZ = Mathf.Lerp(0, MountainTop.transform.position.z, fraction);
         //float curZ = 0;
 
         Instantiate(platform, new Vector3(platformPositionX / 4, platformPositionY, curZ), Quaternion.identity); // Instantiates new platform using a gameobject, position and rotation

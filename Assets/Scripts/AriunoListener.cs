@@ -6,7 +6,7 @@ using System.IO.Ports;
 
 public class AriunoListener : MonoBehaviour
 {
-    SerialPort sp;// = new SerialPort("COM3", 9600);
+    SerialPort sp = new SerialPort("COM3", 9600);
     public bool isHoldingJump;
     public Vector3 aim;
 

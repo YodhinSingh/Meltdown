@@ -30,6 +30,7 @@ public class SnowballAim : MonoBehaviour
 
     float tickValue = 0.75f;
     float forwardAimValue = 0.08f;
+    public int index;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +40,11 @@ public class SnowballAim : MonoBehaviour
         r = new Ray(transform.position, new Vector3(0, 1, forwardAimValue));  // the direction in which snowball will be thrown
 
         currentAngle = -1;
-        currentCount = Random.Range(25,145);
+        //currentCount = Random.Range(25,145);
+        if (index % 2 == 0)
+            currentCount = 30;
+        else
+            currentCount = 150;
         vectorAngle = new Vector2();
         hitMax = false;
     }

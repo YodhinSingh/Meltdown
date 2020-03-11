@@ -8,8 +8,7 @@ public class CheckOnMountain : MonoBehaviour
     private Ray aim;
     private Ray aim2;
     private float DistanceFromMountain;
-    private Vector3[] HitInfo = new Vector3[2];     // Will contain: [0] = hit point, [1] = hit normal
-    float maxDistanceAllowed = 5.5f;
+    float maxDistanceAllowed = 50f;
 
     public GameObject mountain;
 
@@ -38,15 +37,11 @@ public class CheckOnMountain : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Mountain"))
             {
                 isOnMountain = true;
-                DistanceFromMountain = hit.distance;
             }
             else
             {
                 isOnMountain = false;
-                DistanceFromMountain = -100;
             }
-            HitInfo[0] = hit.point;
-            HitInfo[1] = hit.normal;
 
         }
         else if (Physics.Raycast(aim, out hit2, maxDistanceAllowed))
@@ -54,22 +49,15 @@ public class CheckOnMountain : MonoBehaviour
             if (hit.transform.gameObject.CompareTag("Mountain"))
             {
                 isOnMountain = true;
-                DistanceFromMountain = hit2.distance;
             }
             else
             {
                 isOnMountain = false;
-                DistanceFromMountain = -100;
             }
-            HitInfo[0] = hit2.point;
-            HitInfo[1] = hit2.normal;
         }
         else
         {
             isOnMountain = false;
-            DistanceFromMountain = -100;
-            HitInfo[0] = new Vector3(-100,-100,-100);
-            HitInfo[1] = new Vector3(-100, -100, -100);
         }
         //Debug.Log(isOnMountain);
     }
@@ -79,12 +67,4 @@ public class CheckOnMountain : MonoBehaviour
         return isOnMountain;
     }
 
-    public float GetDistanceFromMountain()
-    {
-        return DistanceFromMountain;
-    }
-    public Vector3[] GetHitInfo()
-    {
-        return HitInfo;
-    }
 }

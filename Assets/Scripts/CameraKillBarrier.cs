@@ -24,6 +24,7 @@ public class CameraKillBarrier : MonoBehaviour
     private void SetGameOver()
     {
         //Debug.Log("You lose");
+        instance.players.Clear();
         GetComponent<LoseMenu>().DisplayMenu();
     }
 

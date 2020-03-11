@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CalculateZValue : MonoBehaviour
 {
-    Vector3 MountainTop = new Vector3(-1.7f, 392f, 19.27f);
+    Vector3 MountainTop = new Vector3(-3.4f,407.8f, 0f);
     float startpoint;
 
     // Start is called before the first frame update
