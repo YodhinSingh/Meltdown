@@ -47,12 +47,13 @@ public class AudioManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)      //Game
         {
             //audioTheme.loop = true;
-            audioTheme.volume = 1f;
+            audioTheme.volume = 0.5f;
         }
     }
 
     private IEnumerator WaitForMusicDone()
     {
+        checkScene();
         yield return new WaitForSeconds(theme.length);
         audioTheme.clip = themeLoop;
         audioTheme.loop = true;

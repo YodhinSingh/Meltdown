@@ -11,7 +11,7 @@ public class Win : MonoBehaviour
     public GameObject Timer;
     private PlayerInstanceGenerator instance;
     public GameObject water;
-    public GameObject[] players = new GameObject[6];
+    public GameObject[] players = new GameObject[8];
 
     float TimeToWait = 3;
 
@@ -42,7 +42,6 @@ public class Win : MonoBehaviour
         {
             WinMenuUI.SetActive(true);
             players[other.gameObject.GetComponent<GoatSlingShot>().playerIndex - 1].SetActive(true);
-
             //other.gameObject.GetComponent<GoatSlingShot>().DisablePlayerControl(true);
             //other.gameObject.GetComponent<GoatSlingShot>().AddGround();
             instance.DisableAllPlayers();

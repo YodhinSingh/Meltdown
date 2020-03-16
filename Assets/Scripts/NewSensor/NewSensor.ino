@@ -1,8 +1,3 @@
-/* This example shows how to use continuous mode to take
-range measurements with the VL53L0X. It is based on
-vl53l0x_ContinuousRanging_Example.c from the VL53L0X API.
-The range readings are in units of mm. */
-
 #include <Wire.h>
 #include <VL53L0X.h>
 
@@ -33,7 +28,6 @@ int A = 0;
 int B = 0;
 int C = 0;
 
-
 int pot1Value = 0;        // value read from the pot
 int pot2Value = 0;        // value read from the pot
 int pot3Value = 0;        // value read from the pot
@@ -42,6 +36,9 @@ int pot5Value = 0;        // value read from the pot
 int pot6Value = 0;        // value read from the pot
 int pot7Value = 0;        // value read from the pot
 int pot8Value = 0;        // value read from the pot
+
+int * potentiometers[8] = {&pot1Value, &pot2Value, &pot3Value, &pot4Value,
+                            &pot5Value, &pot6Value, &pot7Value, &pot8Value};
 
 
 VL53L0X sensor1;
@@ -73,7 +70,7 @@ void setup()
   pinMode(addressC, OUTPUT);
 
   pinMode(A0, INPUT);
-  
+
   Wire.begin();
   sensor8.setAddress(Sensor8_newAddress);
   pinMode(XSHUT_pin7,INPUT);
@@ -107,53 +104,47 @@ void setup()
   sensor8.init();
   
   sensor1.setTimeout(500);
-  if (!sensor1.init())
-  {
+  if (!sensor1.init()){
     Serial.println("Failed to detect and initialize sensor1!");
     while (1) {}
   }else{Serial.println("sensor1 initialized");}
   sensor2.setTimeout(500);
-  if (!sensor2.init())
-  {
+  if (!sensor2.init()){
     Serial.println("Failed to detect and initialize sensor2!");
     while (1) {}
   }else{Serial.println("sensor2 initialized");}
   sensor3.setTimeout(500);
-  if (!sensor3.init())
-  {
+  if (!sensor3.init()){
     Serial.println("Failed to detect and initialize sensor3!");
     while (1) {}
   }else{Serial.println("sensor3 initialized");}
    sensor4.setTimeout(500);
-  if (!sensor4.init())
-  {
+  if (!sensor4.init()){
     Serial.println("Failed to detect and initialize sensor4!");
     while (1) {}
   }else{Serial.println("sensor4 initialized");}
   sensor5.setTimeout(500);
-  if (!sensor5.init())
-  {
+  if (!sensor5.init()){
     Serial.println("Failed to detect and initialize sensor5!");
     while (1) {}
   }else{Serial.println("sensor5 initialized");}
   sensor6.setTimeout(500);
-  if (!sensor6.init())
-  {
+  if (!sensor6.init()){
     Serial.println("Failed to detect and initialize sensor6!");
     while (1) {}
   }else{Serial.println("sensor6 initialized");}
    sensor7.setTimeout(500);
-  if (!sensor7.init())
-  {
+  if (!sensor7.init()){
     Serial.println("Failed to detect and initialize sensor7!");
     while (1) {}
   }else{Serial.println("sensor7 initialized");}
-  sensor8.setTimeout(500);
-  if (!sensor8.init())
-  {
+   sensor8.setTimeout(500);
+  if (!sensor8.init()){
     Serial.println("Failed to detect and initialize sensor8!");
     while (1) {}
-  }else{Serial.println("sensor8 initialized");}
+  }
+  else{Serial.println("sensor8 initialized");}
+  
   // Start continuous back-to-back mode (take readings as
   // fast as possible).  To use continuous timed mode
   // instead, provide a desired inter-measurement period in
@@ -171,19 +162,17 @@ void setup()
 void loop()
 {
   for (int i=0; i<totalChannels; i++){
-    A = bitRead(i,0);
-    B = bitRead(i,1);
-    C = bitRead(i,2);
+    A = bitRead(i,0); //take first bit from binary value of i channel. 
+    B = bitRead(i,1); //take second bit from binary value of i channel.
+    C = bitRead(i,2); //take third bit from value of i channel.
 
     digitalWrite(addressA, A);
     digitalWrite(addressB, B);
-    digitalWrite(addressC, C);
+    digitalWrite(addressC, C);    
 
-    
-    
+    potentiometers[i] = analogRead(A0);
   }
-  //Serial.print("current dist: ");
-  //Serial.print(sensor.readRangeContinuousMillimeters());
+
   if (sensor1.timeoutOccurred()) { Serial.print("Sensor1 TIMEOUT"); }
   if (sensor2.timeoutOccurred()) { Serial.print("Sensor2 TIMEOUT"); }
   if (sensor3.timeoutOccurred()) { Serial.print("Sensor3 TIMEOUT"); }
@@ -194,15 +183,11 @@ void loop()
   if (sensor8.timeoutOccurred()) { Serial.print("Sensor8 TIMEOUT"); }
 
 //CONTROLLER ONE  
-  //Serial.println();
-  //Serial.write(sensor1.getAddress());
   checkDistanceDiff(sensor1);
   //POTENTIOMETER CODE 
   // read the analog in value:
-  pot1Value = analogRead(analogInPin1);
   // map it to the range of the analog out:
   int outputValue1 = map(pot1Value, 0, 1023, 0, 180);
-  // change the analog out value:
   // print the results to the Serial Monitor:
   //Serial.print(" , 1");
   Serial.print(" , ");
@@ -210,14 +195,11 @@ void loop()
   Serial.println();
 
 //CONTROLLER TWO
-  //Serial.write(sensor2.getAddress());
   checkDistanceDiff(sensor2);
   //POTENTIOMETER CODE for number 2
   // read the analog in value:
-  pot2Value = analogRead(analogInPin2);
   // map it to the range of the analog out:
   int outputValue2 = map(pot2Value, 0, 1023, 0, 180);
-  // change the analog out value:
   // print the results to the Serial Monitor:
   //Serial.print(" , 2");
   Serial.print(" , ");
@@ -226,7 +208,6 @@ void loop()
 
 //CONTROLLER THREE  
   checkDistanceDiff(sensor3);
-  pot3Value = analogRead(analogInPin3);
   int outputValue3 = map(pot3Value, 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 3");
@@ -236,7 +217,6 @@ void loop()
   
 //CONTROLLER FOUR  
   checkDistanceDiff(sensor4);
-  pot4Value = analogRead(analogInPin4);
   int outputValue4 = map(pot4Value, 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 4");
@@ -246,7 +226,6 @@ void loop()
   
 //CONTROLLER FIVE 
   checkDistanceDiff(sensor5);
-  pot5Value = analogRead(analogInPin5);
   int outputValue5 = map(pot5Value, 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 5");
@@ -256,7 +235,6 @@ void loop()
 
 //CONTROLLER SIX  
   checkDistanceDiff(sensor6);
-  pot6Value = analogRead(analogInPin6);
   int outputValue6 = map(pot6Value, 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 6");
@@ -265,31 +243,25 @@ void loop()
   Serial.println();
 
 //CONTROLLER SEVEN  
-//  checkDistanceDiff(sensor7);
-//  pot7Value = analogRead(analogInPin7);
-//  int outputValue7 = map(pot7Value, 0, 1023, 0, 180);
-//  // print the results to the Serial Monitor:
-//  //Serial.print(" , 7");
-//  Serial.print(" , ");
-//  Serial.print(outputValue7);
-//  Serial.println();
+  checkDistanceDiff(sensor7);
+  int outputValue7 = map(pot7Value, 0, 1023, 0, 180);
+  // print the results to the Serial Monitor:
+  //Serial.print(" , 7");
+  Serial.print(" , ");
+  Serial.print(outputValue7);
+  Serial.println();
   
 //CONTROLLER EIGHT 
-//  checkDistanceDiff(sensor8);
-//  pot8Value = analogRead(analogInPin8);
-//  int outputValue8 = map(pot8Value, 0, 1023, 0, 180);
-//  // print the results to the Serial Monitor:
-//  //Serial.print(" , 8");
-//  Serial.print(" , ");
-//  Serial.print(outputValue8);
-//  Serial.println();
-
-  // wait 2 milliseconds before the next loop for the analog-to-digital
-  // converter to settle after the last reading:
-  //delay(2);
+  checkDistanceDiff(sensor8);
+  int outputValue8 = map(pot8Value, 0, 1023, 0, 180);
+  // print the results to the Serial Monitor:
+  //Serial.print(" , 8");
+  Serial.print(" , ");
+  Serial.print(outputValue8);
+  Serial.println();
   
   Serial.flush();
-  delay(25);
+  delay(20);
   
 
 }
@@ -307,8 +279,4 @@ void checkDistanceDiff(VL53L0X sensor)
   Serial.print(" , ");
   Serial.print(diff);
 
-
-  
-
-  //return sensor.getAddress();
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO.Ports;
-
+using UnityEngine.SceneManagement;
 
 public class AriunoListener : MonoBehaviour
 {
@@ -20,16 +20,26 @@ public class AriunoListener : MonoBehaviour
     public float angle;
     public bool isConnected;
 
-    public List<GameObject> goats = new List<GameObject>();
-
+    public GameObject goatTemplate;
+    float[] oldDistances = new float[8];
+    bool isReBorn;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (sp != null && !sp.IsOpen)
+        isReBorn = false;
+
+        try
         {
-            sp.Open();
-            sp.ReadTimeout = 25;
+            if (sp != null && !sp.IsOpen)
+            {
+                sp.Open();
+                sp.ReadTimeout = 25;
+            }
+        }
+        catch (System.Exception)
+        {
+            sp = null;
         }
         jumpChargeTime = Random.Range(0.1f, 1f);    // these 3 variables are random and are used instead of arduino since no access to it right now
         isHoldingJump = false;
@@ -57,7 +67,7 @@ public class AriunoListener : MonoBehaviour
                     address = float.Parse(values[0]);
                     distance = float.Parse(values[1]);
                     angle = float.Parse(values[2]);
-
+                    isActivated(address, distance);
                     //print("Goat address: " + address + " || Goat distance: " + distance + " || Angle" + angle);
 
 
@@ -74,7 +84,7 @@ public class AriunoListener : MonoBehaviour
             isConnected = false;
             if (jumpChargeTime > 0)         //Since no acess to arduino stuff, creating fake random numbers to test
             {
-                isHoldingJump = true;   
+                isHoldingJump = true;
             }
             else
             {
@@ -83,14 +93,62 @@ public class AriunoListener : MonoBehaviour
                 jumpChargeTime = Random.Range(0.1f, 1f);
             }
         }
+
+        /*if (Time.timeSinceLevelLoad > 1){
+            ReSummonAuto();
+        }*/
     }
 
-    public void addGoat(GameObject goat)
+    void ReSummonAuto()
     {
-        goats.Add(goat);
+        if (!isReBorn && SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                float a = 41 + i;
+                float d = 1000 * i + 1000;
+                isActivated(a, d);
+            }
+            isReBorn = true;
+        }
+        if (isReBorn && SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            for (int i = 0; i < oldDistances.Length; i++)
+            {
+                oldDistances[i] = 0;
+            }
+            isReBorn = false;
+        }
     }
-    public void RemoveGoat(GameObject goat)
+
+    void instantiateGoat()
     {
-        goats.Remove(goat);
+        if (isConnected || true)
+        {
+            Instantiate(goatTemplate, goatTemplate.transform.position, goatTemplate.transform.rotation);
+            //GetComponentInParent<PlayerInstanceGenerator>().WantToStartGame();
+        }
     }
+
+
+    bool isActivated(float address, float distance)
+    {
+        float minDistanceChange = 15f;
+        int realAddress = (int) (address % 10) -1;
+
+        if (distance > oldDistances[realAddress] && (distance - oldDistances[realAddress] > minDistanceChange))
+        {
+            instantiateGoat();
+        }
+        else if (distance <= oldDistances[realAddress] && (oldDistances[realAddress] - distance > minDistanceChange))
+        {
+
+        }
+        oldDistances[realAddress] = distance;
+        return false;
+    }
+
+
+
+
 }

@@ -9,14 +9,18 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset;
     public float smoothTime = 0.8f;
 
-    public float minZoom = 99f;
-    public float maxZoom = 80f;
+    public float minZoom = -20f;
+    public float maxZoom = -60f;
     private float zoomLimit = 25f;
 
     private Vector3 velocity;
     private Camera cam;
     private RankingSystem rank;
     Vector3 TopGoatPos;
+
+    public GameObject triggerLeft;
+    public GameObject triggerRight;
+    public GameObject triggerBottom;
 
     private void Start()
     {
@@ -47,13 +51,27 @@ public class CameraFollow : MonoBehaviour
         //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
         
         //Static Camera (no zoom in or out)
-        float newZoom = 60;
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
+        //float newZoom = 60;
+        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
 
         // Code to make camera zoom in and out phyiscally
-        //float newZoom = Mathf.Lerp(50, -20, maxDistance / (zoomLimit/2));
-        //cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, Mathf.Lerp(cam.transform.position.z, newZoom, Time.deltaTime));
+        float newZoom = Mathf.Lerp(minZoom, -40, maxDistance / (zoomLimit/2));
+        cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, Mathf.Lerp(cam.transform.position.z, newZoom, Time.deltaTime));
 
+
+        float fractionZ = 0;
+        if (fractionZ <= 1 && fractionZ >= 0) // make triggers move in and out based on cam zoom
+        {
+            //scaledValue = (rawValue - min) / (max - min);
+            fractionZ = (cam.transform.position.z - minZoom) / (maxZoom - minZoom);
+        }
+
+        float newTrigPosL = Mathf.Lerp(-34, -84, fractionZ);
+        triggerLeft.transform.position = new Vector3(newTrigPosL, triggerLeft.transform.position.y, triggerLeft.transform.position.z);
+        float newTrigPosR = Mathf.Lerp(34, 84, fractionZ);
+        triggerRight.transform.position = new Vector3(newTrigPosR, triggerRight.transform.position.y, triggerRight.transform.position.z);
+        float newTrigPosB = cam.transform.position.y + Mathf.Lerp(-19, -42, fractionZ);
+        triggerBottom.transform.position = new Vector3(triggerBottom.transform.position.x, newTrigPosB, triggerBottom.transform.position.z);
     }
 
     private void Move(Bounds bounds)
