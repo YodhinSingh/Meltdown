@@ -55,7 +55,7 @@ public class CameraFollow : MonoBehaviour
         //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newZoom, Time.deltaTime);
 
         // Code to make camera zoom in and out phyiscally
-        float newZoom = Mathf.Lerp(minZoom, -40, maxDistance / (zoomLimit/2));
+        float newZoom = Mathf.Lerp(-15, -40, maxDistance / (zoomLimit/2));
         cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, Mathf.Lerp(cam.transform.position.z, newZoom, Time.deltaTime));
 
 

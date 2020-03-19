@@ -152,8 +152,50 @@ public class PlayerInstanceGenerator : MonoBehaviour
         Transform pos = player.gameObject.GetComponentInChildren<Transform>();
 
 
-        player.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //Set goat's colour based on player count (P1 = red, P2 = blue, etc) and change panel material to a white square to show that it is selected 
+        //player.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //player.gameObject.GetComponentInChildren<MeshRenderer>().material = goatMaterials[Instance.playerCount - 1];
+        SkinnedMeshRenderer meshBody = player.gameObject.GetComponent<GoatSlingShot>().meshBody;
+        meshBody.material = goatMaterials[Instance.playerCount - 1];
+
+        MeshRenderer meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye1_1;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye1_2;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye2_1;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye2_2;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        /*
+        SkinnedMeshRenderer[] meshes = player.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+        for (int i = 0; i < meshes.Length; i++)
+        {
+            //meshes[i].material = goatMaterials[Instance.playerCount - 1];
+            meshes[i].enabled = false;
+        }
+        */
+        GameObject[] body = player.gameObject.GetComponent<GoatSlingShot>().bodyVisibility;
+        for (int i = 0; i < body.Length; i++)
+        {
+            body[i].SetActive(false);
+        }
+
+        GameObject[] trails = player.gameObject.GetComponent<GoatSlingShot>().trails;
+        for (int i = 0; i < trails.Length; i++)
+        {
+            trails[i].GetComponent<TrailRenderer>().startColor = goatMaterials[Instance.playerCount - 1].color;
+        }
+
+
         player.gameObject.GetComponentInChildren<LineRenderer>().enabled = false;
+        planes[Instance.playerCount - 1].GetComponentInChildren<Text>().enabled = true;
+        planes[Instance.playerCount - 1].GetComponentInChildren<RawImage>().enabled = true;
+
+
 
         float RandXPos = xPosOfGoats[Random.Range(0,8)];
         while (checkAvailablePos(RandXPos) == false)        // give each goat random unique starting point
@@ -168,10 +210,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
         // Set each goat's index to the player number
         player.gameObject.GetComponentInChildren<GoatSlingShot>().playerIndex = Instance.playerCount;
 
-        //Set goat's colour based on player count (P1 = red, P2 = blue, etc) and change panel material to a white square to show that it is selected 
-        player.gameObject.GetComponentInChildren<MeshRenderer>().material = goatMaterials[Instance.playerCount - 1];
-        planes[Instance.playerCount - 1].GetComponentInChildren<Text>().enabled = true;
-        planes[Instance.playerCount - 1].GetComponentInChildren<RawImage>().enabled = true;
+        
 
         //Set both the goat and it's invisible platform to the right layer (P1 = Layer 16, P2 = Layer 17, etc)
         player.gameObject.layer = GoatIndexStart + Instance.playerCount;
@@ -220,6 +259,9 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     public void WantToStartGame()
     {
-        startGame = true;
+        if (!startGame)
+        {
+            startGame = true;
+        }
     }
 }

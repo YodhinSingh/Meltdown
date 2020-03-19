@@ -94,9 +94,10 @@ public class AriunoListener : MonoBehaviour
             }
         }
 
-        /*if (Time.timeSinceLevelLoad > 1){
-            ReSummonAuto();
-        }*/
+        if (Time.timeSinceLevelLoad > 1)
+        {
+            //ReSummonAuto();
+        }
     }
 
     void ReSummonAuto()
@@ -123,11 +124,8 @@ public class AriunoListener : MonoBehaviour
 
     void instantiateGoat()
     {
-        if (isConnected || true)
-        {
-            Instantiate(goatTemplate, goatTemplate.transform.position, goatTemplate.transform.rotation);
-            //GetComponentInParent<PlayerInstanceGenerator>().WantToStartGame();
-        }
+        Instantiate(goatTemplate, goatTemplate.transform.position, goatTemplate.transform.rotation);
+        //GetComponentInParent<PlayerInstanceGenerator>().WantToStartGame();
     }
 
 

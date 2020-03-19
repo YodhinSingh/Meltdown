@@ -8,31 +8,28 @@ using UnityEngine.UI;
 public class Win : MonoBehaviour
 {
     public GameObject WinMenuUI;
-    public GameObject Timer;
     private PlayerInstanceGenerator instance;
     public GameObject water;
     public GameObject[] players = new GameObject[8];
 
-    float TimeToWait = 3;
+    public GameObject[] Timer = new GameObject[3];
+    bool canModify;
+    bool danceDone;
 
     private void Start()
     {
         WinMenuUI.SetActive(false);
         instance = GameObject.FindGameObjectWithTag("PlayerManager").GetComponent<PlayerInstanceGenerator>();
-        TimeToWait = 3;
+        canModify = true;
+        danceDone = false;
     }
 
     private void Update()
     {
-        if (WinMenuUI.activeInHierarchy)
+        if (WinMenuUI.activeInHierarchy && canModify && danceDone)
         {
-            Timer.GetComponent<Text>().text = Mathf.CeilToInt(TimeToWait).ToString();
-            TimeToWait -= Time.deltaTime;
-            
-            if (Input.GetKeyDown(KeyCode.Return) || TimeToWait <= 0)
-            {
-                SceneManager.LoadScene(0);
-            }
+            canModify = false;
+            StartCoroutine("TimeDisplay");
         }
     }
 
@@ -43,11 +40,38 @@ public class Win : MonoBehaviour
             WinMenuUI.SetActive(true);
             players[other.gameObject.GetComponent<GoatSlingShot>().playerIndex - 1].SetActive(true);
             //other.gameObject.GetComponent<GoatSlingShot>().DisablePlayerControl(true);
-            //other.gameObject.GetComponent<GoatSlingShot>().AddGround();
-            instance.DisableAllPlayers();
-            instance.players.Clear();
+            other.gameObject.GetComponent<GoatSlingShot>().AddGround();
+            other.gameObject.GetComponent<GoatSlingShot>().doWinDance();
             water.GetComponent<InstantKillWater>().StopWaterRise();
+            StartCoroutine("WinDance");
+            
         }
+    }
+
+    private IEnumerator WinDance()
+    {
+        yield return new WaitForSeconds(3.1f);
+        instance.DisableAllPlayers();
+        instance.players.Clear();
+        danceDone = true; ;
+
+    }
+
+    private IEnumerator TimeDisplay()
+    {
+        Timer[2].GetComponent<Image>().enabled = true;
+        yield return new WaitForSeconds(1);
+
+        Timer[2].GetComponent<Image>().enabled = false;
+        Timer[1].GetComponent<Image>().enabled = true;
+
+        yield return new WaitForSeconds(1);
+        Timer[1].GetComponent<Image>().enabled = false;
+        Timer[0].GetComponent<Image>().enabled = true;
+
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
+
     }
 
 }

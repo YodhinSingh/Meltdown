@@ -16,6 +16,9 @@ public class SnowballFire : MonoBehaviour
     float camMinZoom;
     float camMaxZoom;
 
+    ButtonListener buttonScript;
+
+
     // Use this for initialization
     private void Awake()
     {
@@ -31,6 +34,8 @@ public class SnowballFire : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         camMaxZoom = Camera.main.GetComponent<CameraFollow>().maxZoom;
         camMinZoom = Camera.main.GetComponent<CameraFollow>().minZoom;
+
+        buttonScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<ButtonListener>();
     }
 
     // Update is called once per frame
@@ -57,6 +62,10 @@ public class SnowballFire : MonoBehaviour
         // As long as the win menu or lose menu are not active/null, then keep reloading and throwing snowballs
         if ((WinMenuUI != null && !WinMenuUI.activeInHierarchy) && (LoseMenuUI != null && !LoseMenuUI.activeInHierarchy))
         {
+
+            throwSnowballFromArduino();
+
+
             if (Input.GetKeyDown(KeyCode.A))
             {
                 if (SnowballEmmitters[0].GetComponent<SnowballAim>().InstantiateSnowBall())
@@ -87,6 +96,18 @@ public class SnowballFire : MonoBehaviour
                 if (SnowballEmmitters[5].GetComponent<SnowballAim>().InstantiateSnowBall())
                     PlayAudio();
             }
+        }
+    }
+
+    private void throwSnowballFromArduino()
+    {
+        bool isPressed = buttonScript.isPressed;
+        int EmitterNum = buttonScript.buttonNum - 1;
+
+        if (isPressed)
+        {
+            if (SnowballEmmitters[EmitterNum].GetComponent<SnowballAim>().InstantiateSnowBall())
+                PlayAudio();
         }
     }
 
