@@ -31,9 +31,9 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     private readonly float[] xPosOfGoats = {-21, -15, -9, -3, 3, 9 ,15, 21};
 
+
     private void Awake()
     {
-        
         if (instanceOBJ == null)    // Only keep this instance of this object alive. Dont destroy it after changing scenes and destroy any duplicates
         {
             instanceOBJ = this;
@@ -49,6 +49,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
         Instance = GetComponent<PlayerInputManager>();
         changed = false;
         gotRankings = false;
+
     }
 
     private void Start()
@@ -88,7 +89,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
             for (int i = 0; i < planes.Length; i++)
             {
-                planes[i] = GameObject.Find("PlaneP" + (i+1));      // This is UI stuff, find all the panels so when goat selected, a white square will form
+                planes[i] = GameObject.Find("P" + (i+1));      // This is UI stuff, find all the panels so when goat selected, a white square will form
             }
             TitleScreen = GameObject.Find("Timer").GetComponent<Text>();    // find reference to text obj that is the countdown timer
         }
@@ -140,12 +141,63 @@ public class PlayerInstanceGenerator : MonoBehaviour
         TitleScreen.text = "PRESS B or SPACE TO START GAME";
         GetComponent<RankingSystem>().addGoat(player.gameObject);
 
+        
+
+        if (Instance != null && Instance.playerCount == 1)
+        {
+            GameObject backG = GameObject.Find("BlackOverlay");
+            backG.GetComponent<RawImage>().enabled = true;
+        }
+
         Transform pos = player.gameObject.GetComponentInChildren<Transform>();
 
-        player.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        //Set goat's colour based on player count (P1 = red, P2 = blue, etc) and change panel material to a white square to show that it is selected 
+        //player.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        //player.gameObject.GetComponentInChildren<MeshRenderer>().material = goatMaterials[Instance.playerCount - 1];
+        SkinnedMeshRenderer meshBody = player.gameObject.GetComponent<GoatSlingShot>().meshBody;
+        meshBody.material = goatMaterials[Instance.playerCount - 1];
+
+        MeshRenderer meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye1_1;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye1_2;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye2_1;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        meshEye1_1 = player.gameObject.GetComponent<GoatSlingShot>().meshEye2_2;
+        meshEye1_1.material = goatMaterials[Instance.playerCount - 1];
+
+        /*
+        SkinnedMeshRenderer[] meshes = player.gameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+        for (int i = 0; i < meshes.Length; i++)
+        {
+            //meshes[i].material = goatMaterials[Instance.playerCount - 1];
+            meshes[i].enabled = false;
+        }
+        */
+        GameObject[] body = player.gameObject.GetComponent<GoatSlingShot>().bodyVisibility;
+        for (int i = 0; i < body.Length; i++)
+        {
+            body[i].SetActive(false);
+        }
+
+        GameObject[] trails = player.gameObject.GetComponent<GoatSlingShot>().trails;
+        for (int i = 0; i < trails.Length; i++)
+        {
+            trails[i].GetComponent<TrailRenderer>().startColor = goatMaterials[Instance.playerCount - 1].color;
+        }
+
+
+        player.gameObject.GetComponentInChildren<LineRenderer>().enabled = false;
+        planes[Instance.playerCount - 1].GetComponentInChildren<Text>().enabled = true;
+        planes[Instance.playerCount - 1].GetComponentInChildren<RawImage>().enabled = true;
+
+
 
         float RandXPos = xPosOfGoats[Random.Range(0,8)];
-
         while (checkAvailablePos(RandXPos) == false)        // give each goat random unique starting point
         {
             RandXPos = xPosOfGoats[Random.Range(0, 8)];
@@ -158,16 +210,23 @@ public class PlayerInstanceGenerator : MonoBehaviour
         // Set each goat's index to the player number
         player.gameObject.GetComponentInChildren<GoatSlingShot>().playerIndex = Instance.playerCount;
 
-        //Set goat's colour based on player count (P1 = red, P2 = blue, etc) and change panel material to a white square to show that it is selected 
-        player.gameObject.GetComponentInChildren<MeshRenderer>().material = goatMaterials[Instance.playerCount - 1];
-        planes[Instance.playerCount - 1].GetComponent<MeshRenderer>().material = planeMaterials[1];
-        planes[Instance.playerCount - 1].GetComponentInChildren<Text>().text = "P" + Instance.playerCount;
+        
 
         //Set both the goat and it's invisible platform to the right layer (P1 = Layer 16, P2 = Layer 17, etc)
         player.gameObject.layer = GoatIndexStart + Instance.playerCount;
         player.gameObject.GetComponentsInChildren<Transform>()[1].gameObject.layer = GoatIndexStart + Instance.playerCount;
         player.gameObject.GetComponentInChildren<GoatSlingShot>().ground.gameObject.layer = PlatformIndexStart + Instance.playerCount;
 
+        if (player.devices.Count > 0)
+        {
+            //print(player.gameObject.GetComponent<GoatSlingShot>().playerIndex + "||" + player.devices.Count);
+            player.gameObject.GetComponent<GoatSlingShot>().isAI = false;
+        }
+        else
+        {
+            //print(player.gameObject.GetComponent<GoatSlingShot>().playerIndex + " is AI");
+            player.gameObject.GetComponent<GoatSlingShot>().isAI = true;
+        }
     }
 
     private bool checkAvailablePos(float xValue)        // helper method that checks if a goat has already been instantiated at a specific x position
@@ -200,6 +259,9 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
     public void WantToStartGame()
     {
-        startGame = true;
+        if (!startGame)
+        {
+            startGame = true;
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayDeathSound : MonoBehaviour
 {
-    [SerializeField] private AudioClip[] DeathSounds;    // an array of death sounds that will be randomly selected from.
+    [SerializeField] private AudioClip[] DeathSounds = new AudioClip[5];    // an array of death sounds that will be randomly selected from.
     private static AudioSource m_AudioSource1;
     // Start is called before the first frame update
     void Start()

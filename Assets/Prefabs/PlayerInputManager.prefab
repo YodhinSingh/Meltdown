@@ -49,7 +49,7 @@ MonoBehaviour:
   distance: 0
   angle: 0
   isConnected: 0
-  goats: []
+  goatTemplate: {fileID: 0}
 --- !u!1 &4184205824994952606
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
         m_Action: Action
         m_Flags: 0
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 4997178208509625662, guid: 630bbd870712e174d85abc348a66cc9b,
+  m_PlayerPrefab: {fileID: 7441627704005363299, guid: 2c451f214572f384fa5d137fdd25f082,
     type: 3}
   m_SplitScreen: 0
   m_MaintainAspectRatioInSplitScreen: 0
@@ -210,31 +210,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3a7dc2126e6b04bb387148efe3236b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rankings: {fileID: 0}
+  aliveGoats: []
   winLocation: {fileID: 0}
-  positionsOfNames:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  rankNames:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}

@@ -8,31 +8,44 @@ public class LoseMenu : MonoBehaviour
 {
 
     public GameObject LoseMenuUI;
-    public GameObject Timer;
-    float TimeToWait = 3;
+    public GameObject[] Timer = new GameObject[3];
+    bool canModify;
 
     private void Start()
     {
         LoseMenuUI.SetActive(false);
-        TimeToWait = 3;
+        canModify = true;
     }
 
     private void Update()
     {
-        if (LoseMenuUI.activeInHierarchy)
+        if (LoseMenuUI.activeInHierarchy && canModify)
         {
-            Timer.GetComponent<Text>().text = Mathf.CeilToInt(TimeToWait).ToString();
-            TimeToWait -= Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Return) || TimeToWait <= 0)
-            {
-                SceneManager.LoadScene(0);
-            }
+            canModify = false;
+            StartCoroutine("TimeDisplay");
         }
     }
 
     public void DisplayMenu()
     {
         LoseMenuUI.SetActive(true);
+    }
+
+    private IEnumerator TimeDisplay()
+    {
+        Timer[2].GetComponent<Image>().enabled = true;
+        yield return new WaitForSeconds(1);
+
+        Timer[2].GetComponent<Image>().enabled = false;
+        Timer[1].GetComponent<Image>().enabled = true;
+
+        yield return new WaitForSeconds(1);
+        Timer[1].GetComponent<Image>().enabled = false;
+        Timer[0].GetComponent<Image>().enabled = true;
+
+        yield return new WaitForSeconds(1);
+        SceneManager.LoadScene(0);
+
     }
 
 }

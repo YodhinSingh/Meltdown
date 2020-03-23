@@ -37,6 +37,7 @@ int pot6Value = 0;        // value read from the pot
 int pot7Value = 0;        // value read from the pot
 int pot8Value = 0;        // value read from the pot
 
+
 int potentiometers[8] = {pot1Value, pot2Value, pot3Value, pot4Value,
                             pot5Value, pot6Value, pot7Value, pot8Value};
 
@@ -173,6 +174,7 @@ void loop()
     digitalWrite(addressC, C);    
 
     potentiometers[i] = analogRead(A0);
+<<<<<<< HEAD
     Serial.println();
     //Read and print value
     Serial.print("Channel ");
@@ -181,7 +183,7 @@ void loop()
     Serial.println(analogRead(A0));
 
     }
-    
+
 
   if (sensor1.timeoutOccurred()) { Serial.print("Sensor1 TIMEOUT"); }
   if (sensor2.timeoutOccurred()) { Serial.print("Sensor2 TIMEOUT"); }

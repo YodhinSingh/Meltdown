@@ -108,7 +108,7 @@ public class SnowballAim : MonoBehaviour
         return new Vector2(Mathf.Cos(radian), -Mathf.Sin(radian)).normalized;
     }
 
-    public void InstantiateSnowBall()
+    public bool InstantiateSnowBall()
     {
         if (allowShootTime >= CoolingTime)
         {
@@ -122,11 +122,13 @@ public class SnowballAim : MonoBehaviour
 
             Temporary_RigidBody.AddForce(r.direction * Forward_Force * 2);
             Destroy(Temporary_Snowball_Handler, 4f);
+            return true;
         }
+        return false;
     }
 
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision col)
     {
         Destroy(Temporary_Snowball_Handler);
     }

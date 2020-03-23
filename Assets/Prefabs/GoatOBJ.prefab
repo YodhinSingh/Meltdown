@@ -140,6 +140,7 @@ GameObject:
   - component: {fileID: 1542645685017391771}
   - component: {fileID: 8223091163764861331}
   - component: {fileID: 2703670800488494460}
+  - component: {fileID: 2642153605648842862}
   m_Layer: 16
   m_Name: Goat1
   m_TagString: Player
@@ -255,12 +256,8 @@ MonoBehaviour:
   jumpPower: 85
   aimPoint: {x: 0, y: 0, z: 0}
   playerIndex: 0
-  DeathSounds:
-  - {fileID: 8300000, guid: f0d486748c8d5254f9b42f3a61883fa3, type: 3}
-  - {fileID: 8300000, guid: fd8bb77a9a089964d91ffc5ae969d9b3, type: 3}
-  - {fileID: 8300000, guid: 6ea05a0630abddc46a506686c64817d8, type: 3}
-  - {fileID: 8300000, guid: 46d8b7f2eb1304d40900347209bea019, type: 3}
-  - {fileID: 8300000, guid: f556486e382ca2e4e96f6401edfb9bb5, type: 3}
+  SnowballSounds:
+  - {fileID: 8300000, guid: 84c75652f68ad4c4f854c40525c30915, type: 3}
   JumpSounds:
   - {fileID: 8300000, guid: 9feb5596c46ddf74e8f75dd483a72ee5, type: 3}
   - {fileID: 8300000, guid: 649db6340087d084db82ae94545a7ffd, type: 3}
@@ -271,10 +268,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 256a4e7e0a3c88b4890975e0ffdf0eff, type: 3}
   DeathSoundPlayer: {fileID: 7171968036282182693, guid: fc9251bd92aa9704290995fa759b3c43,
     type: 3}
-  arduino: {fileID: 0}
   goatNames:
   - {fileID: 0}
   - {fileID: 0}
+  isAI: 0
 --- !u!114 &8223091163764861331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -318,7 +315,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.35
+  m_Volume: 1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -411,6 +408,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &2642153605648842862
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5434715011268588324}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 4c3a1e5760e3bad47a15ac8d0d6f50c5, type: 3}
+  m_Controller: {fileID: 9100000, guid: 27136f841e1589940ae313f49e16ebbb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7413907348482829022
 GameObject:
   m_ObjectHideFlags: 0

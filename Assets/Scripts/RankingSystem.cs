@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class RankingSystem : MonoBehaviour
 {
     List<GameObject> Goats = new List<GameObject>();        // stores list of all active goats (size changes so List better than array)
-    GameObject[] aliveGoats;                            // array of alive goats that will be ordered to give ranking
+    public GameObject[] aliveGoats;                            // array of alive goats that will be ordered to give ranking
     string[] deadGoats = new string[8];             // array of the goats' names that are dead (first in the list will be last in ranking, etc)
     int deadGoatIndex;
 
