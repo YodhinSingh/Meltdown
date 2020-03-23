@@ -7,8 +7,8 @@
 #define XSHUT_pin4 10
 #define XSHUT_pin5 9
 #define XSHUT_pin6 8
-#define XSHUT_pin7 7
-#define XSHUT_pin8 6
+#define XSHUT_pin7 4
+#define XSHUT_pin8 3
 
 #define Sensor2_newAddress 42
 #define Sensor3_newAddress 43
@@ -20,9 +20,9 @@
 
 const int totalChannels = 8;
 
-int addressA = 8;
-int addressB = 9;
-int addressC = 10;
+int addressA = 5;
+int addressB = 6;
+int addressC = 7;
 
 int A = 0;
 int B = 0;
@@ -37,8 +37,8 @@ int pot6Value = 0;        // value read from the pot
 int pot7Value = 0;        // value read from the pot
 int pot8Value = 0;        // value read from the pot
 
-int * potentiometers[8] = {&pot1Value, &pot2Value, &pot3Value, &pot4Value,
-                            &pot5Value, &pot6Value, &pot7Value, &pot8Value};
+int potentiometers[8] = {pot1Value, pot2Value, pot3Value, pot4Value,
+                            pot5Value, pot6Value, pot7Value, pot8Value};
 
 
 VL53L0X sensor1;
@@ -53,7 +53,9 @@ VL53L0X sensor8;
 
 
 void setup()
-{  
+{ 
+
+                             
   pinMode(XSHUT_pin1, OUTPUT);
   pinMode(XSHUT_pin2, OUTPUT);
   pinMode(XSHUT_pin3, OUTPUT);
@@ -171,7 +173,15 @@ void loop()
     digitalWrite(addressC, C);    
 
     potentiometers[i] = analogRead(A0);
-  }
+    Serial.println();
+    //Read and print value
+    Serial.print("Channel ");
+    Serial.print(i);
+    Serial.print(" value: ");
+    Serial.println(analogRead(A0));
+
+    }
+    
 
   if (sensor1.timeoutOccurred()) { Serial.print("Sensor1 TIMEOUT"); }
   if (sensor2.timeoutOccurred()) { Serial.print("Sensor2 TIMEOUT"); }
@@ -187,7 +197,7 @@ void loop()
   //POTENTIOMETER CODE 
   // read the analog in value:
   // map it to the range of the analog out:
-  int outputValue1 = map(pot1Value, 0, 1023, 0, 180);
+  int outputValue1 = map(potentiometers[0], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 1");
   Serial.print(" , ");
@@ -199,7 +209,7 @@ void loop()
   //POTENTIOMETER CODE for number 2
   // read the analog in value:
   // map it to the range of the analog out:
-  int outputValue2 = map(pot2Value, 0, 1023, 0, 180);
+  int outputValue2 = map(potentiometers[1], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 2");
   Serial.print(" , ");
@@ -208,7 +218,7 @@ void loop()
 
 //CONTROLLER THREE  
   checkDistanceDiff(sensor3);
-  int outputValue3 = map(pot3Value, 0, 1023, 0, 180);
+  int outputValue3 = map(potentiometers[2], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 3");
   Serial.print(" , ");
@@ -217,7 +227,7 @@ void loop()
   
 //CONTROLLER FOUR  
   checkDistanceDiff(sensor4);
-  int outputValue4 = map(pot4Value, 0, 1023, 0, 180);
+  int outputValue4 = map(potentiometers[3], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 4");
   Serial.print(" , ");
@@ -226,7 +236,7 @@ void loop()
   
 //CONTROLLER FIVE 
   checkDistanceDiff(sensor5);
-  int outputValue5 = map(pot5Value, 0, 1023, 0, 180);
+  int outputValue5 = map(potentiometers[4], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 5");
   Serial.print(" , ");
@@ -235,7 +245,7 @@ void loop()
 
 //CONTROLLER SIX  
   checkDistanceDiff(sensor6);
-  int outputValue6 = map(pot6Value, 0, 1023, 0, 180);
+  int outputValue6 = map(potentiometers[5], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 6");
   Serial.print(" , ");
@@ -244,7 +254,7 @@ void loop()
 
 //CONTROLLER SEVEN  
   checkDistanceDiff(sensor7);
-  int outputValue7 = map(pot7Value, 0, 1023, 0, 180);
+  int outputValue7 = map(potentiometers[6], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 7");
   Serial.print(" , ");
@@ -253,7 +263,7 @@ void loop()
   
 //CONTROLLER EIGHT 
   checkDistanceDiff(sensor8);
-  int outputValue8 = map(pot8Value, 0, 1023, 0, 180);
+  int outputValue8 = map(potentiometers[7], 0, 1023, 0, 180);
   // print the results to the Serial Monitor:
   //Serial.print(" , 8");
   Serial.print(" , ");
@@ -266,9 +276,7 @@ void loop()
 
 }
 
-void checkDistanceDiff(VL53L0X sensor)
-
-{
+void checkDistanceDiff(VL53L0X sensor){
   static int previousDist = 0;
   int currentDist = sensor.readRangeContinuousMillimeters();
   int diff= currentDist - previousDist;
