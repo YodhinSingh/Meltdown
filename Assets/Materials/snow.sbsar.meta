@@ -20,8 +20,8 @@ ScriptedImporter:
     shaderName: Standard
     materialProperties:
       shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-      shaderKeywords: _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
-      lightmapFlags: 4
+      shaderKeywords: _EMISSION _MAINTEX _METALLICGLOSSMAP _NORMALMAP _PARALLAXMAP
+      lightmapFlags: 1
       texEnvs:
       - name: _BumpMap
         texture: {fileID: 6107765023538162400, guid: 6f8094c47fb122c49b975f8762c24674,
@@ -85,7 +85,7 @@ ScriptedImporter:
       - name: _OcclusionStrength
         float: 1
       - name: _Parallax
-        float: 0.0216
+        float: 0.0168
       - name: _SmoothnessTextureChannel
         float: 0
       - name: _SpecularHighlights
@@ -100,7 +100,7 @@ ScriptedImporter:
       - name: _Color
         color: {r: 0.740566, g: 0.947608, b: 1, a: 1}
       - name: _EmissionColor
-        color: {r: 0, g: 0, b: 0, a: 1}
+        color: {r: 0.21698111, g: 0.21698111, b: 0.21698111, a: 1}
     outputDescList:
     - outputName: baseColor
       identifier: basecolor

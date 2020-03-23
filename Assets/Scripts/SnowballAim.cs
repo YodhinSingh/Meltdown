@@ -117,6 +117,9 @@ public class SnowballAim : MonoBehaviour
             Temporary_Snowball_Handler = Instantiate(Snowball, transform.position, transform.rotation) as GameObject;
             allowShootTime = 0f;
 
+            Temporary_Snowball_Handler.GetComponent<CalculateZValue>().trail.emitting = true;
+            Temporary_Snowball_Handler.GetComponent<CalculateZValue>().particles.Play();
+
             Rigidbody Temporary_RigidBody = Temporary_Snowball_Handler.GetComponent<Rigidbody>();
 
 

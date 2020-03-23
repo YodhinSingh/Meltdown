@@ -42,6 +42,7 @@ public class GoatSlingShot : MonoBehaviour
     private LineRenderer VisibleAimLine;
     private float arrowColourR;
     private float arrowColourG;
+    //public GameObject arrowAim;
 
     //Audio Files
     [SerializeField] private AudioClip[] SnowballSounds = new AudioClip[1];    // an array of snowball sounds that will be randomly selected from.
@@ -72,7 +73,15 @@ public class GoatSlingShot : MonoBehaviour
     public MeshRenderer meshEye1_2;
     public MeshRenderer meshEye2_2;
     public GameObject[] bodyVisibility = new GameObject[2];
+
+    //Particle Effects related
     public GameObject[] trails = new GameObject[3];
+    public GameObject ChargeParticles;
+    public GameObject FullyChargedParticles;
+    public GameObject LaunchChargedParticles;
+    ParticleSystem LaunchCharged;
+    bool hasEmitted = false;
+    int numParticles = 1;
 
     // Animator components
     Animator anim;
@@ -82,6 +91,9 @@ public class GoatSlingShot : MonoBehaviour
     bool hasWon = false;
     bool gotHit = false;
     bool playerHeadbutt = false;
+
+    //Camera shake
+    private Camera_Shake camOBJ;
 
 
     // Start is called before the first frame update
@@ -113,8 +125,10 @@ public class GoatSlingShot : MonoBehaviour
         m_AudioSource = GetComponent<AudioSource>();
         aboutToLand = false;
         collDone = false;
-        arduinoScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<AriunoListener>();
+        arduinoScript = instance.gameObject.GetComponentInChildren<AriunoListener>();
         rankingAquired = false;
+
+        LaunchCharged = LaunchChargedParticles.GetComponent<ParticleSystem>();
 
         jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);    // used instead of arduino since no access to it right now
 
@@ -145,6 +159,7 @@ public class GoatSlingShot : MonoBehaviour
         if (onGround && PlayerControlActive)
         {
             VisibleAimLine.enabled = true;
+            //arrowAim.SetActive(true);
             for (int i = 0; i < trails.Length; i++)
             {
                 trails[i].SetActive(false);
@@ -165,6 +180,7 @@ public class GoatSlingShot : MonoBehaviour
             }
 
             VisibleAimLine.enabled = false;
+            //arrowAim.SetActive(false);
             RotateBodyInAir();
             chargeState = 2;
         }
@@ -177,13 +193,20 @@ public class GoatSlingShot : MonoBehaviour
         if (!isOnMountain)
             DestroyGround();
 
+
+        if (camOBJ != null && playerHeadbutt)
+        {
+            //camOBJ.enabled = true;                 //camera shake
+            camOBJ.allow = true;
+        }
+
         anim.SetBool("onGround", onGround);
         anim.SetInteger("chargeState", chargeState);
         anim.SetBool("moveDir", isMovingForward);
         anim.SetBool("gotHit", gotHit);
         anim.SetBool("hasWon", hasWon);
         anim.SetBool("headbutt", playerHeadbutt);
-        
+
     }
 
 
@@ -242,7 +265,9 @@ public class GoatSlingShot : MonoBehaviour
         {
             AddGoatToCam();
             AddGoatCam = false;
-            PlayerControlActive = true;
+            //camOBJ = Camera.main.transform.parent.gameObject.GetComponent<Camera_Shake>();
+            camOBJ = Camera.main.GetComponent<Camera_Shake>();
+            //DisablePlayerControl(false);
             //GetComponent<MeshRenderer>().enabled = true;
             /*
             SkinnedMeshRenderer[] meshes = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -280,6 +305,7 @@ public class GoatSlingShot : MonoBehaviour
 
         Ray aim = new Ray(transform.position, target);
         Vector3 LineRay = new Vector3(aim.direction.x, aim.direction.y, aim.direction.z);
+
         RotateBodyWhileAiming(LineRay);
 
         if (transform.rotation == Quaternion.Euler(0, 270f, 0))
@@ -289,6 +315,9 @@ public class GoatSlingShot : MonoBehaviour
 
         VisibleAimLine.SetPosition(1, LineRay * -0.02f * (jumpPressure + 3f));
 
+        //float angle = Vector2ToDegree(LineRay);
+        //arrowAim.transform.localRotation = Quaternion.Euler(angle, 0f, 0);
+
         Debug.DrawRay(aim.origin, aim.direction * 50, Color.red);
 
         // Holding the jump charge
@@ -297,16 +326,20 @@ public class GoatSlingShot : MonoBehaviour
 
             if (jumpPressure < maxJumpPressure)                 // increase jump amount
             {
-                jumpPressure += Time.deltaTime * 20f;
-
+                jumpPressure += Time.deltaTime * 15f;           //old was 20
+                ChargeParticles.SetActive(true);
+                numParticles = (int) (jumpPressure *2);
             }
             else
             {
                 jumpPressure = maxJumpPressure;
+                FullyChargedParticles.SetActive(true);
+                numParticles = 30;
             }
             arrowColourR -= Time.deltaTime * 3f;                    //change colour of slingshot aim line
             arrowColourG += Time.deltaTime * 3f;
             chargeState = 0;
+            hasEmitted = false;
         }
 
         // Not holding the jump charge anymore
@@ -320,7 +353,15 @@ public class GoatSlingShot : MonoBehaviour
                 arrowColourG += 0.01f;
                 PlayAudio(1);
                 chargeState = 1;
+                if (!hasEmitted)
+                {
+                    LaunchCharged.Emit(numParticles);
+                    hasEmitted = true;
+                }
             }
+            
+            ChargeParticles.SetActive(false);
+            FullyChargedParticles.SetActive(false);
 
             // Apply jump force to rigidbody and reset jump value
             Vector3 jumpDir = new Vector3(aim.direction.x / 1.5f, aim.direction.y, aim.direction.z);
@@ -427,7 +468,7 @@ public class GoatSlingShot : MonoBehaviour
                 AimInput = new Vector3(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1.1f, 0f), 0);
                 //AimInput = new Vector3(0, -1, 0);
                 HoldingJump = false;
-                jumpChargeTime = UnityEngine.Random.Range(0.1f, 1f);
+                jumpChargeTime = UnityEngine.Random.Range(0.75f, 2f);
             }
         }
         return SensorConnected;
@@ -437,6 +478,19 @@ public class GoatSlingShot : MonoBehaviour
     {
         float radian = degree * Mathf.Deg2Rad;
         return new Vector2(Mathf.Cos(radian), -Mathf.Sin(radian)).normalized;
+    }
+
+    public static float Vector2ToDegree(Vector2 aim)
+    {
+        if (aim.x < 0)
+        {
+            return 360 - (Mathf.Atan2(aim.x, aim.y) * Mathf.Rad2Deg * -1);
+        }
+        else
+        {
+            return Mathf.Atan2(aim.x, aim.y) * Mathf.Rad2Deg;
+        }
+
     }
 
     private bool CheckBelowGround() // if platform below close enough, then no need to spawn own platform, just land on this
@@ -596,6 +650,7 @@ public class GoatSlingShot : MonoBehaviour
             if (!collDone)
             {
                 playerHeadbutt = true;
+                
                 Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
                 dir = dir.normalized;
                 // This will push back the player

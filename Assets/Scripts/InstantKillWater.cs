@@ -13,6 +13,8 @@ public class InstantKillWater : MonoBehaviour
     private bool allowRise;
     private PlayerInstanceGenerator instance;
 
+    public GameObject clouds;
+
 
 
     // Start is called before the first frame update
@@ -37,6 +39,11 @@ public class InstantKillWater : MonoBehaviour
             fraction += Time.deltaTime/TimeSecondsToTake;
         }
         transform.position = Vector3.Lerp(startPos, endPos, fraction);
+
+        if (transform.position.y >= 256f && transform.position.y <= 258f)
+        {
+            clouds.GetComponent<CloudScript>().makeCloudsDisappear();
+        }
     }
 
     private void SetGameOver()

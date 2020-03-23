@@ -13,6 +13,9 @@ public class Win : MonoBehaviour
     public GameObject[] players = new GameObject[8];
 
     public GameObject[] Timer = new GameObject[3];
+    public GameObject winGround;
+    public GameObject[] CamKillBoxes = new GameObject[3];
+
     bool canModify;
     bool danceDone;
 
@@ -37,6 +40,11 @@ public class Win : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            winGround.SetActive(true);
+            for (int i = 0; i < CamKillBoxes.Length; i++)
+            {
+                CamKillBoxes[i].SetActive(false);
+            }
             WinMenuUI.SetActive(true);
             players[other.gameObject.GetComponent<GoatSlingShot>().playerIndex - 1].SetActive(true);
             //other.gameObject.GetComponent<GoatSlingShot>().DisablePlayerControl(true);
@@ -53,7 +61,7 @@ public class Win : MonoBehaviour
         yield return new WaitForSeconds(3.1f);
         instance.DisableAllPlayers();
         instance.players.Clear();
-        danceDone = true; ;
+        danceDone = true;
 
     }
 

@@ -1415,7 +1415,7 @@ RectTransform:
   m_GameObject: {fileID: 447524245}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1787443332}
   m_RootOrder: 1
@@ -1439,11 +1439,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: f3c56a28dc41baa4bb2d6328fd5e8971, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -1922,8 +1922,9 @@ Transform:
   - {fileID: 1354072168}
   - {fileID: 1837194437}
   - {fileID: 339315599}
+  - {fileID: 1814323541}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &635813829
 GameObject:
@@ -7435,7 +7436,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 6c4579c9a7af98d46b12c18a294005cb, type: 3}
+  m_Texture: {fileID: 2800000, guid: 0cb6402641dc92048aa7bcccac4c91ba, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -8592,7 +8593,7 @@ RectTransform:
   m_GameObject: {fileID: 1100707183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 893021701}
   m_RootOrder: 1
@@ -8616,11 +8617,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: b405a9804bff86a4fb3988c474b7d20e, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -9419,7 +9420,7 @@ RectTransform:
   m_GameObject: {fileID: 1357925875}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1627485207}
   m_RootOrder: 1
@@ -9443,11 +9444,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: d936fa7e7c8d59244a6594cfea6cb0f9, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -10083,7 +10084,7 @@ RectTransform:
   m_GameObject: {fileID: 1546607913}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 729206906}
   m_RootOrder: 1
@@ -10107,11 +10108,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: 4c15d579faf9c6c4486d164778373ff0, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -10419,7 +10420,7 @@ RectTransform:
   m_GameObject: {fileID: 1610396148}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 2146908312}
   m_RootOrder: 1
@@ -10443,11 +10444,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: a5eb3910cab2fcc48a1aa265611d7f27, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -11289,11 +11290,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814323540}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 200}
+  m_LocalPosition: {x: 0, y: 0, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_Father: {fileID: 629503279}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1814323542
 MonoBehaviour:
@@ -11302,7 +11303,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814323540}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7970b98469e608c41ac0175c3a5792f9, type: 3}
   m_Name: 
@@ -11310,6 +11311,14 @@ MonoBehaviour:
   skyboxNight: {fileID: 2100000, guid: cc421da483ed06c49933077a621bff25, type: 2}
   skyboxDay: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
   speed: 0.1
+  tintValueDayTarget:
+    serializedVersion: 2
+    rgba: 4291887142
+  exposureDayTarget: 0.33
+  tintValueNightTarget:
+    serializedVersion: 2
+    rgba: 4291887142
+  exposureNightTarget: 0.1
 --- !u!4 &1832389248 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: c39a82a5bfcfa414a99fb3dd87d166a0,
@@ -11343,7 +11352,7 @@ RectTransform:
   m_GameObject: {fileID: 1837012494}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1505021141}
   m_RootOrder: 1
@@ -11367,11 +11376,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: ea3074069a0d81a4b9020188453d4550, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -11506,7 +11515,7 @@ RectTransform:
   m_GameObject: {fileID: 1841151780}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 14}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 1001182142}
   m_RootOrder: 1
@@ -11530,11 +11539,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 0}
+  m_Texture: {fileID: 2800000, guid: d6b32370b2383c543884984a34ec15ba, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -11823,7 +11832,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1710
+  m_Name: pb_Mesh-184518
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

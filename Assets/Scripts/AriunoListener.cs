@@ -72,9 +72,9 @@ public class AriunoListener : MonoBehaviour
 
 
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
-
+                    print(e.StackTrace);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class AriunoListener : MonoBehaviour
             {
                 aim = new Vector3(Random.Range(-1f, 1f), Random.Range(-1.1f, 0f), 0);
                 isHoldingJump = false;
-                jumpChargeTime = Random.Range(0.1f, 1f);
+                jumpChargeTime = Random.Range(0.75f, 1.5f);
             }
         }
 

@@ -18,6 +18,8 @@ public class SnowballFire : MonoBehaviour
 
     ButtonListener buttonScript;
 
+    public bool allowShoot;
+
 
     // Use this for initialization
     private void Awake()
@@ -36,6 +38,7 @@ public class SnowballFire : MonoBehaviour
         camMinZoom = Camera.main.GetComponent<CameraFollow>().minZoom;
 
         buttonScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<ButtonListener>();
+        allowShoot = false;
     }
 
     // Update is called once per frame
@@ -56,11 +59,11 @@ public class SnowballFire : MonoBehaviour
         }
         float curY = cam.position.y + Mathf.Lerp(-10.6f, -32, fractionZ);
         Vector3 target = new Vector3(cam.position.x, curY, curZ); 
-        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 10f);
+        transform.position = Vector3.Lerp(transform.position, target, Time.deltaTime * 25f);
 
 
         // As long as the win menu or lose menu are not active/null, then keep reloading and throwing snowballs
-        if ((WinMenuUI != null && !WinMenuUI.activeInHierarchy) && (LoseMenuUI != null && !LoseMenuUI.activeInHierarchy))
+        if ((WinMenuUI != null && !WinMenuUI.activeInHierarchy) && (LoseMenuUI != null && !LoseMenuUI.activeInHierarchy) && allowShoot)
         {
 
             throwSnowballFromArduino();

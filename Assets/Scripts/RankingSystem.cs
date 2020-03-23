@@ -90,9 +90,17 @@ public class RankingSystem : MonoBehaviour
                     {
                         topGoatPos = aliveGoats[i].transform.position;
                     }
-                    Transform goatNamePos = rankNames[aliveGoats[i].GetComponent<GoatSlingShot>().playerIndex * 2 - 2].transform;
+                    try
+                    {
+                        Transform goatNamePos = rankNames[aliveGoats[i].GetComponent<GoatSlingShot>().playerIndex * 2 - 2].transform;
 
-                    goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[i], goatNamePos.position.z);
+                        goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[i], goatNamePos.position.z);
+                    }
+                    catch (Exception e)
+                    {
+                        print(e.StackTrace);
+                        print(e.Message);
+                    }
 
                 }
             }
@@ -108,9 +116,14 @@ public class RankingSystem : MonoBehaviour
                     {
                         goatNamePos = rankNames[index * 2 - 2].transform;
                     }
-
-                    goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[aliveGoats.Length + pos++], goatNamePos.position.z);
-
+                    try
+                    {
+                        goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[aliveGoats.Length + pos++], goatNamePos.position.z);
+                    }
+                    catch (Exception e)
+                    {
+                        print(e.StackTrace);
+                    }
                 }
             }
         }
@@ -218,7 +231,8 @@ public class RankingSystem : MonoBehaviour
             rankNames[index * 2 - 2].GetComponent<RawImage>().enabled = false;
             rankNames[index * 2 - 1].GetComponent<RawImage>().enabled = true;
         }
-        deadGoats[deadGoatIndex++] = name;
+
+        deadGoats[Mathf.Min(deadGoatIndex++, 7)] = name;
 
         Goats.Remove(goat);
         aliveGoats = Goats.ToArray();

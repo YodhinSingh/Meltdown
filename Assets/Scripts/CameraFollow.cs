@@ -66,10 +66,11 @@ public class CameraFollow : MonoBehaviour
             fractionZ = (cam.transform.position.z - minZoom) / (maxZoom - minZoom);
         }
 
+        float camOffsetX = cam.transform.position.x;
         float newTrigPosL = Mathf.Lerp(-34, -84, fractionZ);
-        triggerLeft.transform.position = new Vector3(newTrigPosL, triggerLeft.transform.position.y, triggerLeft.transform.position.z);
+        triggerLeft.transform.position = new Vector3(newTrigPosL + camOffsetX, triggerLeft.transform.position.y, triggerLeft.transform.position.z);
         float newTrigPosR = Mathf.Lerp(34, 84, fractionZ);
-        triggerRight.transform.position = new Vector3(newTrigPosR, triggerRight.transform.position.y, triggerRight.transform.position.z);
+        triggerRight.transform.position = new Vector3(newTrigPosR + camOffsetX, triggerRight.transform.position.y, triggerRight.transform.position.z);
         float newTrigPosB = cam.transform.position.y + Mathf.Lerp(-19, -42, fractionZ);
         triggerBottom.transform.position = new Vector3(triggerBottom.transform.position.x, newTrigPosB, triggerBottom.transform.position.z);
     }
@@ -78,7 +79,7 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 centerPoint = GetCenterPoint(bounds);
 
-        Vector3 newPos = new Vector3(0, centerPoint.y + 5f, 0) + offset;
+        Vector3 newPos = new Vector3(centerPoint.x/6, centerPoint.y + 5f, 0) + offset;
         //Vector3 newPos = centerPoint + offset;
 
         transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothTime);

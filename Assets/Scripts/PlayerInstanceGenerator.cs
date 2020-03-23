@@ -192,7 +192,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
 
 
         player.gameObject.GetComponentInChildren<LineRenderer>().enabled = false;
-        planes[Instance.playerCount - 1].GetComponentInChildren<Text>().enabled = true;
+        //planes[Instance.playerCount - 1].GetComponentInChildren<Text>().enabled = true;
         planes[Instance.playerCount - 1].GetComponentInChildren<RawImage>().enabled = true;
 
 
@@ -262,6 +262,14 @@ public class PlayerInstanceGenerator : MonoBehaviour
         if (!startGame)
         {
             startGame = true;
+        }
+    }
+
+    public void EnablePlayers()
+    {
+        foreach (GameObject p in players)
+        {
+            p.GetComponent<GoatSlingShot>().DisablePlayerControl(false);
         }
     }
 }

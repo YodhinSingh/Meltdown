@@ -7,6 +7,9 @@ public class CalculateZValue : MonoBehaviour
     Vector3 MountainTop = new Vector3(-3.4f,407.8f, 0f);
     float startpoint;
 
+    public TrailRenderer trail;
+    public ParticleSystem particles;
+
     // Start is called before the first frame update
     void Start()
     {
