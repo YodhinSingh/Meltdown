@@ -38,7 +38,7 @@ public class SnowballFire : MonoBehaviour
         camMinZoom = Camera.main.GetComponent<CameraFollow>().minZoom;
 
         buttonScript = GameObject.FindGameObjectWithTag("PlayerManager").GetComponentInChildren<ButtonListener>();
-        allowShoot = false;
+        allowShoot = true;
     }
 
     // Update is called once per frame

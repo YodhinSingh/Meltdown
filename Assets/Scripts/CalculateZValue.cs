@@ -9,6 +9,9 @@ public class CalculateZValue : MonoBehaviour
 
     public TrailRenderer trail;
     public ParticleSystem particles;
+    public GameObject exploder;
+
+    GameObject temp;
 
     // Start is called before the first frame update
     void Start()
@@ -26,5 +29,16 @@ public class CalculateZValue : MonoBehaviour
         }
         float curZ = Mathf.Lerp(0, MountainTop.z, fraction);
         transform.position = new Vector3(transform.position.x, transform.position.y, curZ);
+    }
+
+
+    public void explode()
+    {
+        temp = Instantiate(exploder, transform.position, Quaternion.identity) as GameObject;
+        Destroy(temp, 0.25f);
+        particles.gameObject.SetActive(false);
+        trail.gameObject.SetActive(false);
+        GetComponent<MeshRenderer>().enabled = false;
+        Destroy(gameObject, 0.3f);
     }
 }

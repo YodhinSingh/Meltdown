@@ -12,6 +12,7 @@ public class RankingSystem : MonoBehaviour
     public GameObject[] aliveGoats;                            // array of alive goats that will be ordered to give ranking
     string[] deadGoats = new string[8];             // array of the goats' names that are dead (first in the list will be last in ranking, etc)
     int deadGoatIndex;
+    int playercount;
 
     public GameObject winLocation;                  // top of mountain
 
@@ -21,6 +22,9 @@ public class RankingSystem : MonoBehaviour
     Vector2 screenDimensions;
     GameObject[] rankNames = new GameObject[16];
     private Vector3 topGoatPos = new Vector3();
+    private Vector3 LastGoatPos = new Vector3();
+
+    PlayerInstanceGenerator instance;
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +49,8 @@ public class RankingSystem : MonoBehaviour
         positionsOfNames[7] = screenDimensions.y - 330;
         gotItems = false;
         deadGoatIndex = 0;
+
+        instance = GetComponentInParent<PlayerInstanceGenerator>();
     }
 
     // Update is called once per frame
@@ -56,14 +62,14 @@ public class RankingSystem : MonoBehaviour
             gotItems = true;
             deadGoatIndex = 0;
             deadGoats = new string[8];
-            rankNames = GetComponentInParent<PlayerInstanceGenerator>().goatNameGraphics;
+            rankNames = instance.goatNameGraphics;
         }
 
         if (gotItems && SceneManager.GetActiveScene().buildIndex == 0)      // menu scene, it resets values so code works in game scene
         {
             gotItems = false;
             deadGoatIndex = 0;
-            rankNames = GetComponentInParent<PlayerInstanceGenerator>().goatNameGraphics;
+            rankNames = instance.goatNameGraphics;
         }
 
         
@@ -71,6 +77,7 @@ public class RankingSystem : MonoBehaviour
 
     public void StartRanking()          // called by PlayerInstanceGenerator Script to let this one know that rankings can start
     {
+        playercount = instance.GetPlayerCount();
         InvokeRepeating("rankGoats", 0.5f, 0.5f);           // call this method every half second. Not needed to call every frame
         aliveGoats = Goats.ToArray();                       // get goat objs and put them in alive goats array for ordering
     }
@@ -80,6 +87,7 @@ public class RankingSystem : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1 && gotItems && rankNames != null)
         {
+            playercount = instance.GetPlayerCount();
             MergeSort(aliveGoats, 0, aliveGoats.Length - 1);        // sort the array based on distance from the win location
 
             for (int i = 0; i < aliveGoats.Length; i++)
@@ -87,6 +95,13 @@ public class RankingSystem : MonoBehaviour
                 if (aliveGoats[i] != null)              // go through array and get the names of the goats and put them in the ranking string
                 {
                     if (i == 0)
+                    {
+                        topGoatPos = aliveGoats[i].transform.position;
+                    }
+                    if (i == aliveGoats.Length - 1)
+                    {
+                        LastGoatPos = aliveGoats[i].transform.position;
+                    }
                     {
                         topGoatPos = aliveGoats[i].transform.position;
                     }
@@ -119,10 +134,12 @@ public class RankingSystem : MonoBehaviour
                     try
                     {
                         goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[aliveGoats.Length + pos++], goatNamePos.position.z);
+                        //goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[playercount + pos++], goatNamePos.position.z);
                     }
                     catch (Exception e)
                     {
                         print(e.StackTrace);
+                        print(e.Message);
                     }
                 }
             }
@@ -242,4 +259,11 @@ public class RankingSystem : MonoBehaviour
     {
         return topGoatPos;
     }
+
+    public Vector3 lastGoatPosition()
+    {
+        return LastGoatPos;
+    }
+
+
 }

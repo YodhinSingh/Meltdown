@@ -118,17 +118,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2895255e-f86d-4a08-984c-9afd236bac9a",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Jump",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c8c443bc-fe32-484a-8462-d85c50a79b7e",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "Press(behavior=1)",

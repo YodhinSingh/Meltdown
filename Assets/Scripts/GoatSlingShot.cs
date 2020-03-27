@@ -10,9 +10,9 @@ public class GoatSlingShot : MonoBehaviour
 {
     //Input from controller/arduino
     private bool HoldingJump;
-    private Vector3 AimInput;
+    private Vector3 AimInput = new Vector3(0, -1, 0);
     private bool HoldingJumpController;
-    private Vector3 AimInputController;
+    private Vector3 AimInputController = new Vector3(0, -1, 0);
 
     //Goat properties and components
     private bool onGround;
@@ -148,10 +148,7 @@ public class GoatSlingShot : MonoBehaviour
         CheckSceneRequirements();
         offset = new Vector3(transform.position.x, transform.position.y - 1f, transform.position.z);    // where to place platform below goat
         CheckOnMountain();                                  // check if goat is on mountain
-        if (isOnMountain)
-        {
-            //SetZTransform();
-        }
+
 
         // This checks if the arduino is plugged in. If not it will return false, else return true.
         bool use = CheckJump();
@@ -194,11 +191,6 @@ public class GoatSlingShot : MonoBehaviour
             DestroyGround();
 
 
-        if (camOBJ != null && playerHeadbutt)
-        {
-            //camOBJ.enabled = true;                 //camera shake
-            camOBJ.allow = true;
-        }
 
         anim.SetBool("onGround", onGround);
         anim.SetInteger("chargeState", chargeState);
@@ -265,9 +257,8 @@ public class GoatSlingShot : MonoBehaviour
         {
             AddGoatToCam();
             AddGoatCam = false;
-            //camOBJ = Camera.main.transform.parent.gameObject.GetComponent<Camera_Shake>();
             camOBJ = Camera.main.GetComponent<Camera_Shake>();
-            //DisablePlayerControl(false);
+            DisablePlayerControl(false);
             //GetComponent<MeshRenderer>().enabled = true;
             /*
             SkinnedMeshRenderer[] meshes = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -635,9 +626,12 @@ public class GoatSlingShot : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Snowball"))   // collisions for snowball
         {
+            collision.gameObject.GetComponent<CalculateZValue>().explode();
+
             PlayAudio(3);
             gotHit = true;
-            Destroy(collision.gameObject);
+            
+            //Destroy(collision.gameObject, 1.5f);
             DestroyGround();
             Vector3 dir = collision.GetContact(0).point - transform.position;
             //Vector3 dir = new Vector3(0, -1, 0);
@@ -696,6 +690,7 @@ public class GoatSlingShot : MonoBehaviour
         if (other.CompareTag("Water"))              // if player enters water, kill player
         {
             //other.GetComponent<InstantKillWater>().SetGameOver();
+            camOBJ.allow = true;
             DisablePlayerControl(true);
             instance.players.Remove(gameObject);
             instance.GetComponent<RankingSystem>().RemoveGoat(gameObject, true);

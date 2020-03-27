@@ -131,8 +131,4 @@ public class SnowballAim : MonoBehaviour
     }
 
 
-    private void OnCollisionEnter(Collision col)
-    {
-        Destroy(Temporary_Snowball_Handler);
-    }
 }

@@ -8,6 +8,8 @@ public class StartWaterTrigger : MonoBehaviour
 
     public GameObject water;
 
+    public WaterRedIndicator red;
+
 
     private void Start()
     {
@@ -20,6 +22,7 @@ public class StartWaterTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !hasCollided)
         {
             water.GetComponent<InstantKillWater>().StartWaterRise();
+            red.allow = true;
             hasCollided = true;
         }
     }
