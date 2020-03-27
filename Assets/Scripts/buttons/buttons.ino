@@ -57,7 +57,7 @@ void loop()
       digitalWrite(LED1,HIGH);
       led1State = HIGH;
       led1CameOn = millis();
-      Serial.println("SNOWBALL1 THROWN");
+      Serial.println("1, 1");
       Serial.flush();
       delay(2);
     }
@@ -89,7 +89,7 @@ void loop()
       digitalWrite(LED2,HIGH);
       led2State = HIGH;
       led2CameOn = millis();
-      Serial.println("SNOWBALL2 THROWN");
+      Serial.println("2, 1");
       Serial.flush();
       delay(2);
     }
@@ -121,7 +121,7 @@ void loop()
       digitalWrite(LED3,HIGH);
       led3State = HIGH;
       led3CameOn = millis();
-      Serial.println("SNOWBALL3 THROWN");
+      Serial.println("3, 1");
       Serial.flush();
       delay(2);
     }
@@ -153,7 +153,7 @@ void loop()
       digitalWrite(LED4,HIGH);
       led4State = HIGH;
       led4CameOn = millis();
-      Serial.println("SNOWBALL4 THROWN");
+      Serial.println("4, 1");
       Serial.flush();
       delay(2);
     }
@@ -185,7 +185,7 @@ void loop()
       digitalWrite(LED5,HIGH);
       led5State = HIGH;
       led5CameOn = millis();
-      Serial.println("SNOWBALL5 THROWN");
+      Serial.println("5, 1");
       Serial.flush();
       delay(2);
     }
@@ -217,7 +217,7 @@ void loop()
       digitalWrite(LED6,HIGH);
       led6State = HIGH;
       led6CameOn = millis();
-      Serial.println("SNOWBALL6 THROWN");
+      Serial.println("6, 1");
       Serial.flush();
       delay(2);
     }
