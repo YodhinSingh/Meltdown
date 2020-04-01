@@ -36,6 +36,7 @@ public class GoatSlingShot : MonoBehaviour
     public Vector3 aimPoint;
     public int playerIndex;
     public GameObject ground;
+    
 
     // charge renderer component
     public GameObject lineRendererAim;
@@ -153,7 +154,7 @@ public class GoatSlingShot : MonoBehaviour
         // This checks if the arduino is plugged in. If not it will return false, else return true.
         bool use = CheckJump();
 
-        if (onGround && PlayerControlActive)
+        if (onGround && PlayerControlActive && isOnMountain)
         {
             VisibleAimLine.enabled = true;
             //arrowAim.SetActive(true);
@@ -198,6 +199,7 @@ public class GoatSlingShot : MonoBehaviour
         anim.SetBool("gotHit", gotHit);
         anim.SetBool("hasWon", hasWon);
         anim.SetBool("headbutt", playerHeadbutt);
+        anim.SetBool("isOnMountain", isOnMountain);
 
     }
 
@@ -259,14 +261,7 @@ public class GoatSlingShot : MonoBehaviour
             AddGoatCam = false;
             camOBJ = Camera.main.GetComponent<Camera_Shake>();
             DisablePlayerControl(false);
-            //GetComponent<MeshRenderer>().enabled = true;
-            /*
-            SkinnedMeshRenderer[] meshes = GetComponentsInChildren<SkinnedMeshRenderer>();
-            for (int i = 0; i < meshes.Length; i++)
-            {
-                meshes[i].enabled = true;
-            }
-            */
+
             for (int i = 0; i < bodyVisibility.Length; i++)
             {
                 bodyVisibility[i].SetActive(true);
@@ -275,8 +270,6 @@ public class GoatSlingShot : MonoBehaviour
         }
         if (!rankingAquired && instance.gotRankings && SceneManager.GetActiveScene().buildIndex == 1)
         {
-            //instance.goatNameGraphics[playerIndex - 1] = goatNames[0];
-            //instance.goatNameGraphics[playerIndex] = goatNames[1];
             rankingAquired = true;
         }
     }
@@ -317,7 +310,7 @@ public class GoatSlingShot : MonoBehaviour
 
             if (jumpPressure < maxJumpPressure)                 // increase jump amount
             {
-                jumpPressure += Time.deltaTime * 15f;           //old was 20
+                jumpPressure += Time.deltaTime * 10f;           //old was 20, then 15
                 ChargeParticles.SetActive(true);
                 numParticles = (int) (jumpPressure *2);
             }
@@ -349,6 +342,7 @@ public class GoatSlingShot : MonoBehaviour
                     LaunchCharged.Emit(numParticles);
                     hasEmitted = true;
                 }
+                isCreated = false;
             }
             
             ChargeParticles.SetActive(false);
@@ -362,7 +356,7 @@ public class GoatSlingShot : MonoBehaviour
             arrowColourR = 1f;
             arrowColourG = 0f;
             jumpPressure = 0f;
-            isCreated = false;
+            
 
 
         }
@@ -401,6 +395,8 @@ public class GoatSlingShot : MonoBehaviour
         {
             //isMovingForward = true;
         }
+        ChargeParticles.SetActive(false);
+        FullyChargedParticles.SetActive(false);
     }
 
 
@@ -612,11 +608,12 @@ public class GoatSlingShot : MonoBehaviour
 
             if (collision.gameObject.CompareTag("Platform") && !checkIfPlatformBelow)
             {
+
                 gotHit = true;
                 Vector3 dir = collision.GetContact(0).point - transform.position;
                 dir = -dir.normalized;
                 // This will push back the player
-                GetComponent<Rigidbody>().AddForce(dir * 300f);
+                GetComponent<Rigidbody>().AddForce(dir * 200f);
             }
             else
             {
@@ -624,32 +621,33 @@ public class GoatSlingShot : MonoBehaviour
                     rb.velocity = new Vector3(0, rb.velocity.y, rb.velocity.z);
             }
         }
-        else if (collision.gameObject.CompareTag("Snowball"))   // collisions for snowball
+        else if (collision.gameObject != null && collision.gameObject.CompareTag("Snowball"))   // collisions for snowball
         {
             collision.gameObject.GetComponent<CalculateZValue>().explode();
 
             PlayAudio(3);
             gotHit = true;
-            
+            onGround = false;
             //Destroy(collision.gameObject, 1.5f);
             DestroyGround();
             Vector3 dir = collision.GetContact(0).point - transform.position;
             //Vector3 dir = new Vector3(0, -1, 0);
             dir = -dir.normalized;
             //Push down the player from snowball
-            GetComponent<Rigidbody>().AddForce(dir * 500f);
+            GetComponent<Rigidbody>().AddForce(dir * 300f);
         }
         else
         {
+            playerHeadbutt = true;
             if (!collDone)
             {
-                playerHeadbutt = true;
+                
                 
                 Vector3 dir = collision.GetContact(0).point - transform.position;                  // collisions for player & player
                 dir = dir.normalized;
                 // This will push back the player
-                GetComponent<Rigidbody>().AddForce(-dir * 500f);
-                collision.gameObject.GetComponent<Rigidbody>().AddForce(dir * 500f);
+                GetComponent<Rigidbody>().AddForce(-dir * 350f);
+                collision.gameObject.GetComponent<Rigidbody>().AddForce(dir * 300f);
                 collDone = true;
             }
         }
@@ -662,6 +660,7 @@ public class GoatSlingShot : MonoBehaviour
             onGround = false;
             isCreated = false;
         }
+        onGround = false;
         gotHit = false;
         playerHeadbutt = false;
         //collDone = false;

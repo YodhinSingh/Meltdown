@@ -75,6 +75,7 @@ public class AriunoListener : MonoBehaviour
                 catch (System.Exception e)
                 {
                     print(e.StackTrace);
+                    print(e.Message);
                 }
             }
         }

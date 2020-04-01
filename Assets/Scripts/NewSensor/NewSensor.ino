@@ -174,15 +174,7 @@ void loop()
     digitalWrite(addressC, C);    
 
     potentiometers[i] = analogRead(A0);
-//<<<<<<< HEAD
-    Serial.println();
-    //Read and print value
-    Serial.print("Channel ");
-    Serial.print(i);
-    Serial.print(" value: ");
-    Serial.println(analogRead(A0));
-
-    }
+  }
 
 
   if (sensor1.timeoutOccurred()) { Serial.print("Sensor1 TIMEOUT"); }

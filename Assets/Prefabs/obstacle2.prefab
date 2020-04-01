@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8374109334176450883}
-  m_Layer: 25
+  m_Layer: 0
   m_Name: obstacle2
-  m_TagString: Platform
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 5889825595865041716}
   - component: {fileID: 5895076960720264243}
   - component: {fileID: 5513301398870459233}
-  m_Layer: 25
+  m_Layer: 0
   m_Name: pCube3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 975382379844246729}
   - component: {fileID: 4099052578961554393}
   - component: {fileID: 4854323173958303174}
-  m_Layer: 25
+  m_Layer: 0
   m_Name: rock01:Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6942700816566807794}
   - component: {fileID: 313776166082327046}
   - component: {fileID: 9140301315303499004}
-  m_Layer: 25
+  m_Layer: 0
   m_Name: Mesh2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

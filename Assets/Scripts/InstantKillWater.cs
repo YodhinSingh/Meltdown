@@ -15,7 +15,7 @@ public class InstantKillWater : MonoBehaviour
 
     public GameObject clouds;
 
-
+    [SerializeField] private float speed;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +24,7 @@ public class InstantKillWater : MonoBehaviour
         allowRise = false;
         startPos = transform.position;
         endPos = new Vector3(transform.position.x, endPosValue, transform.position.z);
+        speed = 1.25f;
     }
 
     // Update is called once per frame
@@ -36,7 +37,20 @@ public class InstantKillWater : MonoBehaviour
         }
         if (fraction < 1 && allowRise)
         {
-            fraction += Time.deltaTime/TimeSecondsToTake;
+            if (fraction < 0.5f && fraction >= 0.25f)
+            {
+                speed = 1.5f;
+            }
+            else if (fraction < 0.75f && fraction >= 0.5f)
+            {
+                speed = 1.7f;
+            }
+            else if (fraction >= 0.75f)
+            {
+                speed = 1.95f;
+            }
+
+            fraction += (Time.deltaTime * speed) / TimeSecondsToTake;
         }
         transform.position = Vector3.Lerp(startPos, endPos, fraction);
 

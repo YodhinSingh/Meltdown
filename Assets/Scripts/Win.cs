@@ -61,6 +61,7 @@ public class Win : MonoBehaviour
         yield return new WaitForSeconds(3.1f);
         instance.DisableAllPlayers();
         instance.players.Clear();
+        yield return new WaitForSeconds(1f);
         danceDone = true;
 
     }

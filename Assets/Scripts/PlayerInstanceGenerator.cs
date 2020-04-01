@@ -57,6 +57,8 @@ public class PlayerInstanceGenerator : MonoBehaviour
         //timer = 0;
         PlayerWin = false;
         startGame = false;
+        Cursor.visible = false;
+        
     }
 
     // Update is called once per frame
@@ -139,7 +141,7 @@ public class PlayerInstanceGenerator : MonoBehaviour
     {
         players.Add(player.gameObject);         // add all joined players to a list so can reference later
         TitleScreen.text = "PRESS B or     TO START GAME";
-        TitleScreen.gameObject.GetComponentInChildren<BoxCollider>().gameObject.GetComponent<Text>().text = "◯";
+        TitleScreen.gameObject.GetComponentInChildren<BoxCollider>().gameObject.GetComponent<Text>().enabled = true;
         GetComponent<RankingSystem>().addGoat(player.gameObject);
 
         

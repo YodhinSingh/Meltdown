@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class ButtonListener : MonoBehaviour
 {
-    SerialPort sp = new SerialPort("COM3", 9600);   // replace with button info *****
+    SerialPort sp = new SerialPort("COM4", 9600);   // replace with button info *****
 
     public int buttonNum = 0;
     public bool isPressed = false;

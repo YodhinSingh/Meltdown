@@ -28,7 +28,7 @@ public class SnowballAim : MonoBehaviour
     private float currentAngle;
     private Vector2 vectorAngle;
 
-    float tickValue = 0.75f;
+    float tickValue = 16f; //was 0.75, then 0.5
     float forwardAimValue = 0.08f;
     public int index;
 
@@ -54,7 +54,7 @@ public class SnowballAim : MonoBehaviour
     {
         if (!hitMax)
         {
-            currentCount += tickValue;
+            currentCount += tickValue * Time.deltaTime;
 
             if (currentCount >= 150)
             {
@@ -65,7 +65,7 @@ public class SnowballAim : MonoBehaviour
 
         else if (hitMax)
         {
-            currentCount -= tickValue;
+            currentCount -= tickValue * Time.deltaTime;
 
             if (currentCount <= 30)
             {

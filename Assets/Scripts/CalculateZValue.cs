@@ -34,11 +34,22 @@ public class CalculateZValue : MonoBehaviour
 
     public void explode()
     {
-        temp = Instantiate(exploder, transform.position, Quaternion.identity) as GameObject;
-        Destroy(temp, 0.25f);
-        particles.gameObject.SetActive(false);
-        trail.gameObject.SetActive(false);
-        GetComponent<MeshRenderer>().enabled = false;
-        Destroy(gameObject, 0.3f);
+        if (this != null)
+        {
+            temp = Instantiate(exploder, transform.position, Quaternion.identity) as GameObject;
+            Destroy(temp, 0.25f);
+            particles.gameObject.SetActive(false);
+            trail.gameObject.SetActive(false);
+            GetComponent<MeshRenderer>().enabled = false;
+            Destroy(gameObject, 0.3f);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Snowball"))
+        {
+            explode();
+        }
     }
 }

@@ -8,6 +8,7 @@ public class LoseMenu : MonoBehaviour
 {
 
     public GameObject LoseMenuUI;
+    public GameObject winMenuUI;
     public GameObject[] Timer = new GameObject[3];
     bool canModify;
 
@@ -28,7 +29,10 @@ public class LoseMenu : MonoBehaviour
 
     public void DisplayMenu()
     {
-        LoseMenuUI.SetActive(true);
+        if (!winMenuUI.activeInHierarchy)
+        {
+            LoseMenuUI.SetActive(true);
+        }
     }
 
     private IEnumerator TimeDisplay()

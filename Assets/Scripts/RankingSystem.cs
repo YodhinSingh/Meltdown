@@ -77,7 +77,7 @@ public class RankingSystem : MonoBehaviour
 
     public void StartRanking()          // called by PlayerInstanceGenerator Script to let this one know that rankings can start
     {
-        playercount = instance.GetPlayerCount();
+        playercount = instance.GetPlayerCount() - 1;
         InvokeRepeating("rankGoats", 0.5f, 0.5f);           // call this method every half second. Not needed to call every frame
         aliveGoats = Goats.ToArray();                       // get goat objs and put them in alive goats array for ordering
     }
@@ -87,7 +87,6 @@ public class RankingSystem : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 1 && gotItems && rankNames != null)
         {
-            playercount = instance.GetPlayerCount();
             MergeSort(aliveGoats, 0, aliveGoats.Length - 1);        // sort the array based on distance from the win location
 
             for (int i = 0; i < aliveGoats.Length; i++)
@@ -119,6 +118,7 @@ public class RankingSystem : MonoBehaviour
 
                 }
             }
+            /*
             int pos = 0;
             for (int i = deadGoats.Length -1; i >= 0; i--)   // go through array backwards for dead ones, since those who died first will be last in ranking
             {
@@ -134,7 +134,29 @@ public class RankingSystem : MonoBehaviour
                     try
                     {
                         goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[aliveGoats.Length + pos++], goatNamePos.position.z);
-                        //goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[playercount + pos++], goatNamePos.position.z);
+                    }
+                    catch (Exception e)
+                    {
+                        print(e.StackTrace);
+                        print(e.Message);
+                    }
+                }
+            }*/
+            
+            for (int i = 0; i < deadGoats.Length; i++)   // those who died first will be last in ranking
+            {
+
+                if (deadGoats[i] != null)
+                {
+                    int index = int.Parse(deadGoats[i].Substring(0, 1));
+                    Transform goatNamePos = rankNames[index * 2 - 1].transform;
+                    if (!deadGoats[i].Contains("D"))
+                    {
+                        goatNamePos = rankNames[index * 2 - 2].transform;
+                    }
+                    try
+                    {  
+                        goatNamePos.position = new Vector3(goatNamePos.position.x, positionsOfNames[playercount - i], goatNamePos.position.z);
                     }
                     catch (Exception e)
                     {
@@ -143,6 +165,12 @@ public class RankingSystem : MonoBehaviour
                     }
                 }
             }
+            
+        }
+
+        else
+        {
+            CancelInvoke();
         }
     }
 
@@ -249,7 +277,15 @@ public class RankingSystem : MonoBehaviour
             rankNames[index * 2 - 1].GetComponent<RawImage>().enabled = true;
         }
 
-        deadGoats[Mathf.Min(deadGoatIndex++, 7)] = name;
+        if (deadGoats[Mathf.Min(deadGoatIndex, 7)] == null)
+        {
+            deadGoats[Mathf.Min(deadGoatIndex++, 7)] = name;
+        }
+        else
+        {
+            deadGoatIndex++;
+            deadGoats[Mathf.Min(deadGoatIndex++, 7)] = name;
+        }
 
         Goats.Remove(goat);
         aliveGoats = Goats.ToArray();

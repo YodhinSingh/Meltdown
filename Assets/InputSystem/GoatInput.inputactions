@@ -42,7 +42,7 @@
                 {
                     "name": "",
                     "id": "86e78e1b-e5be-4db7-bbfc-60982c8a8a8d",
-                    "path": "<Gamepad>/leftStick",
+                    "path": "<DualShockGamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
                     "groups": "GamepadPS4",
@@ -86,7 +86,7 @@
                 {
                     "name": "",
                     "id": "b2aeee3b-cfc5-441e-9572-09040de40b8d",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "GamepadPS4",
@@ -119,7 +119,7 @@
                 {
                     "name": "",
                     "id": "c8c443bc-fe32-484a-8462-d85c50a79b7e",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<DualShockGamepad>/buttonSouth",
                     "interactions": "Press(behavior=1)",
                     "processors": "",
                     "groups": "GamepadPS4",
@@ -152,7 +152,7 @@
                 {
                     "name": "",
                     "id": "a47d88d7-7511-4068-8358-2da8892dd32c",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<DualShockGamepad>/buttonEast",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "GamepadPS4",
